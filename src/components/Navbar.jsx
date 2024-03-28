@@ -27,10 +27,10 @@ const Navbar = () => {
     />
         </div>
         <ul className='hidden md:flex'>
-            <li className='p-4'>Home</li>
-            <li className='p-4'>Glass</li>
-            <li className='p-4'>Buy</li>
-            <li className='p-4'>About</li>
+            <li className='p-4'><a href="/">Home</a></li>
+            <li className='p-4'><a href="/glass">Glass</a></li>
+            <li className='p-4'><a href="https://www.etsy.com/shop/SynthesisGlass" target="blank">Buy</a></li>
+            <li className='p-4'><a href="/about">About</a></li>
         </ul>
         <div onClick={handleNav} className='mt-4 block md:hidden'>
           {!nav? <AiOutlineClose size={20} />:<AiOutlineMenu size={20}/>}
@@ -38,10 +38,10 @@ const Navbar = () => {
         </div>
         <div className={!nav ? 'fixed left-0 top-0 w-[60%] ease-in-out duration-500': 'fixed left-[-100%]'}>
           <ul className='pt-24 uppercase '>
-          <li className='p-4 border-b' onClick>Home</li>
-            <li className='p-4 border-b'>Glass</li>
-            <li className='p-4 border-b'>Buy</li>
-            <li className='p-4'>About</li>
+          <li className='p-4 border-b'><a href="/">Home</a></li>
+            <li className='p-4 border-b'><a href="/glass">Glass</a></li>
+            <li className='p-4 border-b'><a href="https://www.etsy.com/shop/SynthesisGlass" target="blank">Buy</a></li>
+            <li className='p-4'><a href="/about">About</a></li>
           </ul>
         </div>
     </div>
