@@ -18,7 +18,7 @@ const SignIn = () => {
             setPassword('');
            
             setTimeout(()=>{
-                Notiflix.Notify("Success! Navigating to home page")
+                Notiflix.Notify.success("Success! Navigating to home page")
                
                 navigate('/');
             },3000)
@@ -41,7 +41,10 @@ const SignIn = () => {
                     <label className='block text-gray-700 text-sm font-bold mb-2'>Password</label>
                     <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="password" onChange={(e)=> setPassword(e.target.value)} value={password}/>
                 </div>
-                <button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="submit">Sign In</button>
+                <div style = {{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+                     <button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="submit">Sign In</button>
+                     <span className='text-xs' >Don't have an account? Sign up <Link to ="/signup" className='text-[#00df9a] font-extrabold'>here</Link></span>
+                </div>
 
             </form>
         </div>

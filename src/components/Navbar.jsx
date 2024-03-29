@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai'
 import { ReactTyped } from 'react-typed'
 
@@ -26,7 +25,7 @@ const Navbar = () => {
       loop
     />
         </div>
-        <ul className='hidden md:flex'>
+        <ul className='hidden md:flex ' >
             <li className='p-4'><a href="/">Home</a></li>
             <li className='p-4'><a href="/glass">Glass</a></li>
             <li className='p-4'><a href="https://www.etsy.com/shop/SynthesisGlass" target="blank">Etsy</a></li>
@@ -37,12 +36,12 @@ const Navbar = () => {
           {!nav? <AiOutlineClose size={20} />:<AiOutlineMenu size={20}/>}
           
         </div>
-        <div className={!nav ? 'fixed left-0 top-0 w-[60%] ease-in-out duration-500': 'fixed left-[-100%]'}>
-          <ul className='pt-24 uppercase '>
+        <div className={!nav ? 'fixed left-0 top-0 w-[60%] ease-in-out duration-500 bg-white mt-20 text-black': 'fixed left-[-100%]'}>
+          <ul className='pt-4 uppercase '>
           <li className='p-4 border-b'><a href="/">Home</a></li>
             <li className='p-4 border-b'><a href="/glass">Glass</a></li>
             <li className='p-4 border-b'><a href="https://www.etsy.com/shop/SynthesisGlass" target="blank">Etsy</a></li>
-            <li className='p-4 border-b'><a href="/about">About</a></li>
+            <li className='p-4'><a href="/about">About</a></li>
             <li className='p-4'><a href="/signup">Sign in/Sign up</a></li>
           </ul>
         </div>
