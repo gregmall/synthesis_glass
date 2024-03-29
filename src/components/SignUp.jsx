@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
 import { db, auth } from '../config/Config';
 import { useNavigate,Link } from 'react-router-dom'
-import Notiflix from 'notiflix'
+
+import { Vortex } from 'react-loader-spinner';
 
  const SignUp = () => {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] =useState(false);
     const navigate = useNavigate();
 
     const Signup =(e)=>{
+        setLoading(true);
         e.preventDefault();
         console.log(name, email, password)
         auth.createUserWithEmailAndPassword(email, password).then((cred)=>{
@@ -24,22 +27,28 @@ import Notiflix from 'notiflix'
                 setPassword('');
             }).catch(err=>console.log(err.message))
         }).finally(()=>{
-            Notiflix.Notify.success(
-                'New Product added! Click to go to Sign in',
-                function cb() {
-                    navigate('/signin');
-                },
-                {
-                  timeout: 4000,
-                },
-              );
+            setLoading(false);
+            navigate('/home');
+             
+              
         }).catch(err=>console.log(err.message))
     }
 
 
   return (
     <div style={{display:'flex',  justifyContent: 'center'}}>
+        {loading? 
+        <Vortex
+        visible={true}
+        height="80"
+        width="80"
+        ariaLabel="vortex-loading"
+        wrapperStyle={{}}
+        wrapperClass="vortex-wrapper"
+        colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
+        />:
         <div className='p-4 w-full max-w-xs bg-white rounded-md'>
+            
             <h2>Sign Up</h2>
         
             <form className=' bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4' onSubmit={Signup}>
@@ -60,7 +69,7 @@ import Notiflix from 'notiflix'
                      <span className='text-xs' >Already have an account? Sign in <Link to ="/signin" className='text-[#00df9a] font-extrabold'>here</Link></span>
                 </div>
             </form>
-        </div>
+        </div>}
     </div>
   )
 }

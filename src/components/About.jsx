@@ -1,9 +1,9 @@
 import React from 'react'
-import { ReactTyped } from 'react-typed'
+
 const About = () => {
   return (
-    <div>
-about, bitches
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px'}}>
+      <span className='text-white text-4xl'>about, bitches</span>
     </div>
   )
 }

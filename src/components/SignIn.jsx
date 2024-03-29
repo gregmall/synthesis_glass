@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import { auth } from '../config/Config';
 import { useNavigate, Link } from 'react-router-dom'
-import Notiflix from 'notiflix'
+import { Vortex } from 'react-loader-spinner';
 
 const SignIn = () => {
 
     const navigate = useNavigate();
     const [email, setEmail]=useState('');
     const [password, setPassword]=useState('');
+    const [loading, setLoading]=useState(false)
 
     const handleLogin=(e)=>{
+        setLoading(true)
         e.preventDefault();
         // console.log(email, password);
         auth.signInWithEmailAndPassword(email,password).then(()=>{
@@ -18,7 +20,7 @@ const SignIn = () => {
             setPassword('');
            
             setTimeout(()=>{
-                Notiflix.Notify.success("Success! Navigating to home page")
+                setLoading(false)
                
                 navigate('/');
             },3000)
@@ -28,6 +30,16 @@ const SignIn = () => {
 
   return (
     <div style={{display:'flex',  justifyContent: 'center'}}>
+        {loading?
+        <Vortex
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="vortex-loading"
+            wrapperStyle={{}}
+            wrapperClass="vortex-wrapper"
+            colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
+        />:
         <div className='p-4 w-full max-w-xs bg-white rounded-md'>
             <h2>Sign In</h2>
         
@@ -47,7 +59,7 @@ const SignIn = () => {
                 </div>
 
             </form>
-        </div>
+        </div>}
     </div>
   )
 }

@@ -3,11 +3,13 @@ import { storage, db } from '../config/Config'
 import { useNavigate } from 'react-router-dom'
 import Notiflix from 'notiflix'
 
- const AddProduct = (props) => {
+ const AddProduct = () => {
+    
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
+    const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
-    const [error, setError] =useState('');
+   
 
 
     const navigate = useNavigate();
@@ -20,33 +22,36 @@ import Notiflix from 'notiflix'
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) *100;
             console.log(progress);
         }, err=>{
-            setError(err.message)
+            console.log(err.message)
         }
         , ()=>{
             storage.ref('images').child(image.name).getDownloadURL().then(url=>{
                 db.collection('Products').add({
                     ProductImage: url,
                     ProductPrice: Number(price),
-                    ProductName: name
+                    ProductName: name,
+                    ProductDescription: description
 
 
                 }).then(()=>{
                     setName('');
                     setImage(null);
                     setPrice(0);
+                    setDescription('');
                     document.getElementById('file').value ='';
                     
                     
                 }).finally(()=>{
                     Notiflix.Notify.success(
                         'New Product added! ',
-                        function cb() {
-                            navigate('/');
-                        },
+                        
+                           
+                      
                         {
                           timeout: 4000,
                         },
                       );
+                      navigate('/');
                     
                 }).catch(err =>console.log(err.message))
             })
@@ -70,6 +75,11 @@ import Notiflix from 'notiflix'
                 <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='product-name'>Name</label>
                 
                 <input type="text" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e)=> setName(e.target.value)} value={name}/>
+                </div>
+                <div className="mb-4">
+                <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='product-description'>Description</label>
+                
+                <input type="text" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e)=> setDescription(e.target.value)} value={description}/>
                 </div>
                 <div class="mb-6">
                 <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='product-price'>Price</label>

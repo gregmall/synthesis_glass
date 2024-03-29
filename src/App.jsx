@@ -11,7 +11,9 @@ import AddProduct from "./components/AddProduct";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 
-function App() {
+
+
+const App=()=> {
 
   return (
     <div className="App">
