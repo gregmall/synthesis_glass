@@ -13,7 +13,7 @@ import SignIn from "./components/SignIn";
 
 
 
-const App=()=> {
+export default function App() {
 
   return (
     <div className="App">
@@ -32,4 +32,4 @@ const App=()=> {
   );
 }
 
-export default App;
+
