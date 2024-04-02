@@ -11,12 +11,12 @@ export default class UserContextProvider extends Component {
     componentDidMount(){
         auth.onAuthStateChanged(user=>{
             if(user){
-            db.collection('SignedUpUserData').doc(user.uid).get()
+            db.collection('users').doc(user.uid).get()
             .then(snapshot=>{
                 this.setState({
                     user:{
-                        email: snapshot.data()?.Email,
-                        name: snapshot.data()?.Name,
+                        email: snapshot.data()?.email,
+                        name: snapshot.data()?.name,
                         userRole: snapshot.data()?.userRole
 
                     }

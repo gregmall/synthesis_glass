@@ -12,20 +12,23 @@ const SignIn = () => {
     const [errorMsg, setErrorMsg]=useState('');
 
     const handleLogin=(e)=>{
-      
+        setLoading(true);
         e.preventDefault();
         // console.log(email, password);
         auth.signInWithEmailAndPassword(email,password).then(()=>{
             
-            setEmail('');
-            setPassword('');
+        
            
             setTimeout(()=>{
                 setLoading(false)
-               
+                setEmail('');
+                setPassword('');
                 navigate('/');
-            },3000)
-        }).catch(error=>setErrorMsg(error.message));
+            },1000)
+        }).catch(error=>{
+            setErrorMsg(error.message)
+            setLoading(false)
+        });
     }
 
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { db, auth } from '../config/Config';
-import { useNavigate,Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 import { Vortex } from 'react-loader-spinner';
 
@@ -16,21 +16,28 @@ import { Vortex } from 'react-loader-spinner';
     const Signup =(e)=>{
       
         e.preventDefault();
-        console.log(name, email, password)
+        setLoading(true)
         auth.createUserWithEmailAndPassword(email, password).then((cred)=>{
-            db.collection('SignedUpUserData').doc(cred.user.uid).set({
-                Name: name,
-                Email: email,
-                Password: password
+            db.collection('users').doc(cred.user.uid).set({
+                name: name,
+                email: email,
+                userRole: 'USER'
             }).then(()=>{
+                setLoading(false);
                 setName('');
                 setEmail('');
                 setPassword('');
                 navigate('/')
-            }).catch(err=>setErrorMsg(err.message))
+            }).catch(err=>{
+                setErrorMsg(err.message);
+                setLoading(false)
+            })
        
               
-        }).catch(err=>setErrorMsg(err.message))
+        }).catch(err=>{
+            setErrorMsg(err.message);
+            setLoading(false)
+        })
     }
 
 
