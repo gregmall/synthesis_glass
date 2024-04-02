@@ -10,10 +10,11 @@ import { Vortex } from 'react-loader-spinner';
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] =useState(false);
+    const [errorMsg, setErrorMsg]=useState('');
     const navigate = useNavigate();
 
     const Signup =(e)=>{
-        setLoading(true);
+      
         e.preventDefault();
         console.log(name, email, password)
         auth.createUserWithEmailAndPassword(email, password).then((cred)=>{
@@ -25,13 +26,11 @@ import { Vortex } from 'react-loader-spinner';
                 setName('');
                 setEmail('');
                 setPassword('');
-            }).catch(err=>console.log(err.message))
-        }).finally(()=>{
-            setLoading(false);
-            navigate('/home');
-             
+                navigate('/')
+            }).catch(err=>setErrorMsg(err.message))
+       
               
-        }).catch(err=>console.log(err.message))
+        }).catch(err=>setErrorMsg(err.message))
     }
 
 
@@ -68,6 +67,7 @@ import { Vortex } from 'react-loader-spinner';
                      <button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="submit">Register!</button>
                      <span className='text-xs' >Already have an account? Sign in <Link to ="/signin" className='text-[#00df9a] font-extrabold'>here</Link></span>
                 </div>
+                {errorMsg&& <span>{errorMsg.slice(10)}</span>}
             </form>
         </div>}
     </div>

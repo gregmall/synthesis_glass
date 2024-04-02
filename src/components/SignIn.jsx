@@ -9,9 +9,10 @@ const SignIn = () => {
     const [email, setEmail]=useState('');
     const [password, setPassword]=useState('');
     const [loading, setLoading]=useState(false)
+    const [errorMsg, setErrorMsg]=useState('');
 
     const handleLogin=(e)=>{
-        setLoading(true)
+      
         e.preventDefault();
         // console.log(email, password);
         auth.signInWithEmailAndPassword(email,password).then(()=>{
@@ -24,7 +25,7 @@ const SignIn = () => {
                
                 navigate('/');
             },3000)
-        }).catch(error=>console.log(error.message));
+        }).catch(error=>setErrorMsg(error.message));
     }
 
 
@@ -57,6 +58,7 @@ const SignIn = () => {
                      <button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="submit">Sign In</button>
                      <span className='text-xs' >Don't have an account? Sign up <Link to ="/signup" className='text-[#00df9a] font-extrabold'>here</Link></span>
                 </div>
+                {errorMsg&& <span>{errorMsg.slice(10)}</span>}
 
             </form>
         </div>}
