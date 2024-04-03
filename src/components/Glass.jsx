@@ -53,7 +53,7 @@ const Glass = () => {
 
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px', flexWrap: 'wrap', overflowX:"auto"}}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center',  flexWrap: 'wrap', overflowX:"auto"}}>
       {loading?
       <Vortex
       visible={true}
@@ -66,7 +66,7 @@ const Glass = () => {
       />
       :(items.map(item=>{
         return(
-        <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3'>
+        <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 hover:scale-105 ease-in-out duration-100'>
           <img className='w-full p-4 rounded' src={item.ProductImage} alt='/'/>
           <div className='px-6 py-4'>
             <div className='font-bold text-xl mb-2'>{item.ProductName}</div>

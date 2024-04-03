@@ -9,6 +9,7 @@ const Navbar = () => {
 
   const [nav, setNav] =useState(true)
   const [user, setUser]=useState(GetCurrentUser());
+  const [typedData, setTypedData]=useState('Welcome to Synthesis Glass!');
   
   const navigate=useNavigate();
   function GetCurrentUser(){
@@ -21,6 +22,8 @@ const Navbar = () => {
                       name: snapshot.data().name,
                       role: snapshot.data()?.userRole
                     });
+                    setTypedData(`Welcome back, ${snapshot.data().name}`)
+                    
                 })
             }
             else{
@@ -33,9 +36,9 @@ const Navbar = () => {
 }
 console.log(user)
 
-const handleLogout =()=>{
+const handleLogout =(e)=>{
   auth.signOut().then(()=>{
-   navigate('/')
+   navigate('/signin')
 
   })
 }
@@ -44,11 +47,11 @@ const handleLogout =()=>{
   }
   return (
     <>
-    <div className='text-white flex justify-between item-center h-24 max-w-[1240px] mx-auto px-4 sticky top-0'>
+    <div className='text-white flex justify-between item-center h-24  mx-auto px-4 sticky top-0  bg-gradient-to-r from-violet-500 to-fuchsia-500'>
       <div >
         <h1 className='w-full text-3xl font-bold text-[#00df9a]'>Synthesis Glass</h1>
         <ReactTyped
-      strings={[
+      strings={[`${typedData}`,
         "American Made",
         "Highest Quality",
         "Since 1997",
