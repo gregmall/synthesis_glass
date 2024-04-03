@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Asset&family=Londrina+Shadow&family=Major+Mono+Display&family=Monoton&family=Mrs+Sheppards&family=Rowdies:wght@700&family=Russo+One&display=swap');
+
+
+.header{
+ 
+
+}
+.logo{
+  font-size: 2em;
+  font-family: 'Rowdies', cursive;
+    text-shadow: 2px 2px black;
+    background: -webkit-gradient(linear,left top,right top,from(#7c0747),to(#7c0747),color-stop(.5,#fff));
+    background: -moz-gradient(linear,left top,right top,from(#7c0747),to(#7c0747),color-stop(.5,#fff));
+    background: gradient(linear,left top,right top,from(#7c0747),to(#7c0747),color-stop(.5,#fff));
+    -webkit-background-size: 125px 100%;
+    -moz-background-size: 125px 100%;
+    background-size: 125px 100%;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    -webkit-animation-name: shimmer;
+    -moz-animation-name: shimmer;
+    -webkit-animation-name: shimmer;
+    animation-name: shimmer;
+    -webkit-animation-duration: 3s;
+    -moz-animation-duration: 3s;
+    -webkit-animation-duration: 3s;
+    animation-duration: 3s;
+    -webkit-animation-iteration-count: 1;
+    -moz-animation-iteration-count: 1;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-color: #dd1009;
+  }
+

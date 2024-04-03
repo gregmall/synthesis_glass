@@ -3,6 +3,7 @@ import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai'
 import { ReactTyped } from 'react-typed'
 import {auth, db} from '../config/Config'
 import { useNavigate } from 'react-router-dom'
+import './Navbar.css';
 
 
 const Navbar = () => {
@@ -47,9 +48,9 @@ const handleLogout =(e)=>{
   }
   return (
     <>
-    <div className='text-white flex justify-between item-center h-24  mx-auto px-4 sticky top-0  bg-gradient-to-r from-violet-500 to-fuchsia-500'>
-      <div >
-        <h1 className='w-full text-3xl font-bold text-[#00df9a]'>Synthesis Glass</h1>
+    <div className='text-white flex justify-between item-center h-24  mx-auto px-4 sticky top-0  bg-gradient-to-r from-[#762a99] to-[#7c0747] bg-no-repeat'>
+      <div className="header">
+        <h1 className="logo">Synthesis Glass</h1>
         <ReactTyped
       strings={[`${typedData}`,
         "American Made",
