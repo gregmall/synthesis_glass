@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai'
 import { ReactTyped } from 'react-typed'
-import {auth, db} from '../config/Config'
+import {auth, db} from '../../config/Config'
 import { useNavigate } from 'react-router-dom'
 import './Navbar.css';
 
@@ -53,12 +53,12 @@ const handleLogout =(e)=>{
         <h1 className="logo">Synthesis Glass</h1>
         <ReactTyped
       strings={[`${typedData}`,
-        "American Made",
+        "Made in Portland, Oregon",
         "Highest Quality",
-        "Since 1997",
+        
       ]}
       typeSpeed={150}
-      backSpeed={20}
+      backSpeed={70}
       loop
     />
         </div>
