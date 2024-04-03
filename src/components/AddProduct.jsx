@@ -1,18 +1,17 @@
 import React, {useState} from 'react'
 import { storage, db } from '../config/Config'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import Notiflix from 'notiflix'
 
- const AddProduct = () => {
+ const AddProduct = ({user}) => {
     
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
     const [description, setDescription] = useState('');
-    const [image, setImage] = useState(null);
-   
-
-
-    const navigate = useNavigate();
+    const [image, setImage] = useState([]);
+ 
+ 
+const navigate = useNavigate();
 
     const addProduct =(e)=>{
         e.preventDefault();
@@ -35,7 +34,7 @@ import Notiflix from 'notiflix'
 
                 }).then(()=>{
                     setName('');
-                    setImage(null);
+                    setImage([]);
                     setPrice(0);
                     setDescription('');
                     document.getElementById('file').value ='';
@@ -61,12 +60,14 @@ import Notiflix from 'notiflix'
     }
 
     const productImgHandler=(e)=>{
-        let selectedFile = e.target.files[0];
-        setImage(selectedFile);
+        let selectedFile = e.target.files[e.target.files.length];
+        setImage(...selectedFile);
         
     }
   return (
+    
     <div style={{display:'flex',  justifyContent: 'center'}}>
+        {/* {user.uid=== process.env.REACT_APP_ADMIN_ID? */}
         <div className='p-4 w-full max-w-xs bg-white rounded-md'>
             <h2>Add Product</h2>
         
@@ -86,12 +87,13 @@ import Notiflix from 'notiflix'
                 <input  className='shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline'type="number" onChange={(e)=> setPrice(e.target.value)} value={price}/>
                 </div>
                 <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='product-image'>Image</label>
-                <input type="file" id="productImage" accept =".png, .jpg, .jpeg" onChange={productImgHandler}/>
+                <input type="file" id="productImage" accept =".png, .jpg, .jpeg" multiple="multiple" onChange={productImgHandler}/>
                 <br/>
                 <button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="submit">Add</button>
             </form>
         
         </div>
+        {/* : <Navigate to="/404" />} */}
     </div>
   )
 }

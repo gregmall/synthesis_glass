@@ -19,9 +19,11 @@ const Navbar = () => {
         auth.onAuthStateChanged(user=>{
             if(user){
                 db.collection('users').doc(user.uid).get().then(snapshot=>{
+                  console.log(snapshot.data().uid)
                     setUser({
                       name: snapshot.data().name,
-                      role: snapshot.data()?.userRole
+                      role: snapshot.data()?.userRole,
+                      id: snapshot.data().id
                     });
                     setTypedData(`Welcome back, ${snapshot.data().name}`)
                     

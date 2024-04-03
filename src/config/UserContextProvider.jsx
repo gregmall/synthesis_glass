@@ -17,7 +17,8 @@ export default class UserContextProvider extends Component {
                     user:{
                         email: snapshot.data()?.email,
                         name: snapshot.data()?.name,
-                        userRole: snapshot.data()?.userRole
+                        userRole: snapshot.data()?.userRole,
+                        id: snapshot.data().id
 
                     }
                 })
@@ -28,6 +29,7 @@ export default class UserContextProvider extends Component {
 
     }
   render() {
+   
     return (
         <UserContext.Provider value ={{user: this.state.user}}>
             {this.props.children}

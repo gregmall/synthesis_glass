@@ -21,7 +21,8 @@ import { Vortex } from 'react-loader-spinner';
             db.collection('users').doc(cred.user.uid).set({
                 name: name,
                 email: email,
-                userRole: 'USER'
+                userRole: 'USER',
+                id: cred.user.uid,
             }).then(()=>{
                 setLoading(false);
                 setName('');
