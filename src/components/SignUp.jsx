@@ -23,6 +23,7 @@ import { Vortex } from 'react-loader-spinner';
                 email: email,
                 userRole: 'USER',
                 id: cred.user.uid,
+                cart: []
             }).then(()=>{
                 setLoading(false);
                 setName('');

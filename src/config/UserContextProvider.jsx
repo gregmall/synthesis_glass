@@ -10,6 +10,7 @@ export default class UserContextProvider extends Component {
 
     componentDidMount(){
         auth.onAuthStateChanged(user=>{
+            console.log(user, 'be')
             if(user){
             db.collection('users').doc(user.uid).get()
             .then(snapshot=>{
@@ -18,7 +19,8 @@ export default class UserContextProvider extends Component {
                         email: snapshot.data()?.email,
                         name: snapshot.data()?.name,
                         userRole: snapshot.data()?.userRole,
-                        id: snapshot.data().id
+                        id: snapshot.data()?.id,
+                        cart: snapshot.data()?.cart
 
                     }
                 })

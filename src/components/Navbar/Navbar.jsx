@@ -4,7 +4,7 @@ import { ReactTyped } from 'react-typed'
 import {auth, db} from '../../config/Config'
 import { useNavigate } from 'react-router-dom'
 import './Navbar.css';
-
+import { LiaShoppingCartSolid } from "react-icons/lia";
 
 const Navbar = () => {
 
@@ -66,6 +66,7 @@ const handleLogout =(e)=>{
         </div>
         <ul className='hidden md:flex ' >
             {user?.role==='ADMIN'&& <li className='p-4'><a href="/addproduct">Add Product</a></li>}
+            <li className='p-4'><a href="/cart"><LiaShoppingCartSolid /></a></li>
             <li className='p-4'><a href="/">Home</a></li>
             <li className='p-4'><a href="/glass">Glass</a></li>
             <li className='p-4'><a href="https://www.etsy.com/shop/SynthesisGlass" target="blank">Etsy</a></li>

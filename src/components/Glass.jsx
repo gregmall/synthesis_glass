@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { Vortex } from 'react-loader-spinner';
 import { auth, db } from '../config/Config';
 import { useNavigate } from 'react-router-dom';
+import Notiflix from 'notiflix';
 
 const Glass = () => {
   const [items, setItems]=useState([]);
@@ -14,6 +15,19 @@ const Glass = () => {
     
    
   },[]);
+  const handleClick=async(item)=>{
+    let previousItems =[]
+    
+     await db.collection('users').doc(user.id).get()
+     .then(snapshot=> {
+        previousItems=snapshot.data().cart
+     })
+
+    await db.collection('users').doc(user.id).update({cart: [...previousItems, {id: item.ID, name: item.ProductName, image: item.ProductImage, price: item.ProductPrice}]})
+    .then(()=>{
+    Notiflix.Notify.success(`${item.ProductName} added to shopping cart!`)
+  })
+  }
   function GetCurrentUser(){
     let user = ''
     useEffect(()=>{
@@ -22,7 +36,8 @@ const Glass = () => {
                 db.collection('users').doc(user.uid).get().then(snapshot=>{
                     setUser({
                       name: snapshot.data().name,
-                      role: snapshot.data()?.userRole
+                      role: snapshot.data()?.userRole,
+                      id: snapshot.data().id
                     });
                 })
             }
@@ -73,7 +88,7 @@ console.log(items)
             <span className='text-xl mb-2'>${item.ProductPrice}</span>
             <p className='text-gray-700 text-base'>{item.ProductDescription}</p>
             {user!==null?
-              <button button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Add to cart!</button>
+              <button button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={()=>handleClick(item)}>Add to cart!</button>
             :
               <button  button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={(()=>navigate('/signin'))}>Sign in to purchase!</button>
             }
