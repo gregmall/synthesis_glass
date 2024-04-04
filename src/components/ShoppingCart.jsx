@@ -20,7 +20,7 @@ const handleDelete=(item)=>{
       console.log(arr)
 
       await db.collection('users').doc(user.id).update({cart: arr})
-      .then(alert(`${item.name} removed from cart`))
+      
       .then(navigate('/cart'));
       },
     () => {
