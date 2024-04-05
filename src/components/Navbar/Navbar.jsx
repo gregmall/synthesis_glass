@@ -1,43 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai'
 import { ReactTyped } from 'react-typed'
 import {auth, db} from '../../config/Config'
 import { useNavigate } from 'react-router-dom'
 import './Navbar.css';
 import { LiaShoppingCartSolid } from "react-icons/lia";
-
+import { UserContext } from '../context/UserContextProvider'
 const Navbar = () => {
-
+const { user }= useContext(UserContext)
   const [nav, setNav] =useState(true)
-  const [user, setUser]=useState(GetCurrentUser());
+  // const [user, setUser]=useState(GetCurrentUser());
   const [typedData, setTypedData]=useState('Welcome to Synthesis Glass!');
   
   const navigate=useNavigate();
-  function GetCurrentUser(){
-    let user = ''
-    useEffect(()=>{
-        auth.onAuthStateChanged(user=>{
-            if(user){
-                db.collection('users').doc(user.uid).get().then(snapshot=>{
-                  console.log(snapshot.data().uid)
-                    setUser({
-                      name: snapshot.data().name,
-                      role: snapshot.data()?.userRole,
-                      id: snapshot.data().id
-                    });
-                    setTypedData(`Welcome back, ${snapshot.data().name}`)
-                    
-                })
-            }
-            else{
-                setUser(null);
-
-            }
-        })
-    },[])
-    return user;
-}
-console.log(user)
 
 const handleLogout =(e)=>{
   auth.signOut().then(()=>{
@@ -45,6 +20,7 @@ const handleLogout =(e)=>{
 
   })
 }
+console.log(user, 'hi')
   const handleNav = () =>{
     setNav(!nav);
   }
@@ -88,7 +64,7 @@ const handleLogout =(e)=>{
             <li className='p-4 border-b'><a href="/glass">Glass</a></li>
             <li className='p-4 border-b'><a href="https://www.etsy.com/shop/SynthesisGlass" target="blank">Etsy</a></li>
             <li className='p-4 border-b'><a href="/about">About</a></li>
-            {user==null?
+            {user===null?
               <li className='p-4'><a href="/signin"><button className=' bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Sign In</button></a></li>
             :
               <li className='p-4'><button onClick={handleLogout}>LOGOUT</button></li>

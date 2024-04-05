@@ -1,12 +1,21 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { db } from '../config/Config';
-import { UserContext } from '../config/UserContextProvider';
+import { UserContext } from './context/UserContextProvider';
 import { BsTrash3 } from "react-icons/bs"
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import  { useNavigate} from 'react-router-dom';
-const ShoppingCart = () => {
-const { user } = useContext(UserContext)
+
+const ShoppingCart = (userID) => {
+// const { user } = useContext(UserContext)
 const navigate = useNavigate();
+const [total, setTotal]= useState('');
+const [user, setUser]=useState({})
+const id = userID.user.uid
+
+
+useEffect(()=>{
+  getUser(id)
+},[])
 const handleDelete=(item)=>{
   Confirm.show(
     'Are you sure you want to remove',
@@ -32,16 +41,55 @@ const handleDelete=(item)=>{
     },
     );
 }
+const getUser=async(id)=>{
+  
+  await db.collection('users').doc(id).get()
+  .then(snapshot=>{
+      setUser({
+          email: snapshot.data()?.email,
+          name: snapshot.data()?.name,
+          userRole: snapshot.data()?.userRole,
+          id: snapshot.data()?.id,
+          cart: snapshot.data()?.cart
+          })
+    }).then(()=>{
+      if(user.cart?.length>0){
+        let sum = 0
+       for(let i=0;i<user.cart.length;i++){
+        sum+=user.cart[i].price;
+
+       }
+       setTotal(sum)
+      }
+      
+  })
+
+  
 
 
+}
 
+const getTotal=(cart, key)=>{
+    return cart?.reduce((acc, obj)=>{
+        if(obj.hasOwnProperty(key)){
+            return acc+obj[key];
+        }
+        return acc;
+      
+    
+    },0);
 
+}
 
+console.log(total)
 
   return (
    <>
      <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px'}}>  
-       {user?.cart?.length>0? <span className='text-white text-4xl'>{user.name}'s Cart </span>:<span className='text-white text-4xl'>Cart is empty </span>}
+       {user?.cart?.length>0?
+        <span className='text-white text-4xl'>{user.name}'s Cart {total&&total}</span>
+        :
+        <span className='text-white text-4xl'>{user.uid} </span>}
       </div> 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px', flexWrap:'wrap'}}>
       {user?.cart?.map(item=>{

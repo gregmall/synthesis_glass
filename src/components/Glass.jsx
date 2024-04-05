@@ -71,13 +71,13 @@ console.log(items)
     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center',  flexWrap: 'wrap', overflowX:"auto"}}>
       {loading?
       <Vortex
-      visible={true}
-      height="80"
-      width="80"
-      ariaLabel="vortex-loading"
-      wrapperStyle={{}}
-      wrapperClass="vortex-wrapper"
-      colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
+        visible={true}
+        height="80"
+        width="80"
+        ariaLabel="vortex-loading"
+        wrapperStyle={{}}
+        wrapperClass="vortex-wrapper"
+        colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
       />
       :(items.map(item=>{
         return(
@@ -92,7 +92,7 @@ console.log(items)
             :
               <button  button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={(()=>navigate('/signin'))}>Sign in to purchase!</button>
             }
-          </div>
+        </div>
 
         </div>)
       }))
