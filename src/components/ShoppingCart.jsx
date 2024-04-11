@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState,  useContext } from 'react'
 import { db } from '../config/Config';
 import { UserContext } from './context/UserContextProvider';
 import { BsTrash3 } from "react-icons/bs"
@@ -10,12 +10,28 @@ const ShoppingCart = () => {
 const { user } = useContext(UserContext)
 console.log(user)
 const navigate = useNavigate();
-const [total, setTotal]= useState('');
+const getCartItems = async()=>{
+  await db.collection('users').doc(user.id).get()
+  .then(person => {
+    const array = person.data()
+    const cart = array?.cart;
+    let sum= 0;
+    for(let i=0; i<cart?.length; i++){
+      sum+= cart[i].price
 
-useEffect(()=>{
-  getCartItems()
+    }
+    setTotal(sum)
+    
+   
+  })
+    
 
-},[])
+
+}
+
+
+const [total, setTotal]= useState(getCartItems());
+
 
 
 const handleDelete=(item)=>{
@@ -63,24 +79,7 @@ const handleDelete=(item)=>{
 // }
 
 // console.log(total)
-const getCartItems = async()=>{
-    await db.collection('users').doc(user.id).get()
-    .then(person => {
-      const array = person.data()
-      const cart = array?.cart;
-      let sum= 0;
-      for(let i=0; i<cart?.length; i++){
-        sum+= cart[i].price
 
-      }
-      setTotal(sum)
-      
-     
-    })
-      
-
-
-}
 
   return (
    <>

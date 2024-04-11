@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { storage, db } from '../config/Config'
-import { useNavigate, Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Notiflix from 'notiflix'
 
  const AddProduct = ({user}) => {
