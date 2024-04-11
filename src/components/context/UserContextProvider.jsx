@@ -6,10 +6,11 @@ export const UserContext = createContext();
 
 const UserContextProvider = ({children}) => {
 
-const [user, setUser]=useState(null);
+const [user, setUser]=useState({});
 
 useEffect(()=>{
-    if(user===null){
+
+  
     auth.onAuthStateChanged(user=>{
             if(user){
                 console.log(user, 'be')
@@ -26,11 +27,10 @@ useEffect(()=>{
             }else{
                 setUser(null)
             }})
-    }else{
-        return;
+
     }
 
-},[])
+,[])
 
   return (
     <UserContext.Provider value ={{user}}>

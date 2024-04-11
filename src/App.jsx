@@ -24,7 +24,7 @@ import { auth } from "./config/Config";
 export default function App() {
   
   const [user, initialising] = useAuthState(firebase.auth());
-  console.log(user, 'user')
+  // console.log(user, 'user')
  
   if(initialising) {
     return(
@@ -44,11 +44,11 @@ export default function App() {
             <Route path='/' element={<Home />} />
             <Route path='/about' element={<About/>} />
             <Route path='/glass' element={<Glass />} />
-            <Route path='/addproduct' element={<AddProduct/>}/>
+            <Route path='/addproduct' element={<ProtectedRoute><AddProduct/></ProtectedRoute>}/>
             <Route path='/signup' element={<SignUp />} />
             <Route path='/signin' element={<SignIn />} />
             <Route path='/404' element={<FourOFour />} />
-            <Route path='/cart' element={<ShoppingCart user={user}/>} />
+            <Route path='/cart' element={<ShoppingCart />} />
           </Routes>
         </Router>
       </UserContextProvider>

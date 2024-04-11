@@ -2,13 +2,16 @@ import React, {useContext} from 'react'
 import { Navigate } from 'react-router-dom'
 import { UserContext } from './components/context/UserContextProvider'
 
-const ProtectedRoute = ({ path, component: Component, role}) => {
+const ProtectedRoute = ({ children }) => {
 
-  const {user} = useContext(UserContext)
+  const {user} = useContext(UserContext);
+  console.log(user?.userRole)
+  if(user?.userRole !== 'ADMIN'){
+    return <Navigate to ='/404' />
+
+  }
     
-  return (
-    <div>ProtectedRoute</div>
-  )
+  return children;
 }
 
 export default ProtectedRoute

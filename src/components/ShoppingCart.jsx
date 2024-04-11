@@ -5,17 +5,19 @@ import { BsTrash3 } from "react-icons/bs"
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import  { useNavigate} from 'react-router-dom';
 
-const ShoppingCart = (userID) => {
-// const { user } = useContext(UserContext)
+
+const ShoppingCart = () => {
+const { user } = useContext(UserContext)
+console.log(user)
 const navigate = useNavigate();
 const [total, setTotal]= useState('');
-const [user, setUser]=useState({})
-const id = userID.user.uid
-
 
 useEffect(()=>{
-  getUser(id)
+  getCartItems()
+
 },[])
+
+
 const handleDelete=(item)=>{
   Confirm.show(
     'Are you sure you want to remove',
@@ -41,47 +43,44 @@ const handleDelete=(item)=>{
     },
     );
 }
-const getUser=async(id)=>{
-  
-  await db.collection('users').doc(id).get()
-  .then(snapshot=>{
-      setUser({
-          email: snapshot.data()?.email,
-          name: snapshot.data()?.name,
-          userRole: snapshot.data()?.userRole,
-          id: snapshot.data()?.id,
-          cart: snapshot.data()?.cart
-          })
-    }).then(()=>{
-      if(user.cart?.length>0){
-        let sum = 0
-       for(let i=0;i<user.cart.length;i++){
-        sum+=user.cart[i].price;
 
-       }
-       setTotal(sum)
-      }
-      
-  })
 
   
 
 
-}
+// }
 
-const getTotal=(cart, key)=>{
-    return cart?.reduce((acc, obj)=>{
-        if(obj.hasOwnProperty(key)){
-            return acc+obj[key];
-        }
-        return acc;
+// const getTotal=(cart, key)=>{
+//     return cart?.reduce((acc, obj)=>{
+//         if(obj.hasOwnProperty(key)){
+//             return acc+obj[key];
+//         }
+//         return acc;
       
     
-    },0);
+//     },0);
+
+// }
+
+// console.log(total)
+const getCartItems = async()=>{
+    await db.collection('users').doc(user.id).get()
+    .then(person => {
+      const array = person.data()
+      const cart = array?.cart;
+      let sum= 0;
+      for(let i=0; i<cart?.length; i++){
+        sum+= cart[i].price
+
+      }
+      setTotal(sum)
+      
+     
+    })
+      
+
 
 }
-
-console.log(total)
 
   return (
    <>
@@ -89,7 +88,7 @@ console.log(total)
        {user?.cart?.length>0?
         <span className='text-white text-4xl'>{user.name}'s Cart {total&&total}</span>
         :
-        <span className='text-white text-4xl'>{user.uid} </span>}
+        <span className='text-white text-4xl'>Cart empty </span>}
       </div> 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px', flexWrap:'wrap'}}>
       {user?.cart?.map(item=>{
@@ -109,6 +108,7 @@ console.log(total)
             
         )
     })}
+   
   </div>
   </>
   )
