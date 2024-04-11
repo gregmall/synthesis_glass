@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React from "react";
 import { BrowserRouter as Router,
   Route,
   Routes } from "react-router-dom";
@@ -13,18 +13,18 @@ import SignIn from "./components/SignIn";
 import FourOFour from "./components/FourOFour";
 import { useAuthState } from 'react-firebase-hooks/auth'
 import firebase from 'firebase/compat/app'
-import UserContextProvider, { UserContext } from "./components/context/UserContextProvider";
+import UserContextProvider from "./components/context/UserContextProvider";
 import { Vortex } from 'react-loader-spinner';
 import ProtectedRoute from "./ProtectedRoute";
 import ShoppingCart from "./components/ShoppingCart";
-import { auth } from "./config/Config";
+
 
 
 
 export default function App() {
   
   const [user, initialising] = useAuthState(firebase.auth());
-  // console.log(user, 'user')
+  console.log(user, 'user')
  
   if(initialising) {
     return(

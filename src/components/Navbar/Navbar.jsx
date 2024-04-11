@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai'
 import { ReactTyped } from 'react-typed'
-import {auth, db} from '../../config/Config'
+import {auth} from '../../config/Config'
 import { useNavigate } from 'react-router-dom'
 import './Navbar.css';
 import { LiaShoppingCartSolid } from "react-icons/lia";
@@ -10,7 +10,7 @@ const Navbar = () => {
 const { user }= useContext(UserContext)
   const [nav, setNav] =useState(true)
   // const [user, setUser]=useState(GetCurrentUser());
-  const [typedData, setTypedData]=useState('Welcome to Synthesis Glass!');
+  // const [typedData, setTypedData]=useState('Welcome to Synthesis Glass!');
   
   const navigate=useNavigate();
 
@@ -30,7 +30,7 @@ console.log(user, 'hi')
       <div className="header">
         <h1 className="logo">Synthesis Glass</h1>
         <ReactTyped
-      strings={[`${typedData}`,
+      strings={['Welcome to Synthesis Glass!',
         "Made in Portland, Oregon",
         "Highest Quality",
         
