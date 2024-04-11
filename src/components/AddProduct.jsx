@@ -67,7 +67,7 @@ const navigate = useNavigate();
   return (
     
     <div style={{display:'flex',  justifyContent: 'center'}}>
-        {/* {user.uid=== process.env.REACT_APP_ADMIN_ID? */}
+    
         <div className='p-4 w-full max-w-xs bg-white rounded-md'>
             <h2>Add Product</h2>
         
