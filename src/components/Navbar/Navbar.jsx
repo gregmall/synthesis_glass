@@ -64,6 +64,7 @@ console.log(user, 'hi')
             <li className='p-4 border-b'><a href="/glass">Glass</a></li>
             <li className='p-4 border-b'><a href="https://www.etsy.com/shop/SynthesisGlass" target="blank">Etsy</a></li>
             <li className='p-4 border-b'><a href="/about">About</a></li>
+            <li className='p-4 border-b'><a href="/cart">Cart</a></li>
             {user===null?
               <li className='p-4'><a href="/signin"><button className=' bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Sign In</button></a></li>
             :
