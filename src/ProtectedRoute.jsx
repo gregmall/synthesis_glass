@@ -1,12 +1,14 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import { Navigate } from 'react-router-dom'
-import { UserContext } from './components/context/UserContextProvider'
+// import { UserContext } from './components/context/UserContextProvider'
 
 const ProtectedRoute = ({ children }) => {
+  const userFromStorage = JSON.parse(localStorage.getItem('user'))
+  console.log(userFromStorage.email)
 
-  const {user} = useContext(UserContext);
-  console.log(user?.userRole)
-  if(user?.userRole !== 'ADMIN'){
+  // const {user} = useContext(UserContext);
+  // console.log(user?.userRole)
+  if(userFromStorage.uid!==process.env.REACT_APP_ADMIN_ID){
     return <Navigate to ='/404' />
 
   }

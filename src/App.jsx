@@ -11,9 +11,10 @@ import AddProduct from "./components/AddProduct";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import FourOFour from "./components/FourOFour";
-
+import { useAuthState } from 'react-firebase-hooks/auth'
+import firebase from 'firebase/compat/app'
 import UserContextProvider from "./components/context/UserContextProvider";
-
+import { Vortex } from 'react-loader-spinner';
 import ProtectedRoute from "./ProtectedRoute";
 import ShoppingCart from "./components/ShoppingCart";
 
@@ -22,17 +23,17 @@ import ShoppingCart from "./components/ShoppingCart";
 
 export default function App() {
   
-  // const [user, initialising] = useAuthState(firebase.auth());
-  // console.log(user, 'user')
+  const [user, initialising] = useAuthState(firebase.auth());
+  console.log(user, 'user')
  
-  // if(initialising) {
-  //   return(
-  //     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px'}}>
-  //        <Vortex />
-  //     </div>
+  if(initialising) {
+    return(
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px'}}>
+         <Vortex />
+      </div>
 
-  //   )
-  // }
+    )
+  }
   return (
 
     <div className="App">

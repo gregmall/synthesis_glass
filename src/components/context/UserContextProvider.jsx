@@ -23,6 +23,7 @@ useEffect(()=>{
                         id: snapshot.data()?.id,
                         cart: snapshot.data()?.cart
                         })
+                        localStorage.setItem('user', JSON.stringify(user))
                 })
             }else{
                 setUser(null)
