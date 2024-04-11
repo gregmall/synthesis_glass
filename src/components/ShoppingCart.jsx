@@ -8,7 +8,7 @@ import  { useNavigate} from 'react-router-dom';
 
 const ShoppingCart = () => {
 const { user } = useContext(UserContext)
-console.log(user)
+
 const navigate = useNavigate();
 const getCartItems = async()=>{
   await db.collection('users').doc(user.id).get()
@@ -62,24 +62,6 @@ const handleDelete=(item)=>{
 
 
   
-
-
-// }
-
-// const getTotal=(cart, key)=>{
-//     return cart?.reduce((acc, obj)=>{
-//         if(obj.hasOwnProperty(key)){
-//             return acc+obj[key];
-//         }
-//         return acc;
-      
-    
-//     },0);
-
-// }
-
-// console.log(total)
-
 
   return (
    <>

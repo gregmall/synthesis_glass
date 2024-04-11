@@ -13,7 +13,7 @@ useEffect(()=>{
   
     auth.onAuthStateChanged(user=>{
             if(user){
-                console.log(user, 'be')
+        
                 db.collection('users').doc(user.uid).get()
                 .then(snapshot=>{
                     setUser({

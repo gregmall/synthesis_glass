@@ -4,10 +4,8 @@ import { Navigate } from 'react-router-dom'
 
 const ProtectedRoute = ({ children }) => {
   const userFromStorage = JSON.parse(localStorage.getItem('user'))
-  console.log(userFromStorage.email)
+  
 
-  // const {user} = useContext(UserContext);
-  // console.log(user?.userRole)
   if(userFromStorage.uid!==process.env.REACT_APP_ADMIN_ID){
     return <Navigate to ='/404' />
 
