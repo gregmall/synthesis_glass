@@ -11,7 +11,7 @@ const { user } = useContext(UserContext)
 
 const navigate = useNavigate();
 const getCartItems = async()=>{
-  await db.collection('users').doc(user.id).get()
+  await db.collection('users').doc(user?.id).get()
   .then(person => {
     const array = person.data()
     const cart = array?.cart;
