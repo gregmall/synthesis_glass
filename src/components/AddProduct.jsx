@@ -3,15 +3,16 @@ import { storage, db } from '../config/Config'
 import { useNavigate } from 'react-router-dom'
 import Notiflix from 'notiflix'
 
- const AddProduct = ({user}) => {
+ const AddProduct = () => {
     
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
     const [description, setDescription] = useState('');
-    const [image, setImage] = useState([]);
- 
- 
-const navigate = useNavigate();
+    const [image, setImage] = useState(null);
+   
+
+
+    const navigate = useNavigate();
 
     const addProduct =(e)=>{
         e.preventDefault();
@@ -34,7 +35,7 @@ const navigate = useNavigate();
 
                 }).then(()=>{
                     setName('');
-                    setImage([]);
+                    setImage(null);
                     setPrice(0);
                     setDescription('');
                     document.getElementById('file').value ='';
@@ -60,8 +61,8 @@ const navigate = useNavigate();
     }
 
     const productImgHandler=(e)=>{
-        let selectedFile = e.target.files[e.target.files.length];
-        setImage(...selectedFile);
+        let selectedFile = e.target.files[0];
+        setImage(selectedFile);
         
     }
   return (
