@@ -26,6 +26,7 @@ const Navbar = () => {
 
 const handleLogout =(e)=>{
   auth.signOut().then(()=>{
+    setNav(true)
     window.localStorage.clear()
     setIsAdmin(false)
    navigate('/signin')
