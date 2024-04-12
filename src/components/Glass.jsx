@@ -66,7 +66,7 @@ const Glass = () => {
     setLoading(false);
   }
 
-console.log(items)
+
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center',  flexWrap: 'wrap', overflowX:"auto"}}>
       {loading?
