@@ -72,10 +72,10 @@ const handleDelete=(item)=>{
         <span className='text-white text-4xl'>Cart empty </span>}
       </div> 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px', flexWrap:'wrap'}}>
-      {user?.cart?.map(item=>{
+      {user?.cart?.map((item,key)=>{
         
         return(
-            <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 hover:scale-105 ease-in-out duration-100'>
+            <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 hover:scale-105 ease-in-out duration-100' key={key}>
             <img className='w-full p-4 rounded' src={item.image} alt='/'/>
             <div className='px-6 py-4'>
                 <div className='font-bold text-xl mb-2'>{item.name}</div>

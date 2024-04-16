@@ -39,7 +39,7 @@ const handleLogout =(e)=>{
   }
   return (
     <>
-    <div className='text-white flex justify-between item-center h-24  mx-auto px-4 sticky top-0  bg-gradient-to-r from-[#762a99] to-[#7c0747] bg-no-repeat'>
+    <div className='text-white flex justify-between item-center h-24  mx-auto px-4 sticky top-0  bg-gradient-to-r from-[#762a99] to-[#7c0747] bg-no-repeat z-50'>
       <div className="header">
         <h1 className="logo">Synthesis Glass</h1>
         <ReactTyped

@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children }) => {
   const userFromStorage = JSON.parse(localStorage.getItem('user'))
   
 
-  if(userFromStorage.uid!==process.env.REACT_APP_ADMIN_ID){
+  if(userFromStorage?.uid!==process.env.REACT_APP_ADMIN_ID){
     return <Navigate to ='/404' />
 
   }
