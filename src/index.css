@@ -17,12 +17,8 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
-  min-height: 100vh;
-  background-image:
-  radial-gradient(
-      #762a99,
-      #7c0747
-  );
+  min-height: 100vh;  
+  background-color: black;
 }
 
 

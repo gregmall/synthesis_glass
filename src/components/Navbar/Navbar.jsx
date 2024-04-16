@@ -39,10 +39,10 @@ const handleLogout =(e)=>{
   }
   return (
     <>
-    <div className='text-white flex justify-between item-center h-24  mx-auto px-4 sticky top-0  bg-gradient-to-r from-[#762a99] to-[#7c0747] bg-no-repeat z-50'>
+    <div className='text-white flex justify-between item-center h-24  mx-auto px-4 sticky top-0  bg-slate-800 z-50'>
       <div className="header">
         <h1 className="logo">Synthesis Glass</h1>
-        <ReactTyped
+        {/* <ReactTyped
       strings={['Welcome to Synthesis Glass!',
         "Made in Portland, Oregon",
         "Highest Quality",
@@ -51,7 +51,7 @@ const handleLogout =(e)=>{
       typeSpeed={150}
       backSpeed={70}
       loop
-    />
+    /> */}
         </div>
         <ul className='hidden md:flex ' >
             {user?.role==='ADMIN'&& <li className='p-4'><a href="/addproduct">Add Product</a></li>}

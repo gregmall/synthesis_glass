@@ -75,9 +75,9 @@ const handleDelete=(item)=>{
       {user?.cart?.map((item,key)=>{
         
         return(
-            <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 hover:scale-105 ease-in-out duration-100' key={key}>
+            <div className='max-w-sm rounded overflow-hidden shadow-lg border-2 border-slate-800 bg-black mx-3 my-3 hover:bg-slate-800 ease-in-out duration-100' key={key}>
             <img className='w-full p-4 rounded' src={item.image} alt='/'/>
-            <div className='px-6 py-4'>
+            <div className='px-6 py-4 text-white'>
                 <div className='font-bold text-xl mb-2'>{item.name}</div>
                 <div className='flex justify-between item-center'>
                   <span className='text-xl mb-2'>${item.price}</span>

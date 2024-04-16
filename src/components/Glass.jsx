@@ -82,12 +82,12 @@ const Glass = () => {
       :(items.map((item, key)=>{
         
         return(
-        <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 hover:scale-105 ease-in-out duration-100' key={key}>
+        <div className='max-w-sm rounded overflow-hidden shadow-lg border-2 border-slate-800 bg-black mx-3 my-3 hover:bg-slate-800 ease-in-out duration-100' key={key}>
           <img className='w-full p-4 rounded' src={item.ProductImage} alt='/'/>
           <div className='px-6 py-4'>
-            <div className='font-bold text-xl mb-2'>{item.ProductName}</div>
-            <span className='text-xl mb-2'>${item.ProductPrice}</span>
-            <p className='text-gray-700 text-base'>{item.ProductDescription}</p>
+            <div className='font-bold text-xl mb-2 text-white'>{item.ProductName}</div>
+            <span className='text-xl mb-2 text-white'>${item.ProductPrice}</span>
+            <p className='text-white text-base'>{item.ProductDescription}</p>
             {user?
               <button button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={()=>handleClick(item)}>Add to cart!</button>
             :
