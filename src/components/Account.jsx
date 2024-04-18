@@ -1,14 +1,14 @@
 
-import React, { useEffect, useState, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { db } from '../config/Config';
+import React, { useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { UserContext } from '../context/UserContextProvider';
 
  
 
 const Account = () => {
+
     const { user } = useContext(UserContext);
-    console.log(user)
     const navigate=useNavigate();
    
     
