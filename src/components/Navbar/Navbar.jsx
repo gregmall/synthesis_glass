@@ -17,11 +17,10 @@ const Navbar = () => {
   
   useEffect(()=>{
     const userFromStorage = JSON.parse(localStorage.getItem('user'))
-
+   
     if(userFromStorage?.uid===process.env.REACT_APP_ADMIN_ID) setIsAdmin(true)
 
   },[])
-
 
 
 const handleLogout =(e)=>{
@@ -54,13 +53,13 @@ const handleLogout =(e)=>{
     />
         </div>
         <ul className='hidden md:flex ' >
-            {user?.role==='ADMIN'&& <li className='p-4'><a href="/addproduct">Add Product</a></li>}
+          
             <li className='p-4'><a href="/cart"><LiaShoppingCartSolid /></a></li>
             <li className='p-4'><a href="/">Home</a></li>
             <li className='p-4'><a href="/glass">Glass</a></li>
             <li className='p-4'><a href="https://www.etsy.com/shop/SynthesisGlass" target="blank">Etsy</a></li>
             <li className='p-4'><a href="/about">About</a></li>
-            {isAdmin&&<li className='p-4'><a href="/addproduct">Add Item</a></li>}
+            {isAdmin&&<li className='p-4'><a href="/admin">Admin</a></li>}
             {user===null?
               <li className='p-4'><a href="/signin"><button className=' bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Sign In</button></a></li>
             :
@@ -73,13 +72,13 @@ const handleLogout =(e)=>{
         </div>
         <div className={!nav ? 'fixed left-0 top-0 w-[60%] ease-in-out duration-500 bg-white mt-20 text-black': 'fixed left-[-100%]'}>
           <ul className='uppercase'>
-            {user?.role==='ADMIN'&& <li className='p-4 border-b'><a href="/addproduct">Add Product</a></li>}
+          
             <li className='p-4 border-b'><a href="/">Home</a></li>
             <li className='p-4 border-b'><a href="/glass">Glass</a></li>
             <li className='p-4 border-b'><a href="https://www.etsy.com/shop/SynthesisGlass" target="blank">Etsy</a></li>
             <li className='p-4 border-b'><a href="/about">About</a></li>
             <li className='p-4 border-b'><a href="/cart">Cart</a></li>
-            {isAdmin&&<li className='p-4 border-b'><a href="/addproduct">Add Item</a></li>}
+            {isAdmin&&<li className='p-4 border-b'><a href="/admin">Admin</a></li>}
             {user===null?
               <li className='p-4'><a href="/signin"><button className=' bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Sign In</button></a></li>
             :

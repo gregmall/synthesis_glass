@@ -7,13 +7,14 @@ import About from './components/About'
 import Home from "./components/Home";
 import './App.css'
 import Glass from "./components/Glass";
-import AddProduct from "./components/AddProduct";
+import AddProduct from "./components/Admin/AddProduct";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import FourOFour from "./components/FourOFour";
 import UserContextProvider from "./components/context/UserContextProvider";
 import ProtectedRoute from "./ProtectedRoute";
 import ShoppingCart from "./components/ShoppingCart";
+import AdminPage from "./components/Admin/AdminPage";
 
 
 
@@ -42,6 +43,7 @@ export default function App() {
             <Route path='/about' element={<About/>} />
             <Route path='/glass' element={<Glass />} />
             <Route path='/addproduct' element={<ProtectedRoute><AddProduct/></ProtectedRoute>}/>
+            <Route path='/admin' element={<ProtectedRoute><AdminPage /></ProtectedRoute>}/>
             <Route path='/signup' element={<SignUp />} />
             <Route path='/signin' element={<SignIn />} />
             <Route path='/404' element={<FourOFour />} />

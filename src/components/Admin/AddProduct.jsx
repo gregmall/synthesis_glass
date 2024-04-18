@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { storage, db } from '../config/Config'
+import { storage, db } from '../../config/Config'
 import { useNavigate } from 'react-router-dom'
 import Notiflix from 'notiflix'
 
