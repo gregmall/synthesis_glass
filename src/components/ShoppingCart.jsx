@@ -32,8 +32,6 @@ const getCartItems = async()=>{
 
 const [total, setTotal]= useState(getCartItems());
 
-
-
 const handleDelete=(item)=>{
   Confirm.show(
     'Are you sure you want to remove',
