@@ -1,32 +1,32 @@
-import React, { useState,  useContext } from 'react'
+import React, { useState,  useContext, useEffect } from 'react'
 import { db } from '../config/Config';
-import { UserContext } from './context/UserContextProvider';
+import { UserContext } from '../context/UserContextProvider';
 import { BsTrash3 } from "react-icons/bs"
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import  { useNavigate} from 'react-router-dom';
 
 
 const ShoppingCart = () => {
-const { user } = useContext(UserContext)
-
+const { user } = useContext(UserContext);
 const navigate = useNavigate();
+useEffect(()=>{
+  const userFromStorage = JSON.parse(localStorage.getItem('user'))
+
+  if(userFromStorage===null) navigate('/signin')
+
+},[])
+
 const getCartItems = async()=>{
   await db.collection('users').doc(user?.id).get()
   .then(person => {
-    const array = person.data()
-    const cart = array?.cart;
+    const personObj = person.data()
+    const cart = personObj?.cart;
     let sum= 0;
     for(let i=0; i<cart?.length; i++){
       sum+= cart[i].price
-
     }
     setTotal(sum)
-    
-   
   })
-    
-
-
 }
 
 

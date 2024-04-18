@@ -5,9 +5,10 @@ import {auth} from '../../config/Config'
 import { useNavigate } from 'react-router-dom'
 import './Navbar.css';
 import { LiaShoppingCartSolid } from "react-icons/lia";
-import { UserContext } from '../context/UserContextProvider'
+import { UserContext } from '../../context/UserContextProvider'
 const Navbar = () => {
   const { user }= useContext(UserContext)
+  console.log(user?.id)
   const [nav, setNav] =useState(true)
   const [isAdmin, setIsAdmin] =useState(false);
 
@@ -58,7 +59,7 @@ const handleLogout =(e)=>{
             <li className='p-4'><a href="/">Home</a></li>
             <li className='p-4'><a href="/glass">Glass</a></li>
             <li className='p-4'><a href="https://www.etsy.com/shop/SynthesisGlass" target="blank">Etsy</a></li>
-            <li className='p-4'><a href="/about">About</a></li>
+            <li className='p-4'><a href={`/account/${user?.id}`}>Account</a></li>
             {isAdmin&&<li className='p-4'><a href="/admin">Admin</a></li>}
             {user===null?
               <li className='p-4'><a href="/signin"><button className=' bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Sign In</button></a></li>

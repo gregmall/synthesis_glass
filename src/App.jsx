@@ -11,27 +11,18 @@ import AddProduct from "./components/Admin/AddProduct";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import FourOFour from "./components/FourOFour";
-import UserContextProvider from "./components/context/UserContextProvider";
 import ProtectedRoute from "./ProtectedRoute";
 import ShoppingCart from "./components/ShoppingCart";
 import AdminPage from "./components/Admin/AdminPage";
+import UserContextProvider from "./context/UserContextProvider";
+import Account from "./components/Account";
 
 
 
 
 export default function App() {
   
-  // const [user, initialising] = useAuthState(firebase.auth());
-  // console.log(user, 'user')
- 
-  // if(initialising) {
-  //   return(
-  //     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px'}}>
-  //        <Vortex />
-  //     </div>
-
-  //   )
-  // }
+  
   return (
 
     <div className="App">
@@ -44,6 +35,7 @@ export default function App() {
             <Route path='/glass' element={<Glass />} />
             <Route path='/addproduct' element={<ProtectedRoute><AddProduct/></ProtectedRoute>}/>
             <Route path='/admin' element={<ProtectedRoute><AdminPage /></ProtectedRoute>}/>
+            <Route path='/account/:id' element={<Account />}/>
             <Route path='/signup' element={<SignUp />} />
             <Route path='/signin' element={<SignIn />} />
             <Route path='/404' element={<FourOFour />} />
