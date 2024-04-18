@@ -77,7 +77,7 @@ const handleLogout =(e)=>{
             <li className='p-4 border-b'><a href="/">Home</a></li>
             <li className='p-4 border-b'><a href="/glass">Glass</a></li>
             <li className='p-4 border-b'><a href="https://www.etsy.com/shop/SynthesisGlass" target="blank">Etsy</a></li>
-            <li className='p-4 border-b'><a href="/about">About</a></li>
+            <li className='p-4 border-b'><a href={`/account/${user?.id}`}>Account</a></li>
             <li className='p-4 border-b'><a href="/cart">Cart</a></li>
             {isAdmin&&<li className='p-4 border-b'><a href="/admin">Admin</a></li>}
             {user===null?
