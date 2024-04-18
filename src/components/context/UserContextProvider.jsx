@@ -1,6 +1,6 @@
 
 import React, {  createContext, useState, useEffect } from 'react'
-import { auth, db } from '../config/Config'
+import { auth, db } from '../../config/Config'
 
 export const UserContext = createContext();
 

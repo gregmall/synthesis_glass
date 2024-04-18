@@ -5,7 +5,7 @@ import {auth} from '../../config/Config'
 import { useNavigate } from 'react-router-dom'
 import './Navbar.css';
 import { LiaShoppingCartSolid } from "react-icons/lia";
-import { UserContext } from '../../context/UserContextProvider'
+import { UserContext } from '../context/UserContextProvider'
 const Navbar = () => {
   const { user }= useContext(UserContext)
   console.log(user?.id)

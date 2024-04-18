@@ -14,7 +14,7 @@ import FourOFour from "./components/FourOFour";
 import ProtectedRoute from "./ProtectedRoute";
 import ShoppingCart from "./components/ShoppingCart";
 import AdminPage from "./components/Admin/AdminPage";
-import UserContextProvider from "./context/UserContextProvider";
+import UserContextProvider from "./components/context/UserContextProvider"
 import Account from "./components/Account";
 
 
