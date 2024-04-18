@@ -22,6 +22,18 @@ import Account from "./components/Account";
 
 export default function App() {
   
+   // const [user, initialising] = useAuthState(firebase.auth());
+  // console.log(user, 'user')
+ 
+  // if(initialising) {
+  //   return(
+  //     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px'}}>
+  //        <Vortex />
+  //     </div>
+
+  //   )
+  // }
+  
   
   return (
 
