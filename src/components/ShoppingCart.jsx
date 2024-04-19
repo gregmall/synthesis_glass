@@ -1,4 +1,4 @@
-import React, { useState,  useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { db } from '../config/Config';
 import { UserContext } from './context/UserContextProvider';
 import { BsTrash3 } from "react-icons/bs"
@@ -9,12 +9,14 @@ import  { useNavigate} from 'react-router-dom';
 const ShoppingCart = () => {
 const { user } = useContext(UserContext);
 const navigate = useNavigate();
-// useEffect(()=>{
-//   const userFromStorage = JSON.parse(localStorage.getItem('user'))
+useEffect(()=>{
+  const userFromStorage = JSON.parse(localStorage.getItem('user'))
 
-//   if(userFromStorage===null) navigate('/signin')
+  if(userFromStorage===null) {
+    navigate('/signin')
+  }
 
-// },[])
+},[navigate])
 
 const getCartItems = async()=>{
   await db.collection('users').doc(user?.id).get()

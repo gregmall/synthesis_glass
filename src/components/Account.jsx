@@ -1,6 +1,6 @@
 
-import React, {  useContext } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { UserContext } from './context/UserContextProvider';
 
@@ -9,21 +9,23 @@ import { UserContext } from './context/UserContextProvider';
 const Account = () => {
 
     const { user } = useContext(UserContext);
-    // const navigate=useNavigate();
+    const navigate=useNavigate();
    
     
 
-    // useEffect(()=>{
-    //     const userFromStorage = JSON.parse(localStorage.getItem('user'))
+    useEffect(()=>{
+        const userFromStorage = JSON.parse(localStorage.getItem('user'))
    
-    //     if(userFromStorage===null) navigate('/signin')
+        if(userFromStorage===null) {
+          navigate('/signin')
+        }
 
 
   
     
-    //   },[])
+      },[navigate])
   return (
-    <div>HI {user.name}</div>
+    <div>HI {user?.name}</div>
   )
 }
 
