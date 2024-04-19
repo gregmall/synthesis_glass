@@ -29,7 +29,7 @@ const handleLogout =(e)=>{
     setNav(true)
     window.localStorage.clear()
     setIsAdmin(false)
-   navigate('/signin')
+    navigate('/signin')
 
   })
 }
