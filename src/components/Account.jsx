@@ -27,7 +27,9 @@ const Account = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column',alignItems: 'center', justifyContent:'center', marginTop: '100px'}}>
     <span className='text-white text-4xl'>{user.name}</span>
-    <span className='text-white text-4xl'>{user.cart?.length}</span>
+    {user.cart?.length >0&&
+      <span className='text-white text-4xl'>Cart items: {user.cart?.length}</span>
+    }
     </div>
   )
 }

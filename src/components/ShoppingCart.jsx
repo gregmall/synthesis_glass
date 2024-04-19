@@ -60,14 +60,20 @@ const handleDelete=(item)=>{
     );
 }
 
-
+const handleClick =()=>{
+  console.log('hi bro')
+}
   
 
   return (
    <>
      <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px'}}>  
        {user?.cart?.length>0?
-        <span className='text-white text-4xl'>{user.name}'s Cart {total&&total}</span>
+       <div style={{display: 'flex', flexDirection: 'column'}}>
+        <span className='text-white text-4xl'>{user.name}'s cart </span>
+        <span className='text-white text-4xl my-3'>Total: ${total&&total}.00</span>
+        <button className=' bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'onClick={handleClick}>Checkout</button>
+        </div>
         :
         <span className='text-white text-4xl'>Cart empty </span>}
       </div> 
@@ -89,7 +95,7 @@ const handleDelete=(item)=>{
             
         )
     })}
-   
+    
   </div>
   </>
   )
