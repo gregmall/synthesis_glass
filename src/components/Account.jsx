@@ -13,15 +13,15 @@ const Account = () => {
    
     
 
-    useEffect(()=>{
-        const userFromStorage = JSON.parse(localStorage.getItem('user'))
+    // useEffect(()=>{
+    //     const userFromStorage = JSON.parse(localStorage.getItem('user'))
    
-        if(userFromStorage===null) navigate('/signin')
+    //     if(userFromStorage===null) navigate('/signin')
 
 
   
     
-      },[])
+    //   },[])
   return (
     <div>HI {user.name}</div>
   )
