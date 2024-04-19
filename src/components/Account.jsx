@@ -2,7 +2,7 @@
 import React, { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { UserContext } from './context/UserContextProvider';
+import { UserContext } from '../context/UserContextProvider';
 
  
 
@@ -15,7 +15,7 @@ const Account = () => {
 
     useEffect(()=>{
         const userFromStorage = JSON.parse(localStorage.getItem('user'))
-   
+      console.log('k')
         if(userFromStorage===null) {
           navigate('/signin')
         }
@@ -25,7 +25,10 @@ const Account = () => {
     
       },[navigate])
   return (
-    <div>HI {user?.name}</div>
+    <div style={{ display: 'flex', flexDirection: 'column',alignItems: 'center', justifyContent:'center', marginTop: '100px'}}>
+    <span className='text-white text-4xl'>{user.name}</span>
+    <span className='text-white text-4xl'>{user.cart?.length}</span>
+    </div>
   )
 }
 
