@@ -1,6 +1,6 @@
 
-import React, { useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {  useContext } from 'react';
+// import { useNavigate } from 'react-router-dom';
 
 import { UserContext } from './context/UserContextProvider';
 
@@ -9,7 +9,7 @@ import { UserContext } from './context/UserContextProvider';
 const Account = () => {
 
     const { user } = useContext(UserContext);
-    const navigate=useNavigate();
+    // const navigate=useNavigate();
    
     
 
