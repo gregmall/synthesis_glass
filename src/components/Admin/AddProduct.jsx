@@ -46,7 +46,7 @@ import Notiflix from 'notiflix'
                            
                       
                         {
-                          timeout: 4000,
+                          timeout: 2000,
                         },
                       );
                       navigate('/');
@@ -86,7 +86,7 @@ import Notiflix from 'notiflix'
                 <input  className='shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline'type="number" onChange={(e)=> setPrice(e.target.value)} value={price}/>
                 </div>
                 <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='product-image'>Image</label>
-                <input type="file" id="productImage" accept =".png, .jpg, .jpeg" multiple="multiple" onChange={productImgHandler}/>
+                <input type="file" id="productImage" accept =".png, .jpg, .jpeg" multiple="multiple"   onChange={productImgHandler}/>
                 <br/>
                 <button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="submit">Add</button>
     
