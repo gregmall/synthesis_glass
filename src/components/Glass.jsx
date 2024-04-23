@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { Vortex } from 'react-loader-spinner';
 import { auth, db } from '../config/Config';
 import { useNavigate } from 'react-router-dom';
+import Carousel from 'react-bootstrap/Carousel';
 import Notiflix from 'notiflix';
 
 const Glass = () => {
@@ -75,6 +76,7 @@ const Glass = () => {
         ...data
       })
       setItems(array)
+      console.log(items)
     }
     setLoading(false);
   }
@@ -107,7 +109,14 @@ const Glass = () => {
         
         return(
         <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 hover:bg-fuchsia-400 ease-in-out duration-100' key={key}>
-          <img className='w-full p-4 rounded' src={item.ProductImage} alt='/'/>
+          <Carousel fade>
+          {item.ProductImage.map((image, index) =>{
+            return(
+              <Carousel.Item key={index}>
+              <img className='w-full p-4 rounded' src={image} alt='/'/>
+            </Carousel.Item>
+          )})}
+          </Carousel>
           <div className='px-6 py-4'>
             <div className='font-bold text-xl mb-2'>{item.ProductName}</div>
             <span className='text-xl mb-2'>${item.ProductPrice}</span>
