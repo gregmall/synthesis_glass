@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { storage, db } from '../../config/Config'
 import { useNavigate } from 'react-router-dom'
 import Notiflix from 'notiflix'
@@ -10,8 +10,6 @@ import Notiflix from 'notiflix'
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
    
-
-
     const navigate = useNavigate();
 
     const addProduct =(e)=>{
@@ -91,6 +89,7 @@ import Notiflix from 'notiflix'
                 <input type="file" id="productImage" accept =".png, .jpg, .jpeg" multiple="multiple" onChange={productImgHandler}/>
                 <br/>
                 <button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="submit">Add</button>
+    
             </form>
         
         </div>

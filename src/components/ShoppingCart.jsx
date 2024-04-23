@@ -3,7 +3,8 @@ import { db } from '../config/Config';
 import { UserContext } from '../context/UserContextProvider';
 import { BsTrash3 } from "react-icons/bs"
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
-import  { useNavigate} from 'react-router-dom';
+import  { useNavigate } from 'react-router-dom';
+
 
 
 const ShoppingCart = () => {

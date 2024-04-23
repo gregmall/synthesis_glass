@@ -16,23 +16,14 @@ import ShoppingCart from "./components/ShoppingCart";
 import AdminPage from "./components/Admin/AdminPage";
 import UserContextProvider from "./context/UserContextProvider"
 import Account from "./components/Account";
+import Checkout from "./components/Checkout";
 
 
 
 
 export default function App() {
-  
-   // const [user, initialising] = useAuthState(firebase.auth());
-  // console.log(user, 'user')
- 
-  // if(initialising) {
-  //   return(
-  //     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px'}}>
-  //        <Vortex />
-  //     </div>
 
-  //   )
-  // }
+
   
   
   return (
@@ -52,6 +43,7 @@ export default function App() {
             <Route path='/signin' element={<SignIn />} />
             <Route path='/404' element={<FourOFour />} />
             <Route path='/cart' element={<ShoppingCart />} />
+            <Route path='/checkout' element={<Checkout />} />
           </Routes>
         </Router>
       </UserContextProvider>

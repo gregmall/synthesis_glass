@@ -7,14 +7,25 @@ import Notiflix from 'notiflix';
 
 const Glass = () => {
   const [items, setItems]=useState([]);
-  const [loading, setLoading]=useState(true)
-  const [user, setUser]= useState(GetCurrentUser())
+  const [loading, setLoading]=useState(true);
+  const [user, setUser]= useState(GetCurrentUser());
+  const [isAdmin, setIsAdmin] =useState(false);
+  const [nameEdit, setNameEdit] = useState('');
+  const [imgEdit, setImgEdit] = useState('');
+  const [priceEdit, setPriceEdit]= useState(0);
+  const [descriptionEdit, setDescriptionEdit] = useState('');
+  const [idEdit, setIdEdit] = useState('');
+
   const navigate = useNavigate();
   useEffect(()=>{
     getItems();
+    const userFromStorage = JSON.parse(localStorage.getItem('user'))
+       
+    if(userFromStorage?.uid===process.env.REACT_APP_ADMIN_ID) setIsAdmin(true)
     
    
   },[]);
+
   const handleClick=async(item)=>{
     let previousItems =[]
     
@@ -56,7 +67,9 @@ const Glass = () => {
     const products = await db.collection('Products').get();
    
     for(const snap of products.docs){
+     
       const data = snap.data();
+     
       data.ID=snap.id;
       array.push({
         ...data
@@ -64,6 +77,17 @@ const Glass = () => {
       setItems(array)
     }
     setLoading(false);
+  }
+
+  const editItem = async(id, image, name, description, price ) =>{
+
+    setImgEdit(image);
+    setIdEdit(id);
+    setNameEdit(name);
+    setDescriptionEdit(description);
+    setPriceEdit(price);
+    
+
   }
 
 
@@ -76,7 +100,7 @@ const Glass = () => {
         width="80"
         ariaLabel="vortex-loading"
         wrapperStyle={{}}
-        wrapperClass="vortex-wrapper"
+        wrapperClassName="vortex-wrapper"
         colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
       />
       :(items.map((item, key)=>{
@@ -93,11 +117,13 @@ const Glass = () => {
             :
               <button  button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={(()=>navigate('/signin'))}>Sign in to purchase!</button>
             }
+             {isAdmin && <button className='my-4 mx-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={(()=>editItem(item.ID, item.ProductImage, item.ProductName, item.ProductDescription, item.ProductPrice))}>Edit</button>}
           </div>
 
         </div>)
       }))
       }
+      
     </div>
   )
 }
