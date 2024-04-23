@@ -86,7 +86,7 @@ const Glass = () => {
     setNameEdit(name);
     setDescriptionEdit(description);
     setPriceEdit(price);
-    console.lot(imgEdit, idEdit, nameEdit, descriptionEdit, priceEdit)
+    console.log(imgEdit, idEdit, nameEdit, descriptionEdit, priceEdit)
 
   }
 
