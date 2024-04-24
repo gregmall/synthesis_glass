@@ -4,6 +4,7 @@ import { Vortex } from 'react-loader-spinner';
 import { auth, db } from '../config/Config';
 import { useNavigate } from 'react-router-dom';
 import Carousel from 'react-bootstrap/Carousel';
+import CarouselItem from 'react-bootstrap/CarouselItem'
 import Notiflix from 'notiflix';
 
 const Glass = () => {
@@ -18,8 +19,10 @@ const Glass = () => {
   const [idEdit, setIdEdit] = useState('');
 
   const navigate = useNavigate();
+  
+
   useEffect(()=>{
-    getItems();
+    ;
     const userFromStorage = JSON.parse(localStorage.getItem('user'))
        
     if(userFromStorage?.uid===process.env.REACT_APP_ADMIN_ID) setIsAdmin(true)
@@ -112,9 +115,9 @@ const Glass = () => {
           <Carousel fade>
           {item.ProductImage.map((image, index) =>{
             return(
-              <Carousel.Item key={index}>
+              <CarouselItem key={index}>
               <img className='w-full p-4 rounded' src={image} alt='/'/>
-            </Carousel.Item>
+            </CarouselItem>
           )})}
           </Carousel>
           <div className='px-6 py-4'>

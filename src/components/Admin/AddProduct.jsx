@@ -25,7 +25,7 @@ import Notiflix from 'notiflix'
         , ()=>{
             storage.ref('images').child(image.name).getDownloadURL().then(url=>{
                 db.collection('Products').add({
-                    ProductImage: url,
+                    ProductImage: [url],
                     ProductPrice: Number(price),
                     ProductName: name,
                     ProductDescription: description
