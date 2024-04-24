@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from 'react'
 
 import { Vortex } from 'react-loader-spinner';
-import { auth, db } from '../config/Config';
-import { useNavigate } from 'react-router-dom';
-import Carousel from 'react-bootstrap/Carousel';
-import CarouselItem from 'react-bootstrap/CarouselItem'
-import Notiflix from 'notiflix';
+import { auth, db } from '../../config/Config';
+import { Link } from 'react-router-dom';
+
+// import Notiflix from 'notiflix';
 
 const Glass = () => {
   const [items, setItems]=useState([]);
   const [loading, setLoading]=useState(true);
   const [user, setUser]= useState(GetCurrentUser());
   const [isAdmin, setIsAdmin] =useState(false);
-  const [nameEdit, setNameEdit] = useState('');
-  const [imgEdit, setImgEdit] = useState('');
-  const [priceEdit, setPriceEdit]= useState(0);
-  const [descriptionEdit, setDescriptionEdit] = useState('');
-  const [idEdit, setIdEdit] = useState('');
+  // const [nameEdit, setNameEdit] = useState('');
+  // const [imgEdit, setImgEdit] = useState('');
+  // const [priceEdit, setPriceEdit]= useState(0);
+  // const [descriptionEdit, setDescriptionEdit] = useState('');
+  // const [idEdit, setIdEdit] = useState('');
 
-  const navigate = useNavigate();
+console.log(user, isAdmin)
+
+  
   
 
   useEffect(()=>{
-    ;
+    getItems();
     const userFromStorage = JSON.parse(localStorage.getItem('user'))
        
     if(userFromStorage?.uid===process.env.REACT_APP_ADMIN_ID) setIsAdmin(true)
@@ -30,19 +31,19 @@ const Glass = () => {
    
   },[]);
 
-  const handleClick=async(item)=>{
-    let previousItems =[]
+  // const handleClick=async(item)=>{
+  //   let previousItems =[]
     
-     await db.collection('users').doc(user.id).get()
-     .then(snapshot=> {
-        previousItems=snapshot.data().cart
-     })
+  //    await db.collection('users').doc(user.id).get()
+  //    .then(snapshot=> {
+  //       previousItems=snapshot.data().cart
+  //    })
 
-    await db.collection('users').doc(user.id).update({cart: [...previousItems, {id: item.ID, name: item.ProductName, image: item.ProductImage, price: item.ProductPrice}]})
-    .then(()=>{
-    Notiflix.Notify.success(`${item.ProductName} added to shopping cart!`)
-  })
-  }
+  //   await db.collection('users').doc(user.id).update({cart: [...previousItems, {id: item.ID, name: item.ProductName, image: item.ProductImage, price: item.ProductPrice}]})
+  //   .then(()=>{
+  //   Notiflix.Notify.success(`${item.ProductName} added to shopping cart!`)
+  // })
+  // }
   function GetCurrentUser(){
     let user = ''
     useEffect(()=>{
@@ -79,21 +80,21 @@ const Glass = () => {
         ...data
       })
       setItems(array)
-      console.log(items)
+   
     }
     setLoading(false);
   }
 
-  const editItem = async(id, image, name, description, price ) =>{
+  // const editItem = async(id, image, name, description, price ) =>{
 
-    setImgEdit(image);
-    setIdEdit(id);
-    setNameEdit(name);
-    setDescriptionEdit(description);
-    setPriceEdit(price);
-    console.log(imgEdit, idEdit, nameEdit, descriptionEdit, priceEdit)
+  //   setImgEdit(image);
+  //   setIdEdit(id);
+  //   setNameEdit(name);
+  //   setDescriptionEdit(description);
+  //   setPriceEdit(price);
+  //   console.log(imgEdit, idEdit, nameEdit, descriptionEdit, priceEdit)
 
-  }
+  // }
 
 
   return (
@@ -111,28 +112,25 @@ const Glass = () => {
       :(items.map((item, key)=>{
         
         return(
+          <Link to={`/item/${item.ID}`}>
         <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 hover:bg-fuchsia-400 ease-in-out duration-100' key={key}>
-          <Carousel fade>
-          {item.ProductImage.map((image, index) =>{
-            return(
-              <CarouselItem key={index}>
-              <img className='w-full p-4 rounded' src={image} alt='/'/>
-            </CarouselItem>
-          )})}
-          </Carousel>
+
+              <img className='w-full p-4 rounded' src={item.ProductImage} alt='/'/>
+  
+  
           <div className='px-6 py-4'>
             <div className='font-bold text-xl mb-2'>{item.ProductName}</div>
             <span className='text-xl mb-2'>${item.ProductPrice}</span>
             <p className='text-gray-700 text-base'>{item.ProductDescription}</p>
-            {user?
+            {/* {user?
               <button button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={()=>handleClick(item)}>Add to cart!</button>
             :
               <button  button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={(()=>navigate('/signin'))}>Sign in to purchase!</button>
-            }
-             {isAdmin && <button className='my-4 mx-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={(()=>editItem(item.ID, item.ProductImage, item.ProductName, item.ProductDescription, item.ProductPrice))}>Edit</button>}
+            } */}
+             {/* {isAdmin && <button className='my-4 mx-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={(()=>editItem(item.ID, item.ProductImage, item.ProductName, item.ProductDescription, item.ProductPrice))}>Edit</button>} */}
           </div>
 
-        </div>)
+        </div></Link>)
       }))
       }
       

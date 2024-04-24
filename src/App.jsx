@@ -6,7 +6,7 @@ import Navbar from "./components/Navbar/Navbar";
 import About from './components/About'
 import Home from "./components/Home";
 import './App.css'
-import Glass from "./components/Glass";
+import Glass from "./components/Products/Glass";
 import AddProduct from "./components/Admin/AddProduct";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
@@ -17,6 +17,7 @@ import AdminPage from "./components/Admin/AdminPage";
 import UserContextProvider from "./context/UserContextProvider"
 import Account from "./components/Account";
 import Checkout from "./components/Checkout";
+import GlassDetail from "./components/Products/GlassDetail";
 
 
 
@@ -36,6 +37,7 @@ export default function App() {
             <Route path='/' element={<Home />} />
             <Route path='/about' element={<About/>} />
             <Route path='/glass' element={<Glass />} />
+            <Route path='/item/:id' element={<GlassDetail />} />
             <Route path='/addproduct' element={<ProtectedRoute><AddProduct/></ProtectedRoute>}/>
             <Route path='/admin' element={<ProtectedRoute><AdminPage /></ProtectedRoute>}/>
             <Route path='/account/:id' element={<Account />}/>
