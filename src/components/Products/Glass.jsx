@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import { Vortex } from 'react-loader-spinner';
-import { auth, db } from '../../config/Config';
+import {  db } from '../../config/Config';
 import { Link } from 'react-router-dom';
 
 // import Notiflix from 'notiflix';
 
 const Glass = () => {
-  const [items, setItems]=useState([]);
+  
   const [loading, setLoading]=useState(true);
-  const [user, setUser]= useState(GetCurrentUser());
-  const [isAdmin, setIsAdmin] =useState(false);
+  // const [user, setUser]= useState(GetCurrentUser());
+  // const [isAdmin, setIsAdmin] =useState(false);
   // const [nameEdit, setNameEdit] = useState('');
   // const [imgEdit, setImgEdit] = useState('');
   // const [priceEdit, setPriceEdit]= useState(0);
   // const [descriptionEdit, setDescriptionEdit] = useState('');
   // const [idEdit, setIdEdit] = useState('');
 
-console.log(user, isAdmin)
+
 
   
   
 
-  useEffect(()=>{
-    getItems();
-    const userFromStorage = JSON.parse(localStorage.getItem('user'))
+  // useEffect(()=>{
+  //   getItems();
+  //   // const userFromStorage = JSON.parse(localStorage.getItem('user'))
        
-    if(userFromStorage?.uid===process.env.REACT_APP_ADMIN_ID) setIsAdmin(true)
+  //   // if(userFromStorage?.uid===process.env.REACT_APP_ADMIN_ID) setIsAdmin(true)
     
    
-  },[]);
+  // },[getItems]);
 
   // const handleClick=async(item)=>{
   //   let previousItems =[]
@@ -44,27 +44,27 @@ console.log(user, isAdmin)
   //   Notiflix.Notify.success(`${item.ProductName} added to shopping cart!`)
   // })
   // }
-  function GetCurrentUser(){
-    let user = ''
-    useEffect(()=>{
-        auth.onAuthStateChanged(user=>{
-            if(user){
-                db.collection('users').doc(user.uid).get().then(snapshot=>{
-                    setUser({
-                      name: snapshot.data().name,
-                      role: snapshot.data()?.userRole,
-                      id: snapshot.data().id
-                    });
-                })
-            }
-            else{
-                setUser(null);
+//   function GetCurrentUser(){
+//     let user = ''
+//     useEffect(()=>{
+//         auth.onAuthStateChanged(user=>{
+//             if(user){
+//                 db.collection('users').doc(user.uid).get().then(snapshot=>{
+//                     setUser({
+//                       name: snapshot.data().name,
+//                       role: snapshot.data()?.userRole,
+//                       id: snapshot.data().id
+//                     });
+//                 })
+//             }
+//             else{
+//                 setUser(null);
 
-            }
-        })
-    },[])
-    return user;
-}
+//             }
+//         })
+//     },[])
+//     return user;
+// }
  
   
   const getItems = async()=>{
@@ -84,7 +84,7 @@ console.log(user, isAdmin)
     }
     setLoading(false);
   }
-
+  const [items, setItems]=useState(getItems());
   // const editItem = async(id, image, name, description, price ) =>{
 
   //   setImgEdit(image);

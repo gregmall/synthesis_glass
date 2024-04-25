@@ -17,6 +17,7 @@ const GlassDetail = () => {
 
     },[])
     const getItem = async()=>{
+        console.log('hj')
       
          await db.collection('Products').doc(params.id).get()
         .then(snapshot=>{
