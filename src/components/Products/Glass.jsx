@@ -112,8 +112,8 @@ const Glass = () => {
       :(items.map((item, key)=>{
         
         return(
-          <Link to={`/item/${item.ID}`}>
-        <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 hover:bg-fuchsia-400 ease-in-out duration-100' key={key}>
+        <Link to={`/item/${item.ID}`}  key={key}>
+        <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 hover:bg-fuchsia-400 ease-in-out duration-100'>
 
               <img className='w-full p-4 rounded' src={item.ProductImage} alt='/'/>
   

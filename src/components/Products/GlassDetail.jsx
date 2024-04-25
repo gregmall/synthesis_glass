@@ -10,11 +10,25 @@ const GlassDetail = () => {
     const [loading, setLoading] = useState(true);
     const [images, setImages] = useState([]);
     const [active, setActive] =useState()
+    
+  
+    useEffect(()=>{
+    getItem()
+    .then(()=>setLoading(false))
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
     const getItem = async()=>{
         console.log('hj')
       
          await db.collection('Products').doc(params.id).get()
         .then(snapshot=>{
+            let array = [];
+            snapshot.data().ProductImage.forEach(item=>{
+                array.push({imgLink:item})
+            })
+            setImages(array)
+            setActive(array[0].imgLink)
             setItem({
                 image: snapshot.data().ProductImage,
                 title: snapshot.data().ProductName,
@@ -22,22 +36,10 @@ const GlassDetail = () => {
                 price: snapshot.data().ProductPrice
 
             })
-            let array = [];
-            snapshot.data().ProductImage.forEach(item=>{
-                array.push({imgLink:item})
-            })
-            setImages(array)
-            setActive(array[0].imgLink)
+           
         })
        
     }
-  
-    useEffect(()=>{
-    getItem()
-    .then(()=>setLoading(false))
-
-    },[])
-    
     
   return (
     
