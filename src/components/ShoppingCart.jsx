@@ -4,20 +4,26 @@ import { UserContext } from '../context/UserContextProvider';
 import { BsTrash3 } from "react-icons/bs"
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import  { useNavigate } from 'react-router-dom';
+import { Vortex } from 'react-loader-spinner';
 
 
 
 const ShoppingCart = () => {
 const { user } = useContext(UserContext);
+console.log(user)
 const navigate = useNavigate();
+const [total, setTotal]= useState(0);
+const [loading, setLoading] = useState(true);
 useEffect(()=>{
+  getCartItems()
   const userFromStorage = JSON.parse(localStorage.getItem('user'))
 
   if(userFromStorage===null) {
     navigate('/signin')
   }
 
-},[navigate])
+// eslint-disable-next-line react-hooks/exhaustive-deps
+},[])
 
 const getCartItems = async()=>{
   await db.collection('users').doc(user?.id).get()
@@ -26,14 +32,21 @@ const getCartItems = async()=>{
     const cart = personObj?.cart;
     let sum= 0;
     for(let i=0; i<cart?.length; i++){
-      sum+= cart[i].price
+      
+      Number(sum+= cart[i].price)
+      console.log(sum, 'sum')
     }
     setTotal(sum)
+  })
+  .finally(()=>{
+    
+    setLoading(false) 
+    console.log(total)
   })
 }
 
 
-const [total, setTotal]= useState(getCartItems());
+
 
 const handleDelete=(item)=>{
   Confirm.show(
@@ -67,18 +80,30 @@ const handleClick =()=>{
   
 
   return (
-   <>
+   <> 
+   {loading?
+    <Vortex
+        visible={true}
+        height="80"
+        width="80"
+        ariaLabel="vortex-loading"
+        wrapperStyle={{}}
+        wrapperClassName="vortex-wrapper"
+        colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
+      />:<div>
      <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px'}}>  
+     
+    
        {user?.cart?.length>0?
        <div style={{display: 'flex', flexDirection: 'column'}}>
         <span className='text-white text-4xl'>{user.name}'s cart </span>
-        <span className='text-white text-4xl my-3'>Total: ${total&&total}.00</span>
+        <span className='text-white text-4xl my-3'>Total: ${total}</span>
         <button className=' bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'onClick={handleClick}>Checkout</button>
         </div>
         :
         <span className='text-white text-4xl'>Cart empty </span>}
       </div> 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px', flexWrap:'wrap'}}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px', flexWrap:'wrap'}}>
       {user?.cart?.map((item,key)=>{
         
         return(
@@ -98,7 +123,7 @@ const handleClick =()=>{
         )
     })}
     
-  </div>
+  </div></div>}
   </>
   )
 }

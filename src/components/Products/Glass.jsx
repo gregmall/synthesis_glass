@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Vortex } from 'react-loader-spinner';
 import {  db } from '../../config/Config';
@@ -9,41 +9,23 @@ import { Link } from 'react-router-dom';
 const Glass = () => {
   
   const [loading, setLoading]=useState(true);
-  // const [user, setUser]= useState(GetCurrentUser());
-  // const [isAdmin, setIsAdmin] =useState(false);
-  // const [nameEdit, setNameEdit] = useState('');
-  // const [imgEdit, setImgEdit] = useState('');
-  // const [priceEdit, setPriceEdit]= useState(0);
-  // const [descriptionEdit, setDescriptionEdit] = useState('');
-  // const [idEdit, setIdEdit] = useState('');
+  const [items, setItems]=useState();
+
 
 
 
   
   
 
-  // useEffect(()=>{
-  //   getItems();
-  //   // const userFromStorage = JSON.parse(localStorage.getItem('user'))
-       
-  //   // if(userFromStorage?.uid===process.env.REACT_APP_ADMIN_ID) setIsAdmin(true)
+  useEffect(()=>{
+    getItems();
+
     
    
-  // },[getItems]);
+  // eslint-disable-next-line no-use-before-define
+  },[]);
 
-  // const handleClick=async(item)=>{
-  //   let previousItems =[]
-    
-  //    await db.collection('users').doc(user.id).get()
-  //    .then(snapshot=> {
-  //       previousItems=snapshot.data().cart
-  //    })
-
-  //   await db.collection('users').doc(user.id).update({cart: [...previousItems, {id: item.ID, name: item.ProductName, image: item.ProductImage, price: item.ProductPrice}]})
-  //   .then(()=>{
-  //   Notiflix.Notify.success(`${item.ProductName} added to shopping cart!`)
-  // })
-  // }
+ 
 //   function GetCurrentUser(){
 //     let user = ''
 //     useEffect(()=>{
@@ -67,7 +49,9 @@ const Glass = () => {
 // }
  
   
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getItems = async()=>{
+    console.log('hi')
     const array = [];
     const products = await db.collection('Products').get();
    
@@ -84,17 +68,8 @@ const Glass = () => {
     }
     setLoading(false);
   }
-  const [items, setItems]=useState(getItems());
-  // const editItem = async(id, image, name, description, price ) =>{
+  
 
-  //   setImgEdit(image);
-  //   setIdEdit(id);
-  //   setNameEdit(name);
-  //   setDescriptionEdit(description);
-  //   setPriceEdit(price);
-  //   console.log(imgEdit, idEdit, nameEdit, descriptionEdit, priceEdit)
-
-  // }
 
 
   return (

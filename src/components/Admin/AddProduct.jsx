@@ -1,66 +1,110 @@
 import React, { useState } from 'react'
 import { storage, db } from '../../config/Config'
 import { useNavigate } from 'react-router-dom'
-import Notiflix from 'notiflix'
+import { Notify } from 'notiflix'
 
  const AddProduct = () => {
     
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
     const [description, setDescription] = useState('');
-    const [image, setImage] = useState(null);
+    const [images, setImages] = useState(null);
+
    
     const navigate = useNavigate();
 
-    const addProduct =(e)=>{
+    const addProduct = async (e)=>{
+   
         e.preventDefault();
-        const uploadTask = storage.ref(`images/${image.name}`).put(image);
+        try {
+
+            const productsRef = db.collection('Products');
+                const promises = images.map(async (image, index) => {
+                const snapshot = await storage.ref(`images/${image.name}`).put(image);
+                const downloadUrl = await snapshot.ref.getDownloadURL();
+        
+                return downloadUrl;
+      
+            });
+      
+            const imageUrls = await Promise.all(promises);
+      
+            // Create a new product object
+            const newProduct = {
+              ProductDescription: description,
+              ProductImage: imageUrls,
+              ProductName: name,
+              ProductPrice: price
+            };
+      
+            // Add the product to the Firestore collection
+            await productsRef.add(newProduct)
+            .then(()=>{
+                Notify.success("ADDED!")
+                navigate('/glass')
+            });
+      
+            console.log('Product uploaded successfully');
+          } catch (error) {
+            console.error('Error uploading product:', error);
+          }
+        
+        // e.preventDefault();
+        // console.log(image)
+        // const uploadTask = storage.ref(`images/${image.name}`).put(image);
        
-        uploadTask.on('state_changed', snapshot =>{
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) *100;
-            console.log(progress);
-        }, err=>{
-            console.log(err.message)
-        }
-        , ()=>{
-            storage.ref('images').child(image.name).getDownloadURL().then(url=>{
-                db.collection('Products').add({
-                    ProductImage: [url],
-                    ProductPrice: Number(price),
-                    ProductName: name,
-                    ProductDescription: description
+        // uploadTask.on('state_changed', snapshot =>{
+        //     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) *100;
+        //     console.log(progress);
+        // }, err=>{
+        //     console.log(err.message)
+        // }
+        // , ()=>{
+        //     storage.ref('images').child(image.name).getDownloadURL().then(url=>{
+        //         console.log(url)
+        //     })
+        //     //     db.collection('Products').add({
+        //     //         ProductImage: [url],
+        //     //         ProductPrice: Number(price),
+        //     //         ProductName: name,
+        //     //         ProductDescription: description
 
 
-                }).then(()=>{
-                    setName('');
-                    setImage(null);
-                    setPrice(0);
-                    setDescription('');
-                    document.getElementById('file').value ='';
+        //     //     }).then(()=>{
+        //     //         setName('');
+        //     //         setImage(null);
+        //     //         setPrice(0);
+        //     //         setDescription('');
+        //     //         document.getElementById('file').value ='';
                     
                     
-                }).finally(()=>{
-                    Notiflix.Notify.success(
-                        'New Product added! ',
+        //     //     }).finally(()=>{
+        //     //         Notiflix.Notify.success(
+        //     //             'New Product added! ',
                         
                            
                       
-                        {
-                          timeout: 2000,
-                        },
-                      );
-                      navigate('/');
+        //     //             {
+        //     //               timeout: 2000,
+        //     //             },
+        //     //           );
+        //     //           navigate('/');
                     
-                }).catch(err =>console.log(err.message))
-            })
-        }
-        )
+        //     //     }).catch(err =>console.log(err.message))
+        //     // })
+        // }
+        // )
 
     }
 
     const productImgHandler=(e)=>{
-        let selectedFile = e.target.files[0];
-        setImage(selectedFile);
+        let allImages = [];
+        for (let i = 0; i < e.target.files.length; i++) {
+          const newImage = e.target.files[i];
+        
+          allImages.push(newImage);
+        }
+        setImages(allImages);
         
     }
   return (

@@ -9,6 +9,7 @@ import { UserContext } from '../../context/UserContextProvider'
 
 const Navbar = () => {
   const { user }= useContext(UserContext)
+  
   const [nav, setNav] =useState(true)
   const [isAdmin, setIsAdmin] =useState(false);
   const navigate=useNavigate();

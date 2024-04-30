@@ -6,23 +6,23 @@ import { UserContext } from '../../context/UserContextProvider';
 import Notiflix from 'notiflix';
 const GlassDetail = () => {
     const params = useParams();
+    const signedIn=useContext(UserContext)
     const navigate =  useNavigate();
     const [item, setItem] = useState();
     const [loading, setLoading] = useState(true);
     const [images, setImages] = useState([]);
     const [active, setActive] =useState()
-    const [user, setUser] = useState(useContext(UserContext))
+    const [user, setUser] = useState(signedIn)
  
   
     useEffect(()=>{
-    getItem()
-    .then(()=>{
-    if(user!==null){
-       
-    setUser(user?.user)
-    }
-    setLoading(false)
-    })
+        getItem()
+        .then(()=>{
+        if(user!==null){
+          setUser(user?.user)
+        }
+          setLoading(false)
+        })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
@@ -51,7 +51,7 @@ const GlassDetail = () => {
        
     }
 const handleClick=async(item)=>{
-    console.log(item)
+  
     let previousItems =[]
     console.log(user)
      await db.collection('users').doc(user.id).get()
@@ -59,7 +59,7 @@ const handleClick=async(item)=>{
         previousItems=snapshot.data().cart
      })
 try{
-    await db.collection('users').doc(user.id).update({cart: [...previousItems, {id: params.id, name: item.ProductName, image: item.ProductImage, price: item.ProductPrice}]})
+    await db.collection('users').doc(user.id).update({cart: [...previousItems, {id: params.id, name: item.title, image: item.image, price: item.price}]})
     .then(()=>{
     Notiflix.Notify.success(`${item.ProductName} added to shopping cart!`)
     navigate('/glass')
@@ -74,7 +74,7 @@ try{
     
 
     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center',  flexWrap: 'wrap', overflowX:"auto"}}>
-         {loading?
+      {loading?
       <Vortex
         visible={true}
         height="80"
@@ -100,26 +100,23 @@ try{
             <img
               onClick={() => setActive(imgLink)}
               src={imgLink}
-              className="h-20 max-w-full cursor-pointer rounded-lg object-cover object-center mx-2"
+              className="h-20 max-w-full cursor-pointer rounded-lg object-cover object-center mx-2 flex-wrap px-1"
               alt="/"
             />
           </div>
         ))}
       </div>
             <div className='px-6 py-4 flex-col'>
-               
-               
-                <span className='text-xl mb-2'>${item.price}</span>
-                <p className='text-gray-700 text-base'>{item.description}</p>
-                 {user!==null?
+              <span className='text-xl mb-2'>${item.price}</span>
+              <p className='text-gray-700 text-base'>{item.description}</p>
+              {user!==null?
               <button button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={()=>handleClick(item)}>Add to cart!</button>
-            :
+              :
               <button  button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={(()=>navigate('/signin'))}>Sign in to purchase!</button>
-            } 
-                
-                
+              } 
             </div>
-        </div>}
+        </div>
+        }
     </div>
     
   )
