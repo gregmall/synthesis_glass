@@ -13,7 +13,8 @@ const GlassDetail = () => {
     const [images, setImages] = useState([]);
     const [active, setActive] =useState()
     const [user, setUser] = useState(signedIn)
- 
+    const [adding, setAdding]=useState(false)
+
   
     useEffect(()=>{
         getItem()
@@ -44,13 +45,11 @@ const GlassDetail = () => {
                 title: snapshot.data().ProductName,
                 description: snapshot.data().ProductDescription,
                 price: snapshot.data().ProductPrice
-
             })
-           
         })
-       
     }
 const handleClick=async(item)=>{
+    setAdding(true)
   
     let previousItems =[]
     console.log(user)
@@ -61,6 +60,7 @@ const handleClick=async(item)=>{
 try{
     await db.collection('users').doc(user.id).update({cart: [...previousItems, {id: params.id, name: item.title, image: item.image, price: item.price}]})
     .then(()=>{
+    setAdding(false)
     Notiflix.Notify.success(`${item.ProductName} added to shopping cart!`)
     navigate('/glass')
   })
@@ -75,17 +75,17 @@ try{
 
     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center',  flexWrap: 'wrap', overflowX:"auto"}}>
       {loading?
-      <Vortex
-        visible={true}
-        height="80"
-        width="80"
-        ariaLabel="vortex-loading"
-        wrapperStyle={{}}
-        wrapperClassName="vortex-wrapper"
-        colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
-      />
+        <Vortex
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="vortex-loading"
+          wrapperStyle={{}}
+          wrapperClassName="vortex-wrapper"
+          colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
+        />
       :
-        <div className='max-w-sm rounded overflow-hidden bg-slate-50 mx-3 my-3 shadow-2xl' >
+        <div className='max-w-xl rounded overflow-hidden bg-slate-50 mx-3 my-3 shadow-2xl' >
              <div className='font-bold text-3xl mb-2 flex justify-center'>{item.title}</div>
         <div>
         <img
@@ -110,7 +110,10 @@ try{
               <span className='text-xl mb-2'>${item.price}</span>
               <p className='text-gray-700 text-base'>{item.description}</p>
               {user!==null?
-              <button button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={()=>handleClick(item)}>Add to cart!</button>
+                (adding? 
+                  <button button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' disabled onClick={()=>handleClick(item)}>Adding...</button>:
+                  <button button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={()=>handleClick(item)}>Add to cart!</button>
+                )
               :
               <button  button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={(()=>navigate('/signin'))}>Sign in to purchase!</button>
               } 

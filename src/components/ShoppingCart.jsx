@@ -10,7 +10,6 @@ import { Vortex } from 'react-loader-spinner';
 
 const ShoppingCart = () => {
 const { user } = useContext(UserContext);
-console.log(user)
 const navigate = useNavigate();
 const [total, setTotal]= useState(0);
 const [loading, setLoading] = useState(true);
@@ -82,6 +81,7 @@ const handleClick =()=>{
   return (
    <> 
    {loading?
+   <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px'}}>  
     <Vortex
         visible={true}
         height="80"
@@ -90,7 +90,7 @@ const handleClick =()=>{
         wrapperStyle={{}}
         wrapperClassName="vortex-wrapper"
         colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
-      />:<div>
+      /></div>:<div>
      <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px'}}>  
      
     

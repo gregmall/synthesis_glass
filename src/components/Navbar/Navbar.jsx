@@ -1,6 +1,6 @@
 import React, { useState, useContext,useEffect } from 'react'
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai'
-import { ReactTyped } from 'react-typed'
+// import { ReactTyped } from 'react-typed'
 import {auth} from '../../config/Config'
 import { useNavigate } from 'react-router-dom'
 import './Navbar.css';
@@ -41,7 +41,7 @@ const handleNav = () =>{
     <div className='text-white flex justify-between item-center h-24  mx-auto px-4 sticky top-0  bg-gradient-to-r from-[#762a99] to-[#7c0747] bg-no-repeat z-50'>
       <div className="header">
         <h1 className="logo">Synthesis Glass</h1>
-        <ReactTyped
+        {/* <ReactTyped
           strings={['Welcome to Synthesis Glass!',
           "Made in Portland, Oregon",
           "Highest Quality",
@@ -49,18 +49,15 @@ const handleNav = () =>{
           typeSpeed={150}
           backSpeed={70}
           loop
-        />
+        /> */}
         </div>
         <ul className='hidden md:flex ' >
-            {user?.cart?.length>0?
-              <li className='p-4'><a href="/cart"><CgShoppingCart />{user?.cart?.length}</a></li>:
-              <li className='p-4'><a href="/cart"><CgShoppingCart /></a></li>
-            }
-            <li className='p-4'><a href="/">Home</a></li>
-            <li className='p-4'><a href="/glass">Glass</a></li>
-            <li className='p-4'><a href="https://www.etsy.com/shop/SynthesisGlass" target="blank">Etsy</a></li>
-            <li className='p-4'><a href={`/account/${user?.id}`}>Account</a></li>
-            {isAdmin&&<li className='p-4'><a href="/admin">Admin</a></li>}
+          <li className='p-4'><a href="/cart"><CgShoppingCart />{user?.cart?.length>0&&user?.cart?.length}</a></li>
+          <li className='p-4'><a href="/">Home</a></li>
+          <li className='p-4'><a href="/glass">Glass</a></li>
+          <li className='p-4'><a href="https://www.etsy.com/shop/SynthesisGlass" target="blank">Etsy</a></li>
+          <li className='p-4'><a href={`/account/${user?.id}`}>Account</a></li>
+          {isAdmin&&<li className='p-4'><a href="/admin">Admin</a></li>}
             {user===null?
               <li className='p-4'><a href="/signin"><button className=' bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Sign In</button></a></li>
             :

@@ -4,7 +4,7 @@ import { Vortex } from 'react-loader-spinner';
 import {  db } from '../../config/Config';
 import { Link } from 'react-router-dom';
 
-// import Notiflix from 'notiflix';
+
 
 const Glass = () => {
   
@@ -12,46 +12,14 @@ const Glass = () => {
   const [items, setItems]=useState();
 
 
-
-
-  
-  
-
   useEffect(()=>{
     getItems();
 
-    
-   
   // eslint-disable-next-line no-use-before-define
   },[]);
 
- 
-//   function GetCurrentUser(){
-//     let user = ''
-//     useEffect(()=>{
-//         auth.onAuthStateChanged(user=>{
-//             if(user){
-//                 db.collection('users').doc(user.uid).get().then(snapshot=>{
-//                     setUser({
-//                       name: snapshot.data().name,
-//                       role: snapshot.data()?.userRole,
-//                       id: snapshot.data().id
-//                     });
-//                 })
-//             }
-//             else{
-//                 setUser(null);
-
-//             }
-//         })
-//     },[])
-//     return user;
-// }
- 
-  
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getItems = async()=>{
-    console.log('hi')
+  
     const array = [];
     const products = await db.collection('Products').get();
    
@@ -70,8 +38,6 @@ const Glass = () => {
   }
   
 
-
-
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center',  flexWrap: 'wrap', overflowX:"auto"}}>
       {loading?
@@ -84,29 +50,22 @@ const Glass = () => {
         wrapperClassName="vortex-wrapper"
         colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
       />
-      :(items.map((item, key)=>{
+      :
+        (items.map((item, key)=>{
         
-        return(
-        <Link to={`/item/${item.ID}`}  key={key}>
-        <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 hover:bg-fuchsia-400 ease-in-out duration-100'>
-
+          return(
+          <Link to={`/item/${item.ID}`}  key={key}>
+            <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 hover:bg-fuchsia-400 ease-in-out duration-100'>
               <img className='w-full p-4 rounded' src={item.ProductImage} alt='/'/>
-  
-  
-          <div className='px-6 py-4'>
-            <div className='font-bold text-xl mb-2'>{item.ProductName}</div>
-            <span className='text-xl mb-2'>${item.ProductPrice}</span>
-            <p className='text-gray-700 text-base'>{item.ProductDescription}</p>
-            {/* {user?
-              <button button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={()=>handleClick(item)}>Add to cart!</button>
-            :
-              <button  button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={(()=>navigate('/signin'))}>Sign in to purchase!</button>
-            } */}
-             {/* {isAdmin && <button className='my-4 mx-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={(()=>editItem(item.ID, item.ProductImage, item.ProductName, item.ProductDescription, item.ProductPrice))}>Edit</button>} */}
-          </div>
-
-        </div></Link>)
-      }))
+              <div className='px-6 py-4'>
+                <div className='font-bold text-xl mb-2'>{item.ProductName}</div>
+                <span className='text-xl mb-2'>${item.ProductPrice}</span>
+                <p className='text-gray-700 text-base'>{item.ProductDescription}</p>
+              </div>
+            </div>
+          </Link>
+          )}
+        ))
       }
       
     </div>

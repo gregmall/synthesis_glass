@@ -44,7 +44,7 @@ import { Vortex } from 'react-loader-spinner';
 
 
   return (
-    <div style={{display:'flex',  justifyContent: 'center'}}>
+    <div style={{display:'flex',  justifyContent: 'center', marginTop: '50px'}}>
         {loading? 
         <Vortex
         visible={true}
