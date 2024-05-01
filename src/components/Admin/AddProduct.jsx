@@ -36,7 +36,7 @@ import { Textarea } from "@material-tailwind/react"
               ProductDescription: description,
               ProductImage: imageUrls,
               ProductName: name,
-              ProductPrice: price
+              ProductPrice: Number(price)
             };
       
             // Add the product to the Firestore collection
