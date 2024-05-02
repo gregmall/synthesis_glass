@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { Vortex } from 'react-loader-spinner';
+import { Spinner } from "@material-tailwind/react"
 import {  db } from '../../config/Config';
 import { Link } from 'react-router-dom';
 
@@ -41,15 +41,7 @@ const Glass = () => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center',  flexWrap: 'wrap', overflowX:"auto"}}>
       {loading?
-      <Vortex
-        visible={true}
-        height="80"
-        width="80"
-        ariaLabel="vortex-loading"
-        wrapperStyle={{}}
-        wrapperClassName="vortex-wrapper"
-        colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
-      />
+      <Spinner color="green" />
       :
         (items.map((item, key)=>{
         

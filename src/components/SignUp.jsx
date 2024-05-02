@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { db, auth } from '../config/Config';
 import { useNavigate, Link } from 'react-router-dom'
-
+import { GoEye, GoEyeClosed } from "react-icons/go";
 import { Vortex } from 'react-loader-spinner';
 
  const SignUp = () => {
@@ -11,8 +11,13 @@ import { Vortex } from 'react-loader-spinner';
     const [password, setPassword] = useState('');
     const [loading, setLoading] =useState(false);
     const [errorMsg, setErrorMsg]=useState('');
+    const [showPassword, setShowPassword]= useState(false)
+    
     const navigate = useNavigate();
-
+    const handlePasswordShow =(e)=>{
+        e.preventDefault();
+        setShowPassword(!showPassword)
+    }
     const Signup =(e)=>{
       
         e.preventDefault();
@@ -70,7 +75,10 @@ import { Vortex } from 'react-loader-spinner';
                 </div>
                 <div>
                     <label className='block text-gray-700 text-sm font-bold mb-2'>Password</label>
-                    <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="password" onChange={(e)=> setPassword(e.target.value)} value={password}/>
+                    <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type={showPassword? "text":"password"} onChange={(e)=> setPassword(e.target.value)} value={password}/>
+                    {showPassword?
+                    <GoEye onClick={handlePasswordShow}/>:
+                    <GoEyeClosed onClick={handlePasswordShow}/>}
                 </div>
                 <div style = {{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
                      <button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="submit">Register!</button>

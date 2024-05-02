@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { storage, db } from '../../config/Config'
 import { useNavigate } from 'react-router-dom'
 import { Notify } from 'notiflix'
-import { Textarea } from "@material-tailwind/react"
+import { Textarea, Spinner } from "@material-tailwind/react"
+
 
  const AddProduct = () => {
     
@@ -92,7 +93,7 @@ import { Textarea } from "@material-tailwind/react"
                 <input type="file" id="productImage" accept =".png, .jpg, .jpeg" multiple="multiple"   onChange={productImgHandler}/>
                 <br/>
                 {loading?
-                  <button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="submit" disabled>Adding...</button>:
+                  <button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="submit" disabled><Spinner color="green" /></button>:
                   <button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="submit">Add</button>
                 }
     
