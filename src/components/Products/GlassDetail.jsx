@@ -75,6 +75,7 @@ try{
     
 
     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center',  flexWrap: 'wrap', overflowX:"auto"}}>
+  
       {loading?
         <Vortex
           visible={true}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-
+import { Button } from "@material-tailwind/react"
 import { Spinner } from "@material-tailwind/react"
 import {  db } from '../../config/Config';
 import { Link } from 'react-router-dom';
@@ -39,7 +39,14 @@ const Glass = () => {
   
 
   return (
+    <>
+        <div style={{display: 'flex', alignItems: 'center', justifyContent:'space-around', marginTop:'30px'}}>
+        <Button>ALL</Button>
+        <Button>CHILLUMS</Button>
+        <Button>PIPES</Button>
+      </div>
     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center',  flexWrap: 'wrap', overflowX:"auto"}}>
+  
       {loading?
       <Spinner color="green" />
       :
@@ -61,6 +68,7 @@ const Glass = () => {
       }
       
     </div>
+    </>
   )
 }
 
