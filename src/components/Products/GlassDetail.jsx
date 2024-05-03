@@ -61,7 +61,8 @@ try{
     await db.collection('users').doc(user.id).update({cart: [...previousItems, {id: params.id, name: item.title, image: item.image, price: item.price}]})
     .then(()=>{
     setAdding(false)
-    Notiflix.Notify.success(`${item.ProductName} added to shopping cart!`)
+    Notiflix.Notify.success(`${item.title} added to shopping cart!`)
+   
     navigate('/glass')
   })
 }catch(error){

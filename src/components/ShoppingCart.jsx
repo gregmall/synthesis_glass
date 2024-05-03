@@ -68,7 +68,10 @@ const handleDelete=(item)=>{
    <>
      <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px'}}>  
        {user?.cart?.length>0?
-        <span className='text-white text-4xl'>{user.name}'s Cart {total}</span>
+        <div className='flex-col'>
+          <span className='text-white text-4xl'>{user.name}'s Cart </span>
+          <span className='text-white text-4xl'>${total}</span>
+        </div>
         :
         <span className='text-white text-4xl'>Cart empty </span>}
       </div> 

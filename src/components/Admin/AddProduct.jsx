@@ -10,12 +10,13 @@ import { Textarea, Spinner } from "@material-tailwind/react"
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
     const [description, setDescription] = useState('');
+    const [type, setType] = useState('')
     const [images, setImages] = useState(null);
     const [loading, setLoading] = useState(false)
 
    
     const navigate = useNavigate();
-
+    console.log(type)
     const addProduct = async (e)=>{
         setLoading(true)
         e.preventDefault();
@@ -37,7 +38,8 @@ import { Textarea, Spinner } from "@material-tailwind/react"
               ProductDescription: description,
               ProductImage: imageUrls,
               ProductName: name,
-              ProductPrice: Number(price)
+              ProductPrice: Number(price),
+              Type: type
             };
       
             // Add the product to the Firestore collection
@@ -91,6 +93,14 @@ import { Textarea, Spinner } from "@material-tailwind/react"
                 </div>
                 <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='product-image'>Image</label>
                 <input type="file" id="productImage" accept =".png, .jpg, .jpeg" multiple="multiple"   onChange={productImgHandler}/>
+                <br/>
+                <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='product-image'>Type</label>
+                <select onChange={(e)=> setType(e.target.value)}>
+                  <option value="pipe">pipe</option>
+                  <option value="chillum">chillum</option>
+                  
+                </select>
+
                 <br/>
                 {loading?
                   <button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="submit" disabled><Spinner color="green" /></button>:
