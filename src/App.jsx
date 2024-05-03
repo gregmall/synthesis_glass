@@ -30,9 +30,11 @@ export default function App() {
   return (
 
     <div className="App">
+      
     <UserContextProvider>
         <Router>
           <Navbar />
+          {/* <img src="/public/assets/background.png" alt="bg"/> */}
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/about' element={<About/>} />
