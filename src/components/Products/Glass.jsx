@@ -10,6 +10,7 @@ const Glass = () => {
   
   const [loading, setLoading]=useState(true);
   const [items, setItems]=useState();
+  const [filtered, setFiltered] =useState("");
 
 
   useEffect(()=>{
@@ -36,21 +37,24 @@ const Glass = () => {
     }
     setLoading(false);
   }
+  const filteredItems = items?.filter(
+    (item)=>
+    item?.Type?.indexOf(filtered)!==-1)
   
 
   return (
     <>
         <div style={{display: 'flex', alignItems: 'center', justifyContent:'space-around', marginTop:'30px'}}>
-        <Button>ALL</Button>
-        <Button>CHILLUMS</Button>
-        <Button>PIPES</Button>
+        <Button onClick={()=>setFiltered("")}>ALL</Button>
+        <Button onClick={()=>setFiltered("chillum")}>CHILLUMS</Button>
+        <Button onClick={()=>setFiltered("pipe")}>PIPES</Button>
       </div>
     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center',  flexWrap: 'wrap', overflowX:"auto"}}>
   
       {loading?
       <Spinner color="green" />
       :
-        (items.map((item, key)=>{
+        (filteredItems.map((item, key)=>{
         
           return(
           <Link to={`/item/${item.ID}`}  key={key}>
