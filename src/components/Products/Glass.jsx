@@ -44,10 +44,10 @@ const Glass = () => {
 
   return (
     <>
-        <div style={{display: 'flex', alignItems: 'center', justifyContent:'space-around', marginTop:'30px'}}>
-        <Button onClick={()=>setFiltered("")}>ALL</Button>
-        <Button onClick={()=>setFiltered("chillum")}>CHILLUMS</Button>
-        <Button onClick={()=>setFiltered("pipe")}>PIPES</Button>
+        <div style={{display: 'flex', alignItems: 'center', justifyContent:"space-evenly", marginTop:'30px', marginBottom:'30px'}}>
+        <Button  color={filtered===""? "white":"blue"} onClick={()=>setFiltered("")}>ALL</Button>
+        <Button  color={filtered==="chillum"? "white":"blue"} onClick={()=>setFiltered("chillum")}>CHILLUMS</Button>
+        <Button  color={filtered==="pipe"? "white":"blue"} onClick={()=>setFiltered("pipe")}>PIPES</Button>
       </div>
     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center',  flexWrap: 'wrap', overflowX:"auto"}}>
   
