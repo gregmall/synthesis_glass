@@ -56,7 +56,7 @@ const handleNav = () =>{
           <li className='p-4'><a href="/">Home</a></li>
           <li className='p-4'><a href="/glass">Glass</a></li>
           <li className='p-4'><a href="https://www.etsy.com/shop/SynthesisGlass" target="blank">Etsy</a></li>
-          <li className='p-4'><a href={`/account/${user?.id}`}>Account</a></li>
+          {!isAdmin&&<li className='p-4'><a href={`/account/${user?.id}`}>Account</a></li>}
           {isAdmin&&<li className='p-4'><a href="/admin">Admin</a></li>}
             {user===null?
               <li className='p-4'><a href="/signin"><button className=' bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Sign In</button></a></li>
@@ -74,7 +74,7 @@ const handleNav = () =>{
             <li className='p-4 border-b'><a href="/">Home</a></li>
             <li className='p-4 border-b'><a href="/glass">Glass</a></li>
             <li className='p-4 border-b'><a href="https://www.etsy.com/shop/SynthesisGlass" target="blank">Etsy</a></li>
-            <li className='p-4 border-b'><a href={`/account/${user?.id}`}>Account</a></li>
+            {!isAdmin&&<li className='p-4 border-b'><a href={`/account/${user?.id}`}>Account</a></li>}
             {user?.cart?.length>0?
               <li className='p-4 border-b'><a href="/cart">Cart {user.cart.length}</a></li>:
               <li className='p-4 border-b'><a href="/cart">Cart </a></li>

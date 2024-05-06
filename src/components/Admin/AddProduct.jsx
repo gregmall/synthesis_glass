@@ -10,7 +10,7 @@ import { Textarea, Spinner } from "@material-tailwind/react"
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
     const [description, setDescription] = useState('');
-    const [type, setType] = useState('')
+    const [type, setType] = useState('pipe')
     const [images, setImages] = useState(null);
     const [loading, setLoading] = useState(false)
 
