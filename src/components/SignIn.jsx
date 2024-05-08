@@ -3,6 +3,7 @@ import { auth } from '../config/Config';
 import { useNavigate, Link } from 'react-router-dom'
 import { Vortex } from 'react-loader-spinner';
 import { GoEye, GoEyeClosed } from "react-icons/go";
+import { Input } from "@material-tailwind/react"
 const SignIn = () => {
 
     const navigate = useNavigate();
@@ -56,14 +57,12 @@ const SignIn = () => {
                 
                 <div>
                     <label className='block text-gray-700 text-sm font-bold mb-2'>Email</label>
-                    <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="email" onChange={(e)=> setEmail(e.target.value)} value={email}/>
+                    <Input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="email" onChange={(e)=> setEmail(e.target.value)} value={email}/>
                 </div>
                 <div>
                     <label className='block text-gray-700 text-sm font-bold mb-2'>Password</label>
-                    <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type={showPassword? "text":"password"} onChange={(e)=> setPassword(e.target.value)} value={password}/>
-                    {showPassword?
-                    <GoEye onClick={handlePasswordShow}/>:
-                    <GoEyeClosed onClick={handlePasswordShow}/>}
+                    <Input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type={showPassword? "text":"password"} onChange={(e)=> setPassword(e.target.value)} value={password} icon={showPassword?<GoEye onClick={handlePasswordShow}/>:<GoEyeClosed onClick={handlePasswordShow}/>}/>
+               
                 </div>
                 <div style = {{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
                      <button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="submit">Sign In</button>
