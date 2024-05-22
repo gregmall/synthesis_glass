@@ -20,8 +20,8 @@ const getCartItems = async()=>{
       sum+= cart[i].price
 
     }
-    setTotal(sum)
-    console.log(total)
+    setTotal(sum.toFixed(2))
+
     
    
   })
