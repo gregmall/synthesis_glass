@@ -1,4 +1,4 @@
-import React, { useState,  useContext } from 'react'
+import React, { useState,  useContext, useEffect } from 'react'
 import { db } from '../config/Config';
 import {UserContext} from '../context/UserContextProvider'
 
@@ -11,6 +11,13 @@ const ShoppingCart = () => {
 const { user } = useContext(UserContext)
 
 const navigate = useNavigate();
+useEffect(()=>{
+  const userFromStorage = JSON.parse(localStorage.getItem('user'))
+  if(userFromStorage===null) {
+      navigate('/signin')
+    }
+},[navigate])
+
 const getCartItems = async()=>{
   await db.collection('users').doc(user?.id).get()
   .then(person => {
