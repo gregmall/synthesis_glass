@@ -1,6 +1,7 @@
 import React, { useState,  useContext } from 'react'
 import { db } from '../config/Config';
 import {UserContext} from '../context/UserContextProvider'
+
 import { BsTrash3 } from "react-icons/bs"
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import  { useNavigate} from 'react-router-dom';
@@ -69,11 +70,13 @@ const handleDelete=(item)=>{
      <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px'}}>  
        {user?.cart?.length>0?
         <div className='flex-col'>
-          <span className='text-white text-4xl'>{user.name}'s Cart </span>
-          <span className='text-white text-4xl'>${total}</span>
+          <div className='text-white text-4xl'>{user.name}'s Cart </div>
+          <div className='text-white text-4xl'>${total}</div>
+          <a href="/checkout"><button className=' bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>CHECKOUT</button></a>
         </div>
         :
-        <span className='text-white text-4xl'>Cart empty </span>}
+          <span className='text-white text-4xl'>Cart empty </span>
+       }
       </div> 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px', flexWrap:'wrap'}}>
       {user?.cart?.map((item,key)=>{

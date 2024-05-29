@@ -8,6 +8,7 @@ import { UserContext } from '../context/UserContextProvider';
 const Account = () => {
 
     const { user } = useContext(UserContext);
+   
     const navigate=useNavigate();
    
     useEffect(()=>{
@@ -19,10 +20,13 @@ const Account = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column',alignItems: 'center', justifyContent:'center', marginTop: '100px'}}>
-    <span className='text-white text-4xl'>{user.name}</span>
+      <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3'>
+    <span className='text-black text-4xl'>{user.name}</span>
+    <span className='text-black text-4xl'>{user.email}</span>
     {user.cart?.length >0&&
-      <span className='text-white text-4xl'>Cart items: {user.cart?.length}</span>
+      <span className='text-black text-4xl'>Cart items: {user.cart?.length}</span>
     }
+    </div>
     </div>
   )
 }
