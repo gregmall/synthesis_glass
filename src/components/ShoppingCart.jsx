@@ -81,12 +81,14 @@ const handleDelete=(item)=>{
         
         return(
             <div  key={key} className='flex row-auto'>
-            <img className='w-20 h-auto p-4 rounded' src={item.image} alt='/'/>
+            <img className='w-24 h-24 p-4 rounded' src={item.image} alt='/'/>
             <div className='px-6 py-4 text-black'>
                 <div className='font-bold mb-2'>{item.name}</div>
-               
-                  <div className='text-xl mb-2'>${item.price}</div>
-                  <BsTrash3 onClick={()=>handleDelete(item)} cursor='pointer'/>
+                <div className='flex row'>
+                  <span className='text-l mb-2'>${item.price}</span>
+                  <BsTrash3 size='14' style={{marginTop: '4px', marginLeft:'5px'}}onClick={()=>handleDelete(item)} cursor='pointer'/>
+                </div>
+                  
               
             </div>
             </div>
@@ -97,7 +99,7 @@ const handleDelete=(item)=>{
     })}
     {user?.cart?.length>0?
         <div className='flex-col max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3'>
-          <div className='font-bold'>Total: ${total}</div>
+          <div className='font-bold border-t my-2'>Total: ${total}</div>
       
           <a href="/checkout"><button className=' bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>CHECKOUT</button></a>
         </div>
