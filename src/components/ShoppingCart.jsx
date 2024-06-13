@@ -1,6 +1,7 @@
-import React, { useState,  useContext } from 'react'
+import React, { useState,  useContext, useEffect } from 'react'
 import { db } from '../config/Config';
 import {UserContext} from '../context/UserContextProvider'
+
 import { BsTrash3 } from "react-icons/bs"
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import  { useNavigate} from 'react-router-dom';
@@ -10,6 +11,13 @@ const ShoppingCart = () => {
 const { user } = useContext(UserContext)
 
 const navigate = useNavigate();
+useEffect(()=>{
+  const userFromStorage = JSON.parse(localStorage.getItem('user'))
+  if(userFromStorage===null) {
+      navigate('/signin')
+    }
+},[navigate])
+
 const getCartItems = async()=>{
   await db.collection('users').doc(user?.id).get()
   .then(person => {
@@ -66,35 +74,41 @@ const handleDelete=(item)=>{
 
   return (
    <>
-     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px'}}>  
-       {user?.cart?.length>0?
-        <div className='flex-col'>
-          <span className='text-white text-4xl'>{user.name}'s Cart </span>
-          <span className='text-white text-4xl'>${total}</span>
-        </div>
-        :
-        <span className='text-white text-4xl'>Cart empty </span>}
-      </div> 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '100px', flexWrap:'wrap'}}>
+      
+      <div className='flex justify-center'>
+      <div className='max-w-full rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 ' >
       {user?.cart?.map((item,key)=>{
         
         return(
-            <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 hover:bg-fuchsia-400 ease-in-out duration-100' key={key}>
-            <img className='w-full p-4 rounded' src={item.image} alt='/'/>
+            <div  key={key} className='flex row-auto'>
+            <img className='w-24 h-24 p-4 rounded' src={item.image} alt='/'/>
             <div className='px-6 py-4 text-black'>
-                <div className='font-bold text-xl mb-2'>{item.name}</div>
-                <div className='flex justify-between item-center'>
-                  <span className='text-xl mb-2'>${item.price}</span>
-                  <BsTrash3 onClick={()=>handleDelete(item)} />
+                <div className='font-bold mb-2'>{item.name}</div>
+                <div className='flex row'>
+                  <span className='text-l mb-2'>${item.price}</span>
+                  <BsTrash3 size='14' style={{marginTop: '4px', marginLeft:'5px'}}onClick={()=>handleDelete(item)} cursor='pointer'/>
                 </div>
+                  
+              
             </div>
             </div>
 
             
         )
+        
     })}
-   
+    {user?.cart?.length>0?
+        <div className='flex-col max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3'>
+          <div className='font-bold border-t my-2'>Total: ${total}</div>
+      
+          <a href="/checkout"><button className=' bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>CHECKOUT</button></a>
+        </div>
+        :
+          <span className='text-black text-4xl'>Cart empty </span>
+       }
+   </div>
   </div>
+  
   </>
   )
 }
