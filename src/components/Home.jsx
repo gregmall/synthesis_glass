@@ -13,7 +13,7 @@ const Home = () => {
           <Typography variant="h2" color="blue-gray">
          Welcome to Synthesis Glass
           </Typography>
-          <Carousel transition={{ type: "tween", duration: 2 }} autoplay="true"  loop="true" className="rounded-xl" prevArrow={false} nextArrow={false}>
+          <Carousel transition={{ type: "tween", duration: 2 }} autoplay="true"  loop="true" className="rounded-xl" >
             <img
               src="https://firebasestorage.googleapis.com/v0/b/synthesisglass-1d07e.appspot.com/o/IMG_8735.JPG?alt=media&token=165bd96e-4259-43cf-a777-6492befa3914"
               alt="image 1"
