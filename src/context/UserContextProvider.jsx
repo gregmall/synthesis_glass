@@ -21,7 +21,8 @@ useEffect(()=>{
                         name: snapshot.data()?.name,
                         userRole: snapshot.data()?.userRole,
                         id: snapshot.data()?.id,
-                        cart: snapshot.data()?.cart
+                        cart: snapshot.data()?.cart,
+                        history: snapshot.data()?.history
                         })
                         localStorage.setItem('user', JSON.stringify(user))
                 })

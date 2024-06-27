@@ -26,8 +26,9 @@ const Glass = () => {
     const products = await db.collection('Products').get();
    
     for(const snap of products.docs){
-     
+   
       const data = snap.data();
+      
      
       data.ID=snap.id;
       array.push({

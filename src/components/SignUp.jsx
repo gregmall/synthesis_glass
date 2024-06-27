@@ -29,7 +29,8 @@ import { Input } from "@material-tailwind/react";
                 email: email,
                 userRole: 'USER',
                 id: cred.user.uid,
-                cart: []
+                cart: [],
+                history:[]
             }).then(()=>{
                 setLoading(false);
                 setName('');
