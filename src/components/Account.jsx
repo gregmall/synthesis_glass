@@ -1,5 +1,5 @@
 
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext,} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContextProvider';
 import { db, auth } from '../config/Config';
@@ -8,11 +8,12 @@ import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
  
 
 const Account = () => {
-
+    
     const { user } = useContext(UserContext);
-   
+
     const navigate=useNavigate();
-   
+    // const [historyArr, setHistoryArr] = useState([...user.history])
+
     useEffect(()=>{
       
       const userFromStorage = JSON.parse(localStorage.getItem('user'))
@@ -47,9 +48,9 @@ const Account = () => {
       <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 p-5'>
     <div className='text-black'>{user?.name}</div>
     <div className='text-black'>{user?.email}</div>
-    {user?.cart?.length >0&&
-      <div className='text-black'>Cart items: {user?.cart?.length}</div>
-    }
+   
+      <div className='text-black'>Purchase History: {user?.history?.length}</div>
+  
     <button onClick ={deleteAccount}>Delete account</button>
     </div>
     </div>
