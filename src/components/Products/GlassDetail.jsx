@@ -28,7 +28,7 @@ const GlassDetail = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     const getItem = async()=>{
-        console.log('hj')
+      
       
          await db.collection('Products').doc(params.id).get()
         .then(snapshot=>{
@@ -52,7 +52,7 @@ const handleClick=async(item)=>{
     setAdding(true)
   
     let previousItems =[]
-    console.log(user)
+  
      await db.collection('users').doc(user.id).get()
      .then(snapshot=> {
         previousItems=snapshot.data().cart

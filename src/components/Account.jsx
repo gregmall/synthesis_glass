@@ -1,5 +1,5 @@
 
-import React, { useEffect, useContext,} from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContextProvider';
 import { db, auth } from '../config/Config';
@@ -12,7 +12,8 @@ const Account = () => {
     const { user } = useContext(UserContext);
 
     const navigate=useNavigate();
-    // const [historyArr, setHistoryArr] = useState([...user.history])
+
+   
 
     useEffect(()=>{
       
@@ -21,6 +22,8 @@ const Account = () => {
           navigate('/signin')
         }
     },[navigate])
+
+
     const deleteAccount = () => {
       Confirm.show(
         'Delete account',
@@ -46,13 +49,21 @@ const Account = () => {
   return (
     <div className='flex justify-center'>
       <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 p-5'>
-    <div className='text-black'>{user?.name}</div>
-    <div className='text-black'>{user?.email}</div>
-   
-      <div className='text-black'>Purchase History: {user?.history?.length}</div>
-  
-    <button onClick ={deleteAccount}>Delete account</button>
-    </div>
+        <div className='text-black'>Name: {user?.name}</div>
+        <div className='text-black'>Email: {user?.email}</div>
+        <div className='text-black border-b-2'>Purchase History:</div>
+        {user.history?.map((item, index)=>{
+          return(
+            <div key={index}>
+              <div >{new Date(item?.timestamp).toLocaleDateString()}</div>
+              <div>Number of items: {item.items.length}</div>
+              <div className='border-b-2'>Total: ${item.total}</div>
+            </div>
+          )
+        })}
+      
+        <button className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-6"onClick ={deleteAccount}>Delete account</button>
+      </div>
     </div>
   )
 }

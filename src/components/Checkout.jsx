@@ -14,11 +14,23 @@ const Checkout = () => {
     'Yes',
     'No',
     async() => {
+      const date = Date.now();
+      let sum= 0;
+      for(let i=0; i<user.cart?.length; i++){
+        sum+= user.cart[i].price
+  
+      }
+      let array = {
+        timestamp: date,
+        items: user.cart,
+        total: Number(sum.toFixed(2))
+      }
+   
      
-      await db.collection('users').doc(user.id).update({history: [user.history, ...user.cart]})
+      await db.collection('users').doc(user.id).update({history: [...user.history, array]})
       .then(async()=>
         await db.collection('users').doc(user.id).update({cart: []})
-    )
+      )
       
      
       
