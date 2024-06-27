@@ -76,8 +76,8 @@ const handleNav = () =>{
             <li className='p-4 border-b'><a href="https://www.etsy.com/shop/SynthesisGlass" target="blank">Etsy</a></li>
             {!isAdmin&&<li className='p-4 border-b'><a href={`/account/${user?.id}`}>Account</a></li>}
             {user?.cart?.length>0?
-              <li className='p-4 border-b'><a href="/cart">Cart {user.cart.length}</a></li>:
-              <li className='p-4 border-b'><a href="/cart">Cart </a></li>
+              <li className='p-4 border-b '><a href="/cart">Cart {user.cart.length}</a></li>:
+              <li className='p-4 border-b '><a href="/cart">Cart </a></li>
             }
             {isAdmin&&<li className='p-4 border-b'><a href="/admin">Admin</a></li>}
             {user===null?

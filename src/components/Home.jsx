@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from 'react'
 import { Typography, Carousel } from "@material-tailwind/react"
-import { ReactTyped } from 'react-typed'
+
 
 const Home = () => {
   return (
@@ -34,18 +34,16 @@ const Home = () => {
             
           
         </Carousel>
-        </div>
         <Typography variant="h5" color="blue-gray">
-        <ReactTyped
-          strings={[
-          "Made in Portland, Oregon",
-          "Highest Quality",
-          ]}
-          typeSpeed={70}
-          backSpeed={70}
-          loop
-        />
+          Makers of High Quality Glass
+    
         </Typography>
+        </div>
+        <Typography variant="h6" color="blue-gray">
+          <p>Since 1997, Synthesis Glass has prided itself on creating the highest quality, American made glass art using only the finest materials. We pride ourselves in creating functional art that is not only beautiful but highly functional and extremely durable. Synthesis Glass has a reputation for making top dollar pieces at affordable prices.  We are always open to custom work and/or customization of listed items.  Question? Inquiries? <a href='/question-form' className='text-blue-800 hover:text-purple-800'>CLICK HERE</a></p>
+
+        </Typography>
+        
       </div>
     </div>
    
