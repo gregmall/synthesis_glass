@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { db } from '../config/Config';
-import { Notify } from 'notiflix'
+import { useNavigate } from 'react-router-dom';
 import {
     Card,
     Input,
@@ -11,7 +11,7 @@ import {
   } from "@material-tailwind/react";
 
  const QuestionForm = () => {
-    
+    const navigate = useNavigate();
     const [name, setName] = useState();
     const [email, setEmail]= useState();
     const [content, setContent] = useState();
@@ -27,16 +27,22 @@ import {
         e.preventDefault();
         setLoading(true);
         const today = Date.now();
-        const time =  Date.now(today).toLocaleDateString
-        console.log(time)
+       
+      
        try{
             await db.collection('formSubmission').add({
                 name: name, 
                 content: content, 
                 email: email,
-                date:  time
+                date:  today
             })
             .then( setLoading(false))
+            .finally(()=>{
+                alert('Form Submitted! We will get back to you ASAP')
+                navigate('/')
+            }
+
+            )
         }
         catch (error){
             console.log(error.message)
@@ -66,6 +72,7 @@ import {
           </Typography>
           <Input
             size="lg"
+            type='text'
             placeholder="Ronnie James Dio"
             className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
             onChange={(e)=> setName(e.target.value)} value={name}
@@ -78,6 +85,7 @@ import {
           </Typography>
           <Input
             size="lg"
+            type="email"
             placeholder="LemmieIsGod@rock.com"
             className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
             onChange={(e)=> setEmail(e.target.value)} value={email}
@@ -89,7 +97,7 @@ import {
             Question/Comment/Inquiry
           </Typography>
           <Textarea
-         
+            type='text'
             size="lg"
             placeholder={getQuestion()}
             className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
