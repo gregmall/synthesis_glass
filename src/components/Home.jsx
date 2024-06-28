@@ -6,7 +6,7 @@ import { Typography, Carousel } from "@material-tailwind/react"
 const Home = () => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '20px'}}>
-       <div className="relative h-96 w-4/6">
+       <div className="relative h-96 w-full md:w-4/6" >
        
       <div className="h-auto justify-between rounded-xl border border-white bg-white/75 py-4 px-6 shadow-lg shadow-black/5 saturate-200 backdrop-blur-sm">
         <div className='flex flex-col items-center'>
@@ -46,6 +46,7 @@ const Home = () => {
         
       </div>
     </div>
+    
    
     </div>
   )

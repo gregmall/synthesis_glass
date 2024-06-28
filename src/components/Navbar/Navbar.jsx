@@ -41,15 +41,7 @@ const handleNav = () =>{
     <div className='text-white flex justify-between item-center h-24  mx-auto px-4 sticky top-0  bg-gradient-to-r from-[#762a99] to-[#7c0747] bg-no-repeat z-50'>
       <div className="header">
         <h1 className="logo">Synthesis Glass</h1>
-        {/* <ReactTyped
-          strings={['Welcome to Synthesis Glass!',
-          "Made in Portland, Oregon",
-          "Highest Quality",
-          ]}
-          typeSpeed={150}
-          backSpeed={70}
-          loop
-        /> */}
+  
         </div>
         <ul className='hidden md:flex ' >
           <li className='p-4'><a href="/cart"><CgShoppingCart />{user?.cart?.length>0&&user?.cart?.length}</a></li>
