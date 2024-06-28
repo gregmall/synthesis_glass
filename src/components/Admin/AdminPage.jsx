@@ -34,11 +34,15 @@ console.log(questions)
           <div className='text-black text-4xl py-2 my-2'>HI BOSS!</div>
           <Link to ="/addproduct" className='text-2xl text-purple-700 hover:text-lime-500'>Add item</Link>
           <h1 className='border-b-2 mt-4'>Form Submissions</h1>
+          
           {questions.map(item=>{
+            
+            let mail=("mailto:"+item.email)
             return(
+              
               <>
                 <div>Name: {item.name}</div>
-                <div>Email: {item.email}</div>
+                <div>Email: <a href={mail} className='text-blue-500 font-bold'>{item.email}</a></div>
                 <div>Date: {new Date(item?.date).toLocaleDateString()}</div>
                 <div className='border-b-4'>Message: {item.content}</div>
               </>
