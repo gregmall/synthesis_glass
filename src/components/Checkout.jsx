@@ -9,7 +9,7 @@ const Checkout = () => {
   const navigate = useNavigate()
  const handleCheckout = ()=>{
   Confirm.show(
-    'Removing takes you to 3rd party CC page',
+    'takes you to 3rd party CC page',
     `Adding cart items to history`,
     'Yes',
     'No',
@@ -49,10 +49,10 @@ const Checkout = () => {
   return (
     <>
       
-      <div className='flex justify-center'>
-      <div className='max-w-full rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 ' >
-     <div>DOG!</div>
-     <button onClick={()=>handleCheckout()}>Use Stripe API</button>
+      <div className='flex justify-center mt-10'>
+      <div className='max-w-full rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 flex justify-center flex-col' >
+     <div className='m-2'>Under construction</div>
+     <button className='m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={()=>handleCheckout()}>Use STRIPE API</button>
    </div>
   </div>
   

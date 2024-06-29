@@ -46,6 +46,8 @@ import {
         }
         catch (error){
             console.log(error.message)
+            alert(`Error submitting form: ${error.message}`)
+            setLoading(false)
         }
  
     }
