@@ -1,11 +1,46 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React from 'react'
-import { Typography, Carousel } from "@material-tailwind/react"
+import React, {useState, useEffect } from 'react'
+import { Typography, Carousel, Button, Radio } from "@material-tailwind/react"
+import { useNavigate } from 'react-router-dom';
+
+
 
 
 const Home = () => {
+  const navigate = useNavigate();
+  const [isAge, setIsAge]=useState(false);
+  const [age, setAge] = useState(17)
+
+useEffect(()=>{
+  const adult= sessionStorage.getItem("verified"); 
+  console.log(adult, isAge)
+  if (adult>17) {
+    setIsAge(true); 
+    console.log(adult, isAge)
+  }
+
+},[isAge])
+
+const checkAge=(e)=>{
+  e.preventDefault();
+  console.log(age)
+  if(age===18) {
+    console.log('age', age, 'verified', isAge)
+    sessionStorage.setItem("verified", 18);
+    setIsAge(true)
+    console.log(sessionStorage.getItem("verified"), 'hi')
+
+  }
+  if(age===17){
+    navigate('/404')
+  }
+ console.log('noway')
+}
+
   return (
+   
     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '20px'}}>
+       {isAge?
        <div className="relative h-96 w-full md:w-4/6" >
        
       <div className="h-auto justify-between rounded-xl border border-white bg-white/75 py-4 px-6 shadow-lg shadow-black/5 saturate-200 backdrop-blur-sm">
@@ -46,7 +81,21 @@ const Home = () => {
         
       </div>
     </div>
-    
+    :
+     <div className="relative h-96 w-full md:w-4/6 flex justify-center" >
+       
+      <div className="h-auto justify-between rounded-xl border border-white bg-white/75 py-4 px-6 shadow-lg shadow-black/5 saturate-200 backdrop-blur-sm">
+       ARE YOU 18 OR OLDER?
+       <form onSubmit={checkAge}>
+        <Radio label="Yes, Im 18 or older"  name="1" onClick={(e)=>setAge(18)}/>
+        <Radio label="No, Im under 18" value={false} name="1" onClick={(e)=>setAge(17)}/><br/>
+        <Button className="mt-6" fullWidth type='submit'>
+          Submit
+        </Button>
+       </form>
+        
+      </div>
+    </div>}
    
     </div>
   )
