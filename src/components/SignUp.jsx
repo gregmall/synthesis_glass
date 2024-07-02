@@ -3,7 +3,7 @@ import { db, auth } from '../config/Config';
 import { useNavigate, Link } from 'react-router-dom'
 import { GoEye, GoEyeClosed } from "react-icons/go";
 import { Vortex } from 'react-loader-spinner';
-import { Input } from "@material-tailwind/react";
+import { Input, Checkbox } from "@material-tailwind/react";
 
  const SignUp = () => {
 
@@ -29,6 +29,7 @@ import { Input } from "@material-tailwind/react";
                 email: email,
                 userRole: 'USER',
                 id: cred.user.uid,
+                ageVerified: true,
                 cart: [],
                 history:[]
             }).then(()=>{
@@ -79,6 +80,9 @@ import { Input } from "@material-tailwind/react";
                     <label className='block text-gray-700 text-sm font-bold mb-2'>Password</label>
                     <Input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type={showPassword? "text":"password"} onChange={(e)=> setPassword(e.target.value)} value={password} icon={showPassword?<GoEye onClick={handlePasswordShow}/>:<GoEyeClosed onClick={handlePasswordShow}/>}/>
              
+                </div>
+                <div>
+                    <Checkbox label="I am at least 21 years old" required/>
                 </div>
                 <div style = {{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
                      <button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="submit">Register!</button>

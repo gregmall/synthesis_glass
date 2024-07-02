@@ -1,17 +1,14 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, {useState, useEffect } from 'react'
 import { 
-  Typography, 
-  Carousel, 
-  Button, 
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
+    Typography, 
+    Carousel, 
+    Button, 
+    Dialog,
+    DialogHeader,
+    DialogBody,
+    DialogFooter,
  } from "@material-tailwind/react"
-
-
-
 
 
 const Home = () => {
@@ -22,11 +19,11 @@ const Home = () => {
 
 useEffect(()=>{
   const adult= sessionStorage.getItem("verified"); 
-  console.log(adult, isAge)
+ 
   if (adult>17) {
     setIsAge(true); 
     setShow(false)
-    console.log(adult, isAge)
+ 
   }
 
 },[isAge])
@@ -40,10 +37,6 @@ const checkAge=(e)=>{
     setIsAge(true)
     setShow(false)
   
-
-  
-
-
 }
 
   return (
@@ -102,17 +95,18 @@ const checkAge=(e)=>{
       >
         <DialogHeader>Confirm your age</DialogHeader>
         <DialogBody>
-       Are you 18 years old or older? 
+       Are you 21 years old or older? 
         </DialogBody>
         <DialogFooter>
+          <Button variant="gradient" color="green" onClick={checkAge}>
+            <span>Yes</span>
+          </Button>
           <a href="http://www.google.com">
             <Button className='mx-5'>
               <span>No</span>
             </Button>
           </a>
-          <Button variant="gradient" color="green" onClick={checkAge}>
-            <span>Yes</span>
-          </Button>
+       
         </DialogFooter>
       </Dialog>
     </div>
