@@ -1,46 +1,55 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, {useState, useEffect } from 'react'
-import { Typography, Carousel, Button, Radio } from "@material-tailwind/react"
-import { useNavigate } from 'react-router-dom';
+import { 
+  Typography, 
+  Carousel, 
+  Button, 
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+ } from "@material-tailwind/react"
+
 
 
 
 
 const Home = () => {
-  const navigate = useNavigate();
+
   const [isAge, setIsAge]=useState(false);
-  const [age, setAge] = useState(17)
+  const [show, setShow]=useState(true)
+
 
 useEffect(()=>{
   const adult= sessionStorage.getItem("verified"); 
   console.log(adult, isAge)
   if (adult>17) {
     setIsAge(true); 
+    setShow(false)
     console.log(adult, isAge)
   }
 
 },[isAge])
+const handleClose=()=>{
+  setShow(!show)
+}
 
 const checkAge=(e)=>{
   e.preventDefault();
-  console.log(age)
-  if(age===18) {
-    console.log('age', age, 'verified', isAge)
     sessionStorage.setItem("verified", 18);
     setIsAge(true)
-    console.log(sessionStorage.getItem("verified"), 'hi')
+    setShow(false)
+  
 
-  }
-  if(age===17){
-    navigate('/404')
-  }
- console.log('noway')
+  
+
+
 }
 
   return (
    
     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '20px'}}>
-       {isAge?
+      
        <div className="relative h-96 w-full md:w-4/6" >
        
       <div className="h-auto justify-between rounded-xl border border-white bg-white/75 py-4 px-6 shadow-lg shadow-black/5 saturate-200 backdrop-blur-sm">
@@ -81,22 +90,33 @@ const checkAge=(e)=>{
         
       </div>
     </div>
-    :
-     <div className="relative h-96 w-full md:w-4/6 flex justify-center" >
-       
-      <div className="h-auto justify-between rounded-xl border border-white bg-white/75 py-4 px-6 shadow-lg shadow-black/5 saturate-200 backdrop-blur-sm">
-       ARE YOU 18 OR OLDER?
-       <form onSubmit={checkAge}>
-        <Radio label="Yes, Im 18 or older"  name="1" onClick={(e)=>setAge(18)}/>
-        <Radio label="No, Im under 18" value={false} name="1" onClick={(e)=>setAge(17)}/><br/>
-        <Button className="mt-6" fullWidth type='submit'>
-          Submit
-        </Button>
-       </form>
-        
-      </div>
-    </div>}
-   
+    <Dialog
+        className='w-11'
+        dismiss={{
+          enabled:false,
+        }}
+        open={show}
+        handler={handleClose}
+        animate={{
+          mount: { scale: 1, y: 0 },
+          unmount: { scale: 0.9, y: -100 },
+        }}
+      >
+        <DialogHeader>Age Verification</DialogHeader>
+        <DialogBody>
+       Are you 18 years old or older? 
+        </DialogBody>
+        <DialogFooter>
+          <a href="http://www.google.com">
+            <Button className='mx-5'>
+              <span>No</span>
+            </Button>
+          </a>
+          <Button variant="gradient" color="green" onClick={checkAge}>
+            <span>Yes</span>
+          </Button>
+        </DialogFooter>
+      </Dialog>
     </div>
   )
 }
