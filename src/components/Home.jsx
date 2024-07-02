@@ -91,10 +91,8 @@ const checkAge=(e)=>{
       </div>
     </div>
     <Dialog
-        className='w-11'
-        dismiss={{
-          enabled:false,
-        }}
+        className='flex flex-col justify-center items-center'
+        dismiss={{ enabled:false }}
         open={show}
         handler={handleClose}
         animate={{
@@ -102,7 +100,7 @@ const checkAge=(e)=>{
           unmount: { scale: 0.9, y: -100 },
         }}
       >
-        <DialogHeader>Age Verification</DialogHeader>
+        <DialogHeader>Confirm your age</DialogHeader>
         <DialogBody>
        Are you 18 years old or older? 
         </DialogBody>
