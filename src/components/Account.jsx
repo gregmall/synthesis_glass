@@ -48,7 +48,7 @@ const Account = () => {
 
   return (
     <div className='flex justify-center'>
-      <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 p-5'>
+      <div className='max-w-sm rounded overflow-hidden shadow-lg w-full bg-slate-50 mx-3 my-3 p-5'>
         <div className='text-black'>Name: {user?.name}</div>
         <div className='text-black'>Email: {user?.email}</div>
         <div className='text-black border-b-2'>Purchase History:</div>
