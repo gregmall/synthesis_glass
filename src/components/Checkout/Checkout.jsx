@@ -1,12 +1,22 @@
 import React, { useContext } from 'react'
-import {UserContext} from '../context/UserContextProvider'
-import { db } from '../config/Config';
+import {UserContext} from '../../context/UserContextProvider'
+import { db } from '../../config/Config';
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import  { useNavigate} from 'react-router-dom';
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js'
+import CheckoutForm from './CheckoutForm';
 const Checkout = () => {
-
+  const stripePromise = loadStripe('pk_test_51PT6bf2MmEPWo5ZYKqKyzWL2etA3IZmlxGwTZQcnc0vrdDn0CNKUDYFwktBKGk8JXsOrvr01BHneFvFE6RGQzezx00jiuSmphH');
   const { user } = useContext(UserContext)
   const navigate = useNavigate()
+
+  const options = {
+    mode: 'payment',
+    amount: 1099,
+    currency: 'usd',
+ 
+  };
  const handleCheckout = ()=>{
   Confirm.show(
     'takes you to 3rd party CC page',
@@ -55,7 +65,9 @@ const Checkout = () => {
      <button className='m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={()=>handleCheckout()}>Use STRIPE API</button>
    </div>
   </div>
-  
+  <Elements stripe={stripePromise} options={options}>
+      <CheckoutForm />
+    </Elements>
   </>
   )
 }
