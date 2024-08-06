@@ -111,17 +111,21 @@ try{
             <div className='px-6 py-4 flex-col'>
               <span className='text-xl mb-2'>${item.price}</span>
               <p className='text-gray-700 text-base'>{item.description}</p>
-              {user!==null?
-                (adding? 
-                  <button button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' disabled onClick={()=>handleClick(item)}>Adding...</button>:
-                  <button button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={()=>handleClick(item)}>Add to cart!</button>
-                )
-              :
-              <button  button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={(()=>navigate('/signin'))}>Sign in to purchase!</button>
-              } 
+              <div className='flex justify-between'>
+                {user!==null?
+                  (adding? 
+                    <button button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' disabled onClick={()=>handleClick(item)}>Adding...</button>:
+                    <button button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={()=>handleClick(item)}>Add to cart!</button>
+                  )
+                :
+                  <button  button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={(()=>navigate('/signin'))}>Sign in to purchase!</button>
+                } 
+                <button button className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={(()=>navigate('/glass'))}>Back</button>
+              </div>
             </div>
         </div>
         }
+        
     </div>
     
   )
