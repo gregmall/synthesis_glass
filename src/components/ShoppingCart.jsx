@@ -1,7 +1,9 @@
 import React, { useState,  useContext, useEffect } from 'react'
 import { db } from '../config/Config';
+import { getApp } from "@firebase/app";
+import { getStripePayments } from "@invertase/firestore-stripe-payments";
 import {UserContext} from '../context/UserContextProvider'
-
+import { getProducts } from "@invertase/firestore-stripe-payments";
 import { BsTrash3 } from "react-icons/bs"
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import  { useNavigate} from 'react-router-dom';
@@ -9,6 +11,13 @@ import  { useNavigate} from 'react-router-dom';
 
 const ShoppingCart = () => {
 const { user } = useContext(UserContext)
+const app = getApp();
+const payments = getStripePayments(app, {
+  productsCollection: "products",
+  customersCollection: "customers",
+});
+console.log(payments)
+
 
 const navigate = useNavigate();
 useEffect(()=>{

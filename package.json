@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@invertase/firestore-stripe-payments": "^0.0.7",
     "@material-tailwind/react": "^2.1.9",
     "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^4.1.0",
@@ -11,6 +12,7 @@
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.3.3",
     "firebase": "^10.9.0",
+    "firestore-stripe-payments": "^0.0.1-security",
     "notiflix": "^3.2.7",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
