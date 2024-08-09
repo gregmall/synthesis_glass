@@ -44,7 +44,8 @@ const GlassDetail = () => {
                 image: snapshot.data().ProductImage,
                 title: snapshot.data().ProductName,
                 description: snapshot.data().ProductDescription,
-                price: snapshot.data().ProductPrice
+                price: snapshot.data().ProductPrice,
+                stripeID: snapshot.data().stripeID
             })
         })
     }
@@ -58,7 +59,7 @@ const handleClick=async(item)=>{
         previousItems=snapshot.data().cart
      })
 try{
-    await db.collection('users').doc(user.id).update({cart: [...previousItems, {id: params.id, name: item.title, image: item.image, price: item.price}]})
+    await db.collection('users').doc(user.id).update({cart: [...previousItems, {id: params.id, name: item.title, image: item.image, price: item.price, stripeID: item.stripeID}]})
     .then(()=>{
     setAdding(false)
     Notiflix.Notify.success(`${item.title} added to shopping cart!`)

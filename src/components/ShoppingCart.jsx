@@ -1,35 +1,57 @@
 import React, { useState,  useContext, useEffect } from 'react'
 import { db } from '../config/Config';
+import { getApp } from "@firebase/app";
 import {UserContext} from '../context/UserContextProvider'
-
 import { BsTrash3 } from "react-icons/bs"
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import  { useNavigate} from 'react-router-dom';
 
+import { Vortex } from 'react-loader-spinner';
+
+import { getAuth } from 'firebase/auth';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 
 const ShoppingCart = () => {
+
+const auth = getAuth();
+
 const { user } = useContext(UserContext)
+const app = getApp();
+// const payments = getStripePayments(app, {
+//   productsCollection: "products",
+//   customersCollection: "customers",
+// });
+// console.log(payments)
+const [loading, setLoading] = useState(true)
 
 const navigate = useNavigate();
 useEffect(()=>{
+
   const userFromStorage = JSON.parse(localStorage.getItem('user'))
   if(userFromStorage===null) {
       navigate('/signin')
     }
 },[navigate])
 
+
 const getCartItems = async()=>{
   await db.collection('users').doc(user?.id).get()
   .then(person => {
     const array = person.data()
+  
     const cart = array?.cart;
+   
     let sum= 0;
     for(let i=0; i<cart?.length; i++){
       sum+= cart[i].price
+     
+      
 
     }
+    
     setTotal(sum.toFixed(2))
-
+  
+   
     
    
   })
@@ -37,9 +59,23 @@ const getCartItems = async()=>{
 
 
 }
-
+useEffect(()=>{
+const getStripeId = async()=>{
+  const itemArray=[]
+  const id =  await db.collection('users').doc(user?.id).get()
+  const cart = id.data()?.cart;
+  
+  for(let i = 0; i<cart?.length; i++){
+    itemArray.push({price: cart[i].stripeID, quantity: 1})
+  }
+  setStripeItems(itemArray)
+  setLoading(false)
+}
+getStripeId();
+}, [user?.id])
 
 const [total, setTotal]= useState(getCartItems());
+const [stripeItems, setStripeItems] = useState([])
 
 
 
@@ -68,13 +104,43 @@ const handleDelete=(item)=>{
     },
     );
 }
+const createCheckoutSessions = async (app, line_items) => {
+  console.log(line_items)
+  const userId = auth.currentUser?.uid;
+  console.log(userId)
+  if (!userId) throw new Error("User is not authenticated");
 
+  // Add checkout session document to Firestore
+  const functions = getFunctions(app);
+  const createSession = httpsCallable(functions, 'createCheckoutSession');
+
+  try {
+    const result = await createSession({ line_items: stripeItems });
+    window.location.assign(result.data.url);
+  } catch (error) {
+    console.error("Error creating checkout session:", error);
+  }
+}
+const handleCheckout = async()=>{
+  await createCheckoutSessions(app, stripeItems);
+}
 
   
 
   return (
    <>
-      
+      {loading? 
+      <div className='flex align-middle justify-center mt-20'>
+        <Vortex
+        visible={true}
+        height="80"
+        width="80"
+        ariaLabel="vortex-loading"
+        wrapperStyle={{}}
+        wrapperClass="vortex-wrapper"
+        colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'white']}
+        />
+    </div>:
       <div className='flex justify-center'>
       <div className='max-w-full rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 ' >
       {user?.cart?.map((item,key)=>{
@@ -101,14 +167,14 @@ const handleDelete=(item)=>{
         <div className='flex-col max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3'>
           <div className='font-bold border-t my-2'>Total: ${total}</div>
       
-          <a href="/checkout"><button className=' bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>CHECKOUT</button></a>
+          <button className=' bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={handleCheckout}>CHECKOUT</button>
         </div>
         :
           <span className='text-black text-4xl'>Cart empty </span>
        }
    </div>
   </div>
-  
+}
   </>
   )
 }
