@@ -7,14 +7,14 @@ import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import  { useNavigate} from 'react-router-dom';
 
 import { Vortex } from 'react-loader-spinner';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+
 import { getAuth } from 'firebase/auth';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 
 const ShoppingCart = () => {
 
 const auth = getAuth();
-const functions = getFunctions();
+
 const { user } = useContext(UserContext)
 const app = getApp();
 // const payments = getStripePayments(app, {
@@ -66,7 +66,7 @@ const getStripeId = async()=>{
   const cart = id.data()?.cart;
   
   for(let i = 0; i<cart?.length; i++){
-    itemArray.push(cart[i].stripeID)
+    itemArray.push({price: cart[i].stripeID, quantity: 1})
   }
   setStripeItems(itemArray)
   setLoading(false)
@@ -104,40 +104,25 @@ const handleDelete=(item)=>{
     },
     );
 }
-const createCheckoutSessions = async (priceIds) => {
+const createCheckoutSessions = async (app, line_items) => {
+  console.log(line_items)
   const userId = auth.currentUser?.uid;
   console.log(userId)
   if (!userId) throw new Error("User is not authenticated");
 
   // Add checkout session document to Firestore
-  const checkoutSessionRef = collection(db, 'customers', userId, 'checkout_sessions');
-  
-  const docRef = await addDoc(checkoutSessionRef, {
-    line_items: priceIds,
-    success_url: window.location.origin,
-    cancel_url: window.location.origin,
-  });
+  const functions = getFunctions(app);
+  const createSession = httpsCallable(functions, 'createCheckoutSession');
 
-  // Get a reference to the Firebase Function for creating checkout sessions
-  const createCheckoutSessionFunction = httpsCallable(functions, 'createCheckoutSession');
-  
-  // Call the Firebase Function
-  const { data } = await createCheckoutSessionFunction({ docId: docRef.id });
-
-  return data;
+  try {
+    const result = await createSession({ line_items: stripeItems });
+    window.location.assign(result.data.url);
+  } catch (error) {
+    console.error("Error creating checkout session:", error);
+  }
 }
 const handleCheckout = async()=>{
-  const price= stripeItems
-  try {
-    const session = await createCheckoutSessions(price);
-    if (session.url) {
-      window.location.assign(session.url);
-    } else {
-      console.error('No URL returned from the checkout session.');
-    }
-  } catch (error) {
-    console.error('Error creating checkout session:', error);
-  }
+  await createCheckoutSessions(app, stripeItems);
 }
 
   
