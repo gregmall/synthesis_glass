@@ -41,15 +41,7 @@ const handleNav = () =>{
     <div className='text-white flex justify-between item-center h-24  mx-auto px-4 sticky top-0  bg-gradient-to-r from-[#762a99] to-[#7c0747] bg-no-repeat z-50'>
       <div className="header">
         <h1 className="logo">Synthesis Glass</h1>
-        {/* <ReactTyped
-          strings={['Welcome to Synthesis Glass!',
-          "Made in Portland, Oregon",
-          "Highest Quality",
-          ]}
-          typeSpeed={150}
-          backSpeed={70}
-          loop
-        /> */}
+  
         </div>
         <ul className='hidden md:flex ' >
           <li className='p-4'><a href="/cart"><CgShoppingCart />{user?.cart?.length>0&&user?.cart?.length}</a></li>
@@ -76,8 +68,8 @@ const handleNav = () =>{
             <li className='p-4 border-b'><a href="https://www.etsy.com/shop/SynthesisGlass" target="blank">Etsy</a></li>
             {!isAdmin&&<li className='p-4 border-b'><a href={`/account/${user?.id}`}>Account</a></li>}
             {user?.cart?.length>0?
-              <li className='p-4 border-b'><a href="/cart">Cart {user.cart.length}</a></li>:
-              <li className='p-4 border-b'><a href="/cart">Cart </a></li>
+              <li className='p-4 border-b '><a href="/cart">Cart {user.cart.length}</a></li>:
+              <li className='p-4 border-b '><a href="/cart">Cart </a></li>
             }
             {isAdmin&&<li className='p-4 border-b'><a href="/admin">Admin</a></li>}
             {user===null?

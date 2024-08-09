@@ -1,12 +1,49 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React from 'react'
-import { Typography, Carousel } from "@material-tailwind/react"
-import { ReactTyped } from 'react-typed'
+import React, {useState, useEffect } from 'react'
+import { 
+    Typography, 
+    Carousel, 
+    Button, 
+    Dialog,
+    DialogHeader,
+    DialogBody,
+    DialogFooter,
+ } from "@material-tailwind/react"
+
 
 const Home = () => {
+
+  const [isAge, setIsAge]=useState(false);
+  const [show, setShow]=useState(true)
+
+
+useEffect(()=>{
+  const adult= sessionStorage.getItem("verified"); 
+ 
+  if (adult>17) {
+    setIsAge(true); 
+    setShow(false)
+ 
+  }
+
+},[isAge])
+const handleClose=()=>{
+  setShow(!show)
+}
+
+const checkAge=(e)=>{
+  e.preventDefault();
+    sessionStorage.setItem("verified", 18);
+    setIsAge(true)
+    setShow(false)
+  
+}
+
   return (
+   
     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', marginTop: '20px'}}>
-       <div className="relative h-96 w-4/6">
+      
+       <div className="relative h-96 w-full md:w-4/6" >
        
       <div className="h-auto justify-between rounded-xl border border-white bg-white/75 py-4 px-6 shadow-lg shadow-black/5 saturate-200 backdrop-blur-sm">
         <div className='flex flex-col items-center'>
@@ -34,21 +71,44 @@ const Home = () => {
             
           
         </Carousel>
-        </div>
         <Typography variant="h5" color="blue-gray">
-        <ReactTyped
-          strings={[
-          "Made in Portland, Oregon",
-          "Highest Quality",
-          ]}
-          typeSpeed={70}
-          backSpeed={70}
-          loop
-        />
+          Makers of High Quality Glass
+    
         </Typography>
+        </div>
+        <Typography variant="h6" color="blue-gray">
+          <p>Since 1997, Synthesis Glass has created the highest quality, American made glass art using only the finest materials. We pride ourselves in creating functional art that is not only beautiful but highly functional and extremely durable. Synthesis Glass has a reputation for making top dollar pieces at affordable prices.  We are always open to custom work and/or customization of listed items.  Question? Inquiries? <a href='/question-form' className='text-blue-800 hover:text-purple-800'>CLICK HERE</a></p>
+
+        </Typography>
+        
       </div>
     </div>
-   
+    <Dialog
+        className='flex flex-col justify-center items-center'
+        dismiss={{ enabled:false }}
+        open={show}
+        handler={handleClose}
+        animate={{
+          mount: { scale: 1, y: 0 },
+          unmount: { scale: 0.9, y: -100 },
+        }}
+      >
+        <DialogHeader>Confirm your age</DialogHeader>
+        <DialogBody>
+       Are you 21 years old or older? 
+        </DialogBody>
+        <DialogFooter>
+          <Button variant="gradient" color="green" onClick={checkAge}>
+            <span>Yes</span>
+          </Button>
+          <a href="http://www.google.com">
+            <Button className='mx-5'>
+              <span>No</span>
+            </Button>
+          </a>
+       
+        </DialogFooter>
+      </Dialog>
     </div>
   )
 }

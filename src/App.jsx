@@ -16,8 +16,9 @@ import ShoppingCart from "./components/ShoppingCart";
 import AdminPage from "./components/Admin/AdminPage";
 import UserContextProvider from "./context/UserContextProvider"
 import Account from "./components/Account";
-import Checkout from "./components/Checkout";
+import Checkout from "./components/Checkout/Checkout";
 import GlassDetail from "./components/Products/GlassDetail";
+import QuestionForm from "./components/QuestionForm";
 
 
 
@@ -48,6 +49,7 @@ export default function App() {
             <Route path='/404' element={<FourOFour />} />
             <Route path='/cart' element={<ShoppingCart />} />
             <Route path='/checkout' element={<Checkout />} />
+            <Route path='/question-form' element={<QuestionForm />}/>
           </Routes>
         </Router>
       </UserContextProvider>
