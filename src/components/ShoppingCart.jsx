@@ -5,6 +5,7 @@ import {UserContext} from '../context/UserContextProvider'
 import { BsTrash3 } from "react-icons/bs"
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import  { useNavigate} from 'react-router-dom';
+import createCheckoutSessions from './Checkout/stripePayment';
 
 import { Vortex } from 'react-loader-spinner';
 
@@ -38,32 +39,22 @@ const getCartItems = async()=>{
   await db.collection('users').doc(user?.id).get()
   .then(person => {
     const array = person.data()
-  
     const cart = array?.cart;
-   
     let sum= 0;
     for(let i=0; i<cart?.length; i++){
       sum+= cart[i].price
-     
-      
-
     }
     
     setTotal(sum.toFixed(2))
-  
-   
-    
-   
   })
-    
-
 
 }
+
 useEffect(()=>{
-const getStripeId = async()=>{
-  const itemArray=[]
-  const id =  await db.collection('users').doc(user?.id).get()
-  const cart = id.data()?.cart;
+  const getStripeId = async()=>{
+    const itemArray=[]
+    const id =  await db.collection('users').doc(user?.id).get()
+    const cart = id.data()?.cart;
   
   for(let i = 0; i<cart?.length; i++){
     itemArray.push({price: cart[i].stripeID, quantity: 1})
@@ -99,30 +90,29 @@ const handleDelete=(item)=>{
       console.log(user.cart)
     return;
     },
-
     {
     },
     );
 }
-const createCheckoutSessions = async (app, line_items) => {
-  console.log(line_items)
-  const userId = auth.currentUser?.uid;
-  console.log(userId)
-  if (!userId) throw new Error("User is not authenticated");
+// const createCheckoutSessions = async (app, line_items) => {
+//   console.log(line_items)
+//   const userId = auth.currentUser?.uid;
+//   console.log(userId)
+//   if (!userId) throw new Error("User is not authenticated");
 
-  // Add checkout session document to Firestore
-  const functions = getFunctions(app);
-  const createSession = httpsCallable(functions, 'createCheckoutSession');
+//   // Add checkout session document to Firestore
+//   const functions = getFunctions(app);
+//   const createSession = httpsCallable(functions, 'createCheckoutSession');
 
-  try {
-    const result = await createSession({ line_items: stripeItems });
-    window.location.assign(result.data.url);
-  } catch (error) {
-    console.error("Error creating checkout session:", error);
-  }
-}
+//   try {
+//     const result = await createSession({ line_items: stripeItems });
+//     window.location.assign(result.data.url);
+//   } catch (error) {
+//     console.error("Error creating checkout session:", error);
+//   }
+// }
 const handleCheckout = async()=>{
-  await createCheckoutSessions(app, stripeItems);
+  await createCheckoutSessions(stripeItems);
 }
 
   

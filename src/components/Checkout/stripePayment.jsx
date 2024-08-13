@@ -9,6 +9,7 @@ const functions = getFunctions();
 
 // Function to create a checkout session
 const createCheckoutSessions = async (priceIds) => {
+  console.log(priceIds)
   const userId = auth.currentUser?.uid;
   if (!userId) throw new Error("User is not authenticated");
 
