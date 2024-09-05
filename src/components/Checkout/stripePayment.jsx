@@ -3,12 +3,13 @@ import { getAuth } from 'firebase/auth';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 
 // Initialize Firebase and get instances
-const db = getFirestore();
-const auth = getAuth();
-const functions = getFunctions();
+
 
 // Function to create a checkout session
 const createCheckoutSessions = async (priceIds) => {
+  const db = getFirestore();
+const auth = getAuth();
+const functions = getFunctions();
   console.log(priceIds)
   const userId = auth.currentUser?.uid;
   if (!userId) throw new Error("User is not authenticated");

@@ -31,10 +31,27 @@ const { user } = useContext(UserContext)
 // };
 
 const [loading, setLoading] = useState(true)
-
+const [products, setProducts] = useState([])
 const navigate = useNavigate();
 useEffect(()=>{
-
+  let array=[]
+   db.collection('products')
+  .where('active', '==', true)
+  .get()
+  .then(function (querySnapshot) {
+    querySnapshot.forEach(async function (doc) {
+      // console.log(doc.id, ' => ', doc.data());
+      const priceSnap = await doc.ref.collection('prices').get();
+      priceSnap.docs.forEach((doc) => {
+        // console.log(doc.id, ' => ', doc.data());
+        array.push(doc.id)
+      });
+    });
+  })
+  .finally(()=>{
+    setProducts(array)
+  });
+  console.log(products)
   const userFromStorage = JSON.parse(localStorage.getItem('user'))
   if(userFromStorage===null) {
       navigate('/signin')
@@ -119,7 +136,7 @@ const handleDelete=(item)=>{
 //   }
 // }
 const handleCheckout = async()=>{
-  await createCheckoutSessions(stripeItems);
+  await createCheckoutSessions([{price: products[0], quantity: 1}, {price: products[1], quantity: 1}]);
 }
 
   
