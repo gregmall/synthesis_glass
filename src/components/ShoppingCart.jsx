@@ -5,13 +5,14 @@ import {UserContext} from '../context/UserContextProvider'
 import { BsTrash3 } from "react-icons/bs"
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import  { useNavigate} from 'react-router-dom';
-import createCheckoutSessions from './Checkout/stripePayment';
+// import createCheckoutSessions from './Checkout/stripePayment';
+// import CheckoutForm from './Checkout/CheckoutForm';
 // import { getStripePayments } from '@invertase/firestore-stripe-payments';
 import { Vortex } from 'react-loader-spinner';
+// import { Elements, useStripe, useElements } from '@stripe/react-stripe-js';
 // import { getFunctions, httpsCallable } from "firebase/functions";
 // import { getAuth } from 'firebase/auth';
-
-
+// import { loadStripe } from '@stripe/stripe-js';
 const ShoppingCart = () => {
 
 // const auth = getAuth();
@@ -56,7 +57,7 @@ useEffect(()=>{
   if(userFromStorage===null) {
       navigate('/signin')
     }
-},[navigate])
+},[products, navigate])
 
 
 const getCartItems = async()=>{
@@ -92,7 +93,7 @@ getStripeId();
 const [total, setTotal]= useState(getCartItems());
 const [stripeItems, setStripeItems] = useState([])
 
-
+console.log(stripeItems)
 
 const handleDelete=(item)=>{
   Confirm.show(
@@ -135,9 +136,10 @@ const handleDelete=(item)=>{
 //     console.error("Error creating checkout session:", error);
 //   }
 // }
-const handleCheckout = async()=>{
-  await createCheckoutSessions([{price: products[0], quantity: 1}, {price: products[1], quantity: 1}]);
-}
+// const stripePromise = loadStripe('pk_test_51PT6bf2MmEPWo5ZYKqKyzWL2etA3IZmlxGwTZQcnc0vrdDn0CNKUDYFwktBKGk8JXsOrvr01BHneFvFE6RGQzezx00jiuSmphH');
+// const handleCheckout = async()=>{
+//   await createCheckoutSessions([{price: products[0], quantity: 1}, {price: products[1], quantity: 1}]);
+// }
 
   
 
@@ -181,12 +183,13 @@ const handleCheckout = async()=>{
         <div className='flex-col max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3'>
           <div className='font-bold border-t my-2'>Total: ${total}</div>
       
-          <button className=' bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={handleCheckout}>CHECKOUT</button>
+          <button className=' bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={()=>navigate('/checkout')}>CHECKOUT</button>
         </div>
         :
           <span className='text-black text-4xl'>Cart empty </span>
        }
    </div>
+       
   </div>
 }
   </>
