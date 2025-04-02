@@ -31,44 +31,49 @@ const Checkout = () => {
   //   clientSecret,
   //   appearance,
   // };
- const handleCheckout = ()=>{
-  Confirm.show(
-    'takes you to 3rd party CC page',
-    `Adding cart items to history`,
-    'Yes',
-    'No',
-    async() => {
-      const date = Date.now();
-      let sum= 0;
-      for(let i=0; i<user.cart?.length; i++){
-        sum+= user.cart[i].price
+  const handleCheckout = () => {
+    Confirm.show(
+      'takes you to 3rd party CC page',
+      `Adding cart items to history`,
+      'Yes',
+      'No',
+      async () => {
+        const date = Date.now();
+        let sum = 0;
   
-      }
-      let array = {
-        timestamp: date,
-        items: user.cart,
-        total: Number(sum.toFixed(2))
-      }
-   
-     
-      await db.collection('users').doc(user.id).update({history: [...user.history, array]})
-      .then(async()=>
-        await db.collection('users').doc(user.id).update({cart: []})
-      )
-      
-     
-      
-      .then(navigate('/'));
+        for (let i = 0; i < user.cart?.length; i++) {
+          sum += user.cart[i].price;
+        }
+  
+        const array = {
+          timestamp: date,
+          items: user.cart,
+          total: Number(sum.toFixed(2)),
+        };
+  
+        try {
+          const userDoc = await db.collection('users').doc(user.id).get();
+          const userData = userDoc.data();
+  
+          const updatedHistory = Array.isArray(userData.history)
+            ? [...userData.history, array]
+            : [array];
+  
+          await db.collection('users').doc(user.id).update({ history: updatedHistory });
+          await db.collection('users').doc(user.id).update({ cart: [] });
+  
+          navigate('/');
+        } catch (error) {
+          console.error('Error during checkout:', error);
+        }
       },
-    () => {
-      console.log(user.cart)
-    return;
-    },
-
-    {
-    },
+      () => {
+        console.log(user.cart);
+        return;
+      },
+      {}
     );
- }
+  };
 
   return (
     <>
