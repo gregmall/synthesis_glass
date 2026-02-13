@@ -29,6 +29,7 @@ const Navbar = () => {
   const navigate = useNavigate()
 
   let isAdmin = false
+  
   try {
     const stored = JSON.parse(localStorage.getItem('user'))
     
