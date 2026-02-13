@@ -36,7 +36,6 @@ const Home = () => {
     setShow(false);
   };
 
-  
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '20px' }}>
       <div className="relative h-96 w-full md:w-4/6">
