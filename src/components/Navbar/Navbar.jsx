@@ -14,11 +14,12 @@ const NAV_LINKS = [
 
 const BTN_CLASS = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
 
-const NavLink = ({ to, label, external, className }) => (
-  <li className={className}>
+const NavLink = ({ to, label, external, className, toggleMobile }) => (
+  <li className={className} onClick={toggleMobile}>
     {external
-      ? <a href={to} target="_blank" rel="noopener noreferrer">{label}</a>
-      : <Link to={to}>{label}</Link>
+    
+      ? <a href={to} target="_blank" rel="noopener noreferrer" >{label}</a>
+      : <Link to={to} onClick={toggleMobile}>{label}</Link>
     }
   </li>
 )
@@ -56,9 +57,12 @@ const Navbar = () => {
         <h1 className="logo">Synthesis Glass</h1>
       </div>
       <ul className='hidden md:flex'>
+        {isAdmin?""
+        :
         <li className='p-4'>
-          <Link to="/cart"><CgShoppingCart />{cartCount > 0 && cartCount}</Link>
+          <Link to="/cart" ><CgShoppingCart />{cartCount > 0 && cartCount}</Link>
         </li>
+}
         {NAV_LINKS.map(link => (
           <NavLink key={link.to} {...link} className='p-4' />
         ))}
@@ -82,22 +86,24 @@ const Navbar = () => {
       </div>
       <div className={mobileOpen ? 'fixed left-0 top-0 w-[60%] ease-in-out duration-500 bg-white mt-20 text-black' : 'fixed left-[-100%]'}>
         <ul className='uppercase'>
-          {NAV_LINKS.map(link => (
-            <NavLink key={link.to} {...link} className='p-4 border-b' />
-          ))}
+             <li className='p-4 border-b'><Link to="/" onClick={toggleMobile}>Home</Link></li>
+            <li className='p-4 border-b'><Link to="/glass" onClick={toggleMobile}>Glass</Link></li>
+            <li className='p-4 border-b'><Link to="https://www.etsy.com/shop/SynthesisGlass" target="_blank" rel="noopener noreferrer" onClick={toggleMobile}>Etsy</Link></li>
           {user?
             (isAdmin
-              ? <li className='p-4 border-b'><Link to="/admin">Admin</Link></li>
-              : <li className='p-4 border-b'><Link to={`/account/${user?.id}`}>Account</Link></li>
+              ? <li className='p-4 border-b'><Link to="/admin" onClick={toggleMobile}>Admin</Link></li>
+              : <li className='p-4 border-b'><Link to={`/account/${user?.id}`}onClick={toggleMobile}>Account</Link></li>
             )
             :""
           }
+          {isAdmin?""
+          :
           <li className='p-4 border-b'>
-            <Link to="/cart">Cart{cartCount > 0 && ` ${cartCount}`}</Link>
-          </li>
+            <Link to="/cart"onClick={toggleMobile}>Cart{cartCount > 0 && ` ${cartCount}`}</Link>
+          </li>}
           <li className='p-4'>
             {user === null
-              ? <Link to="/signin"><button className={BTN_CLASS}>Sign In</button></Link>
+              ? <Link to="/signin"onClick={toggleMobile}><button className={BTN_CLASS}>Sign In</button></Link>
               : <button onClick={handleLogout}>LOGOUT</button>
             }
           </li>
