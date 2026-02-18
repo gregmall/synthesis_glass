@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback } from 'react'
+import { useState, useContext, useCallback } from 'react'
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai'
 import { auth } from '../../config/Config'
 import { Link, useNavigate } from 'react-router-dom'
@@ -57,12 +57,13 @@ const Navbar = () => {
         <h1 className="logo">Synthesis Glass</h1>
       </div>
       <ul className='hidden md:flex'>
-        {isAdmin?""
+        {user?
+       (isAdmin?""
         :
         <li className='p-4'>
           <Link to="/cart" ><CgShoppingCart />{cartCount > 0 && cartCount}</Link>
         </li>
-}
+       ):""}
         {NAV_LINKS.map(link => (
           <NavLink key={link.to} {...link} className='p-4' />
         ))}
@@ -95,12 +96,12 @@ const Navbar = () => {
               : <li className='p-4 border-b'><Link to={`/account/${user?.id}`}onClick={toggleMobile}>Account</Link></li>
             )
             :""
-          }
-          {isAdmin?""
+          }{user ?
+          (isAdmin ? ""
           :
           <li className='p-4 border-b'>
             <Link to="/cart"onClick={toggleMobile}>Cart{cartCount > 0 && ` ${cartCount}`}</Link>
-          </li>}
+          </li>):""}
           <li className='p-4'>
             {user === null
               ? <Link to="/signin"onClick={toggleMobile}><button className={BTN_CLASS}>Sign In</button></Link>
