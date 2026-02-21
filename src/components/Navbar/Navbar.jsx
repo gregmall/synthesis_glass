@@ -28,7 +28,9 @@ const Navbar = () => {
   const { user } = useContext(UserContext)
   const [mobileOpen, setMobileOpen] = useState(false)
   const navigate = useNavigate()
-
+  const cartTotal=()=>{
+    return user?.cart?.length || 0
+  }
   let isAdmin = false
   
   try {
@@ -100,7 +102,7 @@ const Navbar = () => {
           (isAdmin ? ""
           :
           <li className='p-4 border-b'>
-            <Link to="/cart"onClick={toggleMobile}>Cart{cartCount > 0 && ` ${cartCount}`}</Link>
+            <Link to="/cart"onClick={toggleMobile}>Cart{cartCount > 0 && ` ${cartTotal()}`}</Link>
           </li>):""}
           <li className='p-4'>
             {user === null
