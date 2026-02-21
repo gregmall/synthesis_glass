@@ -10,6 +10,12 @@ const ShoppingCart = () => {
   const { user } = useContext(UserContext)
   const navigate = useNavigate();
   const [total, setTotal] = useState(0);
+  const [cartItems, setCartItems] = useState(user?.cart || []);
+ 
+    const calculateTotal = () => {
+      console.log(cartItems)
+    return cartItems.reduce((sum, item) => sum + (item.price), 0);
+  };
 
   useEffect(() => {
     const userFromStorage = JSON.parse(localStorage.getItem('user'))
@@ -24,6 +30,8 @@ const ShoppingCart = () => {
         const person = await db.collection('users').doc(user.id).get();
         const array = person.data();
         const cart = array?.cart;
+        setCartItems(cart || []);
+        
         let sum = 0;
         for (let i = 0; i < cart?.length; i++) {
           sum += cart[i].price;
@@ -35,13 +43,14 @@ const ShoppingCart = () => {
   }, [user]);
 
   const handleDelete = (item) => {
+    console.log(total)
     Confirm.show(
       'Are you sure you want to remove',
       `${item.name}?`,
       'Yes',
       'No',
       async () => {
-        let arr = user.cart;
+        let arr = cartItems;
         arr.forEach((element, index) => {
           if (element.id === item.id) arr.splice(index, 1);
         });
@@ -51,7 +60,12 @@ const ShoppingCart = () => {
           .then(() => navigate('/cart'));
       },
       () => {
-        console.log(user.cart);
+        let sum = 0;
+        for (let i = 0; i < cartItems?.length; i++) {
+          sum += cartItems[i].price;
+        }
+        setTotal(sum.toFixed(2));
+        
         return;
       },
       {}
@@ -61,8 +75,8 @@ const ShoppingCart = () => {
   return (
     <>
       <div className='flex justify-center'>
-        <div className='max-w-full rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3'>
-          {user?.cart?.map((item, key) => {
+        <div className='max-w-full rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3  items-center text-center p-4'>
+          {cartItems.map((item, key) => {
             return (
               <div key={key} className='flex row-auto'>
                 <img className='w-24 h-24 p-4 rounded' src={item.image} alt='/' />
@@ -76,11 +90,13 @@ const ShoppingCart = () => {
               </div>
             )
           })}
-          {user?.cart?.length > 0 ?
-            <div className='flex-col max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3'>
-              <div className='font-bold border-t my-2'>Total: ${total}</div>
-              <a href="/checkout"><button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>CHECKOUT</button></a>
-            </div>
+          {cartItems.length > 0 ?
+           
+              <div className='flex-col max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 justify-center items-center text-center p-4'>
+                <div className='font-bold border-t my-2'>Total: ${calculateTotal().toFixed(2)}</div>
+                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Stripe Checkout Coming Soon</button>
+              </div>
+           
             :
             <span className='text-black text-4xl'>Cart empty </span>
           }

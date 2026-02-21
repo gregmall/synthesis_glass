@@ -43,6 +43,7 @@ const GlassDetail = () => {
                     description: data.ProductDescription,
                     price: data.ProductPrice
                 });
+               
             } else {
                 Notiflix.Notify.failure('Product not found!');
                 navigate('/glass');
@@ -52,6 +53,7 @@ const GlassDetail = () => {
             Notiflix.Notify.failure('An error occurred while fetching the product.');
             navigate('/glass');
         }
+        
     };
 
     const handleClick = async (item) => {
@@ -93,7 +95,7 @@ const GlassDetail = () => {
                 />
                 :
                 <div className='max-w-xl rounded overflow-hidden bg-slate-50 mx-3 my-3 shadow-2xl'>
-                    <div className='font-bold text-3xl mb-2 flex justify-center'>{item?.title}</div>
+                    <div className='font-bold text-3xl mb-2 flex justify-center px-4'>{item?.title}</div>
                     <div>
                         <img
                             className="w-full p-4 rounded"
