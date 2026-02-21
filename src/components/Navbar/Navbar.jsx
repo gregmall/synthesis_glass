@@ -9,7 +9,7 @@ import { UserContext } from '../../context/UserContextProvider'
 const NAV_LINKS = [
   { to: '/', label: 'Home' },
   { to: '/glass', label: 'Glass' },
-  // { to: 'https://www.etsy.com/shop/SynthesisGlass', label: 'Etsy', external: true },
+  { to: 'https://www.instagram.com/synthesis_glass/', label: 'Instagram', external: true },
 ]
 
 const BTN_CLASS = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
@@ -91,7 +91,7 @@ const Navbar = () => {
         <ul className='uppercase'>
              <li className='p-4 border-b'><Link to="/" onClick={toggleMobile}>Home</Link></li>
             <li className='p-4 border-b'><Link to="/glass" onClick={toggleMobile}>Glass</Link></li>
-            {/* <li className='p-4 border-b'><Link to="https://www.etsy.com/shop/SynthesisGlass" target="_blank" rel="noopener noreferrer" onClick={toggleMobile}>Etsy</Link></li> */}
+            <li className='p-4 border-b'><Link to="https://www.instagram.com/synthesis_glass/" target="_blank" rel="noopener noreferrer" onClick={toggleMobile}>Instagram</Link></li>
           {user?
             (isAdmin
               ? <li className='p-4 border-b'><Link to="/admin" onClick={toggleMobile}>Admin</Link></li>
