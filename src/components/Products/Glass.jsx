@@ -5,10 +5,13 @@ import { db } from '../../config/Config';
 import { Link } from 'react-router-dom';
 import { Vortex } from 'react-loader-spinner';
 
+const PAGE_SIZE = 20;
+
 const Glass = () => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [filtered, setFiltered] = useState("");
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     getItems();
@@ -33,6 +36,14 @@ const Glass = () => {
     (item) => item?.Type?.indexOf(filtered) !== -1
   );
 
+  const totalPages = Math.ceil(filteredItems.length / PAGE_SIZE);
+  const pagedItems = filteredItems.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  const handleFilterChange = (value) => {
+    setFiltered(value);
+    setPage(1);
+  };
+
   return (
     <>
       <div
@@ -44,13 +55,13 @@ const Glass = () => {
           marginBottom: '30px',
         }}
       >
-        <Button color={filtered === "" ? "white" : "blue"} onClick={() => setFiltered("")}>
+        <Button color={filtered === "" ? "white" : "blue"} onClick={() => handleFilterChange("")}>
           ALL
         </Button>
-        <Button color={filtered === "chillum" ? "white" : "blue"} onClick={() => setFiltered("chillum")}>
+        <Button color={filtered === "chillum" ? "white" : "blue"} onClick={() => handleFilterChange("chillum")}>
           CHILLUMS
         </Button>
-        <Button color={filtered === "pipe" ? "white" : "blue"} onClick={() => setFiltered("pipe")}>
+        <Button color={filtered === "pipe" ? "white" : "blue"} onClick={() => handleFilterChange("pipe")}>
           PIPES
         </Button>
       </div>
@@ -74,7 +85,7 @@ const Glass = () => {
             colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'white']}
           />
         ) : (
-          filteredItems.map((item, key) => {
+          pagedItems.map((item, key) => {
             return (
               <Link to={`/item/${item.ID}`} key={key}>
                 <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 hover:bg-fuchsia-400 ease-in-out duration-100'>
@@ -90,6 +101,17 @@ const Glass = () => {
           })
         )}
       </div>
+      {!loading && totalPages > 1 && (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', margin: '30px 0' }}>
+          <Button color="blue" disabled={page === 1} onClick={() => setPage(p => p - 1)}>
+            Prev
+          </Button>
+          <span style={{ color: 'white' }}>Page {page} of {totalPages}</span>
+          <Button color="blue" disabled={page === totalPages} onClick={() => setPage(p => p + 1)}>
+            Next
+          </Button>
+        </div>
+      )}
     </>
   );
 };
