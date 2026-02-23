@@ -93,7 +93,7 @@ const Glass = () => {
                   <div className='px-6 py-4'>
                     <div className='font-bold text-xl mb-2'>{item.ProductName}</div>
                     <span className='text-xl mb-2'>${item.ProductPrice}</span>
-                    <p className='text-gray-700 text-base'>{item.ProductDescription}</p>
+                   
                   </div>
                 </div>
               </Link>
