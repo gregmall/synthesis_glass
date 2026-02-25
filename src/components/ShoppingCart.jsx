@@ -1,11 +1,18 @@
 import React, { useState,  useEffect } from 'react'
 import { db, auth } from '../config/Config';
-
+import {
+    Card,
+    Input,
+    Button,
+    Typography,
+   
+    Spinner
+  } from "@material-tailwind/react";
 import {  signInAnonymously, onAuthStateChanged } from 'firebase/auth';
 import {  collection, addDoc, onSnapshot} from 'firebase/firestore';
 import { BsTrash3 } from "react-icons/bs"
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ShoppingCart = () => {
 
@@ -14,6 +21,15 @@ const ShoppingCart = () => {
   const [total, setTotal] = useState(0);
   const [cartItems, setCartItems] = useState(user?.cart || []);
   const [loading, setLoading] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [name, setName] = useState();
+  const [street, setStreet] = useState();
+  const [city, setCity] = useState();
+  const [state, setState] = useState();
+  const [zip, setZip] = useState();   
+  const [apartment, setApartment] = useState();
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [spinner, setSpinner] = useState(false);
     const calculateTotal = () => {
       console.log(cartItems)
     return cartItems.reduce((sum, item) => sum + (item.price), 0);
@@ -48,6 +64,12 @@ useEffect(() => {
         const person = await db.collection('users').doc(user.uid).get();
         const array = person.data();
         const cart = array?.cart;
+        setName(array?.name || '');
+        setStreet(array?.shippingAddress?.street || '');
+        setApartment(array?.shippingAddress?.apartment || '');
+        setCity(array?.shippingAddress?.city || '');
+        setState(array?.shippingAddress?.state || '');
+        setZip(array?.shippingAddress?.zip || '');    
         setCartItems(cart || []);
         
         let sum = 0;
@@ -91,8 +113,9 @@ useEffect(() => {
   };
    const handleCheckout = async () => {
     if (!user || cartItems.length === 0) return;
-
+    setSpinner(true);
     setLoading(true);
+    setShowForm(false);
 
     try {
       // Create line items for Stripe
@@ -111,12 +134,13 @@ useEffect(() => {
       // Create a checkout session document in Firestore
       // The Stripe extension watches this collection and creates the session
       const checkoutSessionRef = await addDoc(
+        
         collection(db, 'customers', user.uid, 'checkout_sessions'),
         {
           mode: 'payment',
           line_items: line_items,
           success_url: window.location.origin + '?success=true',
-          cancel_url: window.location.origin + '?canceled=true',
+          cancel_url: window.location.origin + '/cart?canceled=true',
           metadata: {
             cartItems: JSON.stringify(cartItems.map(item => ({
               id: item.id,
@@ -139,6 +163,7 @@ useEffect(() => {
           console.error('Checkout error:', data.error);
           alert('Checkout failed: ' + data.error.message);
           setLoading(false);
+          setSpinner(false);
           unsubscribe();
         }
       });
@@ -146,6 +171,7 @@ useEffect(() => {
       console.error('Error creating checkout session:', error);
       alert('Failed to start checkout. Please try again.');
       setLoading(false);
+      setSpinner(false);
     }
   };
 
@@ -162,10 +188,38 @@ useEffect(() => {
       window.history.replaceState({}, '', window.location.pathname);
     }
   }, []); 
-
+  const handleSubmit=async(e)=>{
+    e.preventDefault();
+    setLoading(true);
+    const array = {
+      street: street,
+      city: city,
+      state: state,
+      zip: zip,
+      apartment: apartment
+    }
+      await db.collection('users').doc(user.uid).update({
+        shippingAddress: array
+      }).then(()=>{
+        setShowCheckout(true);
+        setLoading(false);
+      }).catch(err=>{
+        alert('Error submitting shipping address: ' + err.message);
+        setLoading(false);
+       
+      })
+  }
   return (
     <>
+    
       <div className='flex justify-center'>
+        {spinner&& <Spinner />}
+       {cartItems.length === 0 ? 
+       <div>
+           <span className='text-white text-4xl'>Cart empty </span>
+           <Link to='/glass' className='text-blue-500 text-4xl'><Button>Shop Now</Button></Link>
+           </div>:
+           (!showForm?
         <div className='max-w-full rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3  items-center text-center p-4'>
           {cartItems.map((item, key) => {
             return (
@@ -181,18 +235,117 @@ useEffect(() => {
               </div>
             )
           })}
-          {cartItems.length > 0 ?
+        
            
               <div className='flex-col max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 justify-center items-center text-center p-4'>
                 <div className='font-bold border-t my-2'>Total: ${calculateTotal().toFixed(2)}</div>
-                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'disabled={loading || !user} onClick={()=>handleCheckout()}>Stripe Checkout Coming Soon</button>
+            
+                 
+                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'disabled={loading || !user} onClick={()=>setShowForm(!showForm)}>Checkout</button>
+            
               </div>
            
-            :
-            <span className='text-black text-4xl'>Cart empty </span>
-          }
-        </div>
+          </div>
+          :
+          <div className='flex  justify-center mt-4'>
+            <Card color="white" shadow={false} className='min-w-fit p-11'>
+              <Typography variant="h4" color="blue-gray">
+                  Shipping Address
+              </Typography>
+              <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit={handleSubmit}>
+                <div className="mb-1 flex flex-col gap-6">
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                   Your Name
+                  </Typography>
+                  <Input
+                   size="lg"
+                   type='text'
+                   placeholder={user?.displayName || 'John Doe'}
+                   className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                   onChange={(e)=> setName(e.target.value)} value={name}
+                   labelProps={{
+                        className: "before:content-none after:content-none",
+                      }}
+                  />
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                      Street and Number
+                  </Typography>
+                  <Input
+                    size="lg"
+                    type="text"
+                    placeholder={street || '123 Main St'}
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    onChange={(e)=> setStreet(e.target.value)} value={street}
+                    labelProps={{
+                        className: "before:content-none after:content-none",
+                   }}
+                  />
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                      Apt/Suite/Unit
+                  </Typography>
+                  <Input
+                    size="lg"
+                    type="text"
+                    placeholder={apartment || 'Apt 4B'}
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    onChange={(e)=> setApartment(e.target.value)} value={apartment}
+                    labelProps={{
+                      className: "before:content-none after:content-none",
+                    }}
+                  />
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    City
+                  </Typography>
+                  <Input
+                    size="lg"
+                    type="text"
+                    placeholder={city || 'Anytown'}
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    onChange={(e)=> setCity(e.target.value)} value={city}
+                    labelProps={{
+                      className: "before:content-none after:content-none",
+                    }}
+                    />
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    State
+                  </Typography>
+                  <Input
+                    size="lg"
+                    type="text"
+                    placeholder={state || 'CA'}
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    onChange={(e)=> setState(e.target.value)} value={state}
+                    labelProps={{
+                      className: "before:content-none after:content-none",
+                    }}
+                  />
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    Zip Code
+                  </Typography>
+                  <Input
+                    size="lg"
+                    type="number"
+                    placeholder={zip || '90210'}
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    onChange={(e)=> setZip(e.target.value)} value={zip}
+                    labelProps={{
+                        className: "before:content-none after:content-none",
+                    }}
+                  />
+          
+                  {!showCheckout&& <Button className="mt-6" fullWidth type='submit'onSubmit={handleSubmit}>Submit</Button>}
+                  {showCheckout&& <Button className="mt-6" fullWidth onClick={()=>handleCheckout()} disabled={loading || !user}>Complete Purchase</Button>}
+                </div>
+                  
+              </form>
+            </Card>
+            
+          </div>
+          )
+        }
       </div>
+      
+
     </>
   )
 }
