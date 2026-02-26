@@ -10,30 +10,36 @@ const [user, setUser]=useState({});
 
 
 useEffect(()=>{
+    let unsubscribeSnapshot = null
 
-  
-    auth.onAuthStateChanged(user=>{
-            if(user){
-        
-                db.collection('users').doc(user.uid).get()
-                .then(snapshot=>{
-                    setUser({
-                        email: snapshot.data()?.email,
-                        name: snapshot.data()?.name,
-                        userRole: snapshot.data()?.userRole,
-                        id: snapshot.data()?.id,
-                        cart: snapshot.data()?.cart,
-                        history: snapshot.data()?.history
-                        })
-                        localStorage.setItem('user', JSON.stringify(user))
+    const unsubscribeAuth = auth.onAuthStateChanged(user=>{
+        if (unsubscribeSnapshot) {
+            unsubscribeSnapshot()
+            unsubscribeSnapshot = null
+        }
+        if(user){
+            unsubscribeSnapshot = db.collection('users').doc(user.uid).onSnapshot(snapshot=>{
+                setUser({
+                    email: snapshot.data()?.email,
+                    name: snapshot.data()?.name,
+                    userRole: snapshot.data()?.userRole,
+                    id: snapshot.data()?.id,
+                    cart: snapshot.data()?.cart,
+                    history: snapshot.data()?.history
                 })
-            }else{
-                setUser(null)
-            }})
+                localStorage.setItem('user', JSON.stringify(user))
+            })
+        }else{
+            setUser(null)
+        }
+    })
 
+    return () => {
+        unsubscribeAuth()
+        if (unsubscribeSnapshot) unsubscribeSnapshot()
     }
+},[])
 
-,[])
 
   return (
     <UserContext.Provider value ={{user}}>
