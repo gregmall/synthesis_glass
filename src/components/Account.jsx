@@ -56,7 +56,14 @@ const Account = () => {
           return(
             <div key={index}>
               <div >{new Date(item?.timestamp).toLocaleDateString()}</div>
-              <div>Number of items: {item.items.length}</div>
+              {item.items.map((i, idx) => (
+                <div key={idx} className='flex flex-row my-3'>
+                  <div><img src={i.image} alt={i.name} className='w-16 h-16 object-cover'/></div>
+                  <div className='flex flex-col mx-'></div>
+                  <div>{i.name}</div>
+                  <div>${i.price}</div>
+                </div>
+              ))}
               <div className='border-b-2'>Total: ${item.total}</div>
             </div>
           )

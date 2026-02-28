@@ -12,13 +12,14 @@ import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import FourOFour from "./components/FourOFour";
 import ProtectedRoute from "./ProtectedRoute";
-import ShoppingCart from "./components/ShoppingCart";
+import ShoppingCart from "./components/Checkout/ShoppingCart";
 import AdminPage from "./components/Admin/AdminPage";
 import UserContextProvider from "./context/UserContextProvider"
 import Account from "./components/Account";
 import Checkout from "./components/Checkout/Checkout";
 import GlassDetail from "./components/Products/GlassDetail";
 import QuestionForm from "./components/QuestionForm";
+import Complete from "./components/Checkout/Complete";
 
 
 
@@ -50,6 +51,7 @@ export default function App() {
             <Route path='/cart' element={<ShoppingCart />} />
             <Route path='/checkout' element={<Checkout />} />
             <Route path='/question-form' element={<QuestionForm />}/>
+            <Route path='/complete' element={<Complete />}/>
           </Routes>
         </Router>
       </UserContextProvider>

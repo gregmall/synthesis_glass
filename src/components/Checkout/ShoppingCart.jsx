@@ -1,12 +1,11 @@
-import React, { useState,  useEffect } from 'react'
-import { db, auth } from '../config/Config';
+import { useState,  useEffect } from 'react'
+import { db, auth } from '../../config/Config';
 import {
     Card,
     Input,
     Button,
     Typography,
    
-    Spinner
   } from "@material-tailwind/react";
 import {  signInAnonymously, onAuthStateChanged } from 'firebase/auth';
 import {  collection, addDoc, onSnapshot} from 'firebase/firestore';
@@ -29,7 +28,7 @@ const ShoppingCart = () => {
   const [zip, setZip] = useState();   
   const [apartment, setApartment] = useState();
   const [showCheckout, setShowCheckout] = useState(false);
-  const [spinner, setSpinner] = useState(false);
+ 
     const calculateTotal = () => {
       console.log(cartItems)
     return cartItems.reduce((sum, item) => sum + (item.price), 0);
@@ -113,9 +112,9 @@ useEffect(() => {
   };
    const handleCheckout = async () => {
     if (!user || cartItems.length === 0) return;
-    setSpinner(true);
+  
     setLoading(true);
-    setShowForm(false);
+    
 
     try {
       // Create line items for Stripe
@@ -139,7 +138,7 @@ useEffect(() => {
         {
           mode: 'payment',
           line_items: line_items,
-          success_url: window.location.origin + '?success=true',
+          success_url: window.location.origin + '/complete?success=true',
           cancel_url: window.location.origin + '/cart?canceled=true',
           metadata: {
             cartItems: JSON.stringify(cartItems.map(item => ({
@@ -163,7 +162,7 @@ useEffect(() => {
           console.error('Checkout error:', data.error);
           alert('Checkout failed: ' + data.error.message);
           setLoading(false);
-          setSpinner(false);
+      
           unsubscribe();
         }
       });
@@ -171,7 +170,7 @@ useEffect(() => {
       console.error('Error creating checkout session:', error);
       alert('Failed to start checkout. Please try again.');
       setLoading(false);
-      setSpinner(false);
+  
     }
   };
 
@@ -213,7 +212,7 @@ useEffect(() => {
     <>
     
       <div className='flex justify-center'>
-        {spinner&& <Spinner />}
+       
        {cartItems.length === 0 ? 
        <div>
            <span className='text-white text-4xl'>Cart empty </span>
@@ -239,13 +238,10 @@ useEffect(() => {
            
               <div className='flex-col max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 justify-center items-center text-center p-4'>
                 <div className='font-bold border-t my-2'>Total: ${calculateTotal().toFixed(2)}</div>
-            
-                 
                 <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'disabled={loading || !user} onClick={()=>setShowForm(!showForm)}>Checkout</button>
-            
               </div>
            
-          </div>
+       </div>
           :
           <div className='flex  justify-center mt-4'>
             <Card color="white" shadow={false} className='min-w-fit p-11'>
@@ -334,7 +330,7 @@ useEffect(() => {
                   />
           
                   {!showCheckout&& <Button className="mt-6" fullWidth type='submit'onSubmit={handleSubmit}>Submit</Button>}
-                  {showCheckout&& <Button className="mt-6" fullWidth onClick={()=>handleCheckout()} disabled={loading || !user}>Complete Purchase</Button>}
+                  {showCheckout&& <Button className="mt-6 items-center" fullWidth onClick={()=>handleCheckout()}  disabled={loading || !user}>{loading? "Loading Stripe...":"Complete Purchase"}</Button>}
                 </div>
                   
               </form>

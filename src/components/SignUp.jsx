@@ -31,7 +31,8 @@ import { Input, Checkbox } from "@material-tailwind/react";
                 id: cred.user.uid,
                 ageVerified: true,
                 cart: [],
-                history:[]
+                history:[],
+                orders: [],
             }).then(()=>{
                 setLoading(false);
                 setName('');
