@@ -59,7 +59,7 @@ const Account = () => {
               {item.items.map((i, idx) => (
                 <div key={idx} className='flex flex-row my-3'>
                   <div><img src={i.image} alt={i.name} className='w-16 h-16 object-cover'/></div>
-                  <div className='flex flex-col mx-'></div>
+                  <div className='flex flex-col mx-1'></div>
                   <div>{i.name}</div>
                   <div>${i.price}</div>
                 </div>

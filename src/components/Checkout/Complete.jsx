@@ -12,7 +12,7 @@ export default function Complete() {
 
     const total = Number(user.cart.reduce((sum, item) => sum + item.price, 0).toFixed(2));
     const order = {
-      timestamp: new Date(Date.now()).toLocaleDateString(),
+      timestamp: new Date().toLocaleDateString(),
       items: user.cart,
       total,
     };
