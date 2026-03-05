@@ -12,6 +12,7 @@ import {  collection, addDoc, onSnapshot} from 'firebase/firestore';
 import { BsTrash3 } from "react-icons/bs"
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import { Link, useNavigate } from 'react-router-dom';
+import Notiflix from 'notiflix';
 
 const ShoppingCart = () => {
 
@@ -183,7 +184,7 @@ useEffect(() => {
       window.history.replaceState({}, '', window.location.pathname);
     }
     if (urlParams.get('canceled')) {
-      alert('Checkout canceled. Your cart is still available.');
+      Notiflix.Notify.success('Checkout canceled. Your cart is still available.');
       window.history.replaceState({}, '', window.location.pathname);
     }
   }, []); 
