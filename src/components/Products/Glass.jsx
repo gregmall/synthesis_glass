@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
-import { Button } from "@material-tailwind/react"
+import React, { useState, useEffect, useMemo, useCallback, memo } from 'react'
+import { Button, Input } from "@material-tailwind/react"
 import { db } from '../../config/Config';
 import { Link } from 'react-router-dom';
 import { Vortex } from 'react-loader-spinner';
@@ -13,7 +13,18 @@ const FILTER_OPTIONS = [
 ];
 
 const VORTEX_COLORS = ['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'white'];
-const VORTEX_WRAPPER_STYLE = {};
+
+const GlassCard = memo(({ item }) => (
+  <Link to={`/item/${item.ID}`}>
+    <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 hover:bg-fuchsia-400 ease-in-out duration-100'>
+      <img className='w-full p-4 rounded' src={item.ProductImage} alt={item.ProductName} loading="lazy" />
+      <div className='px-6 py-4'>
+        <div className='font-bold text-xl mb-2'>{item.ProductName}</div>
+        <span className='text-xl mb-2'>${item.ProductPrice}</span>
+      </div>
+    </div>
+  </Link>
+));
 
 const Glass = () => {
   const [loading, setLoading] = useState(true);
@@ -21,6 +32,17 @@ const Glass = () => {
   const [items, setItems] = useState([]);
   const [filtered, setFiltered] = useState('');
   const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const onSearchChange = useCallback((e) => {
+    setSearchTerm(e.target.value);
+    setPage(1);
+  }, []);
+
+  const handleFilterChange = useCallback((value) => {
+    setFiltered(value);
+    setPage(1);
+  }, []);
 
   useEffect(() => {
     const getItems = async () => {
@@ -36,10 +58,16 @@ const Glass = () => {
     getItems();
   }, []);
 
-  const filteredItems = useMemo(
-    () => items.filter(item => !filtered || item?.Type === filtered),
-    [items, filtered]
-  );
+  const filteredItems = useMemo(() => {
+    const search = searchTerm.toLowerCase();
+    return items.filter(item => {
+      const matchesSearch = !search ||
+        item.ProductName.toLowerCase().includes(search) ||
+        item.ProductDescription.toLowerCase().includes(search);
+      const matchesType = !filtered || item?.Type === filtered;
+      return matchesSearch && matchesType;
+    });
+  }, [items, searchTerm, filtered]);
 
   const totalPages = Math.ceil(filteredItems.length / PAGE_SIZE);
 
@@ -48,13 +76,11 @@ const Glass = () => {
     [filteredItems, page]
   );
 
-  const handleFilterChange = useCallback((value) => {
-    setFiltered(value);
-    setPage(1);
-  }, []);
-
   return (
     <>
+      <div className='w-72 flex-col items-center justify-center mx-auto mt-10 mb-10 text-color-black bg-white rounded-lg p-1'>
+        <Input label="Search items..." value={searchTerm} onChange={onSearchChange} />
+      </div>
       <div
         style={{
           display: 'flex',
@@ -89,24 +115,13 @@ const Glass = () => {
             height="80"
             width="80"
             ariaLabel="vortex-loading"
-            wrapperStyle={VORTEX_WRAPPER_STYLE}
             wrapperClass="vortex-wrapper"
             colors={VORTEX_COLORS}
           />
         ) : error ? (
           <p style={{ color: 'red' }}>{error}</p>
         ) : (
-          pagedItems.map(item => (
-            <Link to={`/item/${item.ID}`} key={item.ID}>
-              <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 hover:bg-fuchsia-400 ease-in-out duration-100'>
-                <img className='w-full p-4 rounded' src={item.ProductImage} alt='/' />
-                <div className='px-6 py-4'>
-                  <div className='font-bold text-xl mb-2'>{item.ProductName}</div>
-                  <span className='text-xl mb-2'>${item.ProductPrice}</span>
-                </div>
-              </div>
-            </Link>
-          ))
+          pagedItems.map(item => <GlassCard key={item.ID} item={item} />)
         )}
       </div>
       {!loading && totalPages > 1 && (
