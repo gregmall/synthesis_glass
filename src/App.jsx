@@ -16,6 +16,7 @@ import ShoppingCart from "./components/Checkout/ShoppingCart";
 import AdminPage from "./components/Admin/AdminPage";
 import UserContextProvider from "./context/UserContextProvider"
 import Account from "./components/Account";
+import FormSubmissions from "./components/Admin/FormSubmissions";
 
 
 import GlassDetail from "./components/Products/GlassDetail";
@@ -45,12 +46,12 @@ export default function App() {
             <Route path='/item/:id' element={<GlassDetail />} />
             <Route path='/addproduct' element={<ProtectedRoute><AddProduct/></ProtectedRoute>}/>
             <Route path='/admin' element={<ProtectedRoute><AdminPage /></ProtectedRoute>}/>
+            <Route path='/formsubmissions' element={<ProtectedRoute><FormSubmissions /></ProtectedRoute>}/>
             <Route path='/account/:id' element={<Account />}/>
             <Route path='/signup' element={<SignUp />} />
             <Route path='/signin' element={<SignIn />} />
             <Route path='/404' element={<FourOFour />} />
             <Route path='/cart' element={<ShoppingCart />} />
-        
             <Route path='/question-form' element={<QuestionForm />}/>
             <Route path='/complete' element={<Complete />}/>
           </Routes>

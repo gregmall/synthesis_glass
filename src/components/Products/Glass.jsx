@@ -1,48 +1,57 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { Button } from "@material-tailwind/react"
-
 import { db } from '../../config/Config';
 import { Link } from 'react-router-dom';
 import { Vortex } from 'react-loader-spinner';
 
 const PAGE_SIZE = 20;
 
+const FILTER_OPTIONS = [
+  { value: '', label: 'ALL' },
+  { value: 'chillum', label: 'CHILLUMS' },
+  { value: 'pipe', label: 'PIPES' },
+];
+
+const VORTEX_COLORS = ['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'white'];
+const VORTEX_WRAPPER_STYLE = {};
+
 const Glass = () => {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [items, setItems] = useState([]);
-  const [filtered, setFiltered] = useState("");
+  const [filtered, setFiltered] = useState('');
   const [page, setPage] = useState(1);
 
   useEffect(() => {
+    const getItems = async () => {
+      try {
+        const products = await db.collection('Products').get();
+        setItems(products.docs.map(snap => ({ ...snap.data(), ID: snap.id })));
+      } catch (err) {
+        setError('Failed to load products.');
+      } finally {
+        setLoading(false);
+      }
+    };
     getItems();
-    // eslint-disable-next-line no-use-before-define
   }, []);
 
-  const getItems = async () => {
-    const array = [];
-    const products = await db.collection('Products').get();
-
-    for (const snap of products.docs) {
-      const data = snap.data();
-      data.ID = snap.id;
-      array.push({ ...data });
-    }
-
-    setItems(array); // Moved outside the loop
-    setLoading(false);
-  };
-
-  const filteredItems = items?.filter(
-    (item) => item?.Type?.indexOf(filtered) !== -1
+  const filteredItems = useMemo(
+    () => items.filter(item => !filtered || item?.Type === filtered),
+    [items, filtered]
   );
 
   const totalPages = Math.ceil(filteredItems.length / PAGE_SIZE);
-  const pagedItems = filteredItems.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
-  const handleFilterChange = (value) => {
+  const pagedItems = useMemo(
+    () => filteredItems.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
+    [filteredItems, page]
+  );
+
+  const handleFilterChange = useCallback((value) => {
     setFiltered(value);
     setPage(1);
-  };
+  }, []);
 
   return (
     <>
@@ -50,20 +59,20 @@ const Glass = () => {
         style={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: "space-evenly",
+          justifyContent: 'space-evenly',
           marginTop: '30px',
           marginBottom: '30px',
         }}
       >
-        <Button color={filtered === "" ? "white" : "blue"} onClick={() => handleFilterChange("")}>
-          ALL
-        </Button>
-        <Button color={filtered === "chillum" ? "white" : "blue"} onClick={() => handleFilterChange("chillum")}>
-          CHILLUMS
-        </Button>
-        <Button color={filtered === "pipe" ? "white" : "blue"} onClick={() => handleFilterChange("pipe")}>
-          PIPES
-        </Button>
+        {FILTER_OPTIONS.map(option => (
+          <Button
+            key={option.value || 'all'}
+            color={filtered === option.value ? 'white' : 'blue'}
+            onClick={() => handleFilterChange(option.value)}
+          >
+            {option.label}
+          </Button>
+        ))}
       </div>
       <div
         style={{
@@ -71,7 +80,7 @@ const Glass = () => {
           alignItems: 'center',
           justifyContent: 'center',
           flexWrap: 'wrap',
-          overflowX: "auto",
+          overflowX: 'auto',
         }}
       >
         {loading ? (
@@ -80,25 +89,24 @@ const Glass = () => {
             height="80"
             width="80"
             ariaLabel="vortex-loading"
-            wrapperStyle={{}}
+            wrapperStyle={VORTEX_WRAPPER_STYLE}
             wrapperClass="vortex-wrapper"
-            colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'white']}
+            colors={VORTEX_COLORS}
           />
+        ) : error ? (
+          <p style={{ color: 'red' }}>{error}</p>
         ) : (
-          pagedItems.map((item, key) => {
-            return (
-              <Link to={`/item/${item.ID}`} key={key}>
-                <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 hover:bg-fuchsia-400 ease-in-out duration-100'>
-                  <img className='w-full p-4 rounded' src={item.ProductImage} alt='/' />
-                  <div className='px-6 py-4'>
-                    <div className='font-bold text-xl mb-2'>{item.ProductName}</div>
-                    <span className='text-xl mb-2'>${item.ProductPrice}</span>
-                   
-                  </div>
+          pagedItems.map(item => (
+            <Link to={`/item/${item.ID}`} key={item.ID}>
+              <div className='max-w-sm rounded overflow-hidden shadow-lg bg-slate-50 mx-3 my-3 hover:bg-fuchsia-400 ease-in-out duration-100'>
+                <img className='w-full p-4 rounded' src={item.ProductImage} alt='/' />
+                <div className='px-6 py-4'>
+                  <div className='font-bold text-xl mb-2'>{item.ProductName}</div>
+                  <span className='text-xl mb-2'>${item.ProductPrice}</span>
                 </div>
-              </Link>
-            );
-          })
+              </div>
+            </Link>
+          ))
         )}
       </div>
       {!loading && totalPages > 1 && (

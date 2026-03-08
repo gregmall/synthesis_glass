@@ -41,9 +41,7 @@ const Home = () => {
       <div className="relative h-96 w-full md:w-4/6">
         <div className="h-auto justify-between rounded-xl border border-white bg-white/75 py-4 px-6 shadow-lg shadow-black/5 saturate-200 backdrop-blur-sm">
           <div className='flex flex-col items-center'>
-            <Typography variant="h2" color="blue-gray">
-              Welcome to Synthesis Glass
-            </Typography>
+       <img src="/assets/EtsySplash.png" alt="background image" className= "rounded-xl object-cover my-3"/>
             <Carousel transition={{ type: "tween", duration: 2 }} autoplay="true" loop="true" className="rounded-xl">
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/synthesisglass-1d07e.appspot.com/o/IMG_8735.JPG?alt=media&token=165bd96e-4259-43cf-a777-6492befa3914"
@@ -64,10 +62,12 @@ const Home = () => {
             <Typography variant="h5" color="blue-gray">
               Makers of High Quality Glass
             </Typography>
+            
           </div>
           <Typography variant="h6" color="blue-gray">
             <p>Since 1997, Synthesis Glass has created the highest quality, American made glass art using only the finest materials. We pride ourselves in creating functional art that is not only beautiful but highly functional and extremely durable. Synthesis Glass has a reputation for making top dollar pieces at affordable prices.  We are always open to custom work and/or customization of listed items.  Question? Inquiries? <a href='/question-form' className='text-blue-800 hover:text-purple-800'>CLICK HERE</a></p>
           </Typography>
+          
         </div>
       </div>
       <Dialog
