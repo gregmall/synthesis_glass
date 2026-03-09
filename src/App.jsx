@@ -17,6 +17,7 @@ import AdminPage from "./components/Admin/AdminPage";
 import UserContextProvider from "./context/UserContextProvider"
 import Account from "./components/Account";
 import FormSubmissions from "./components/Admin/FormSubmissions";
+import Customers from "./components/Admin/Customers";
 
 
 import GlassDetail from "./components/Products/GlassDetail";
@@ -47,6 +48,7 @@ export default function App() {
             <Route path='/addproduct' element={<ProtectedRoute><AddProduct/></ProtectedRoute>}/>
             <Route path='/admin' element={<ProtectedRoute><AdminPage /></ProtectedRoute>}/>
             <Route path='/formsubmissions' element={<ProtectedRoute><FormSubmissions /></ProtectedRoute>}/>
+            <Route path='/customers' element={<ProtectedRoute><Customers /></ProtectedRoute>}/>
             <Route path='/account/:id' element={<Account />}/>
             <Route path='/signup' element={<SignUp />} />
             <Route path='/signin' element={<SignIn />} />
