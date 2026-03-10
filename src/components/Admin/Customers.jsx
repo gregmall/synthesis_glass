@@ -1,72 +1,72 @@
 import React, { useEffect, useState } from 'react'
 import { db } from '../../config/Config';
-import { collection, getDocs } from "firebase/firestore";
+import { useLocation } from 'react-router-dom';
 
 export default function Customers() {
-  // const [customers, setCustomers] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchCustomers = async () => {
-  //     const snapshot = await db.collection('customers').get();
-  //     const data = snapshot.docs.map(doc => ([doc.id]));
-  //     const payments = await db.collection('customers', data, 'payments').get();
-  //     const paymentsData = payments.docs.map(doc => doc.data());
-      
-  //     setCustomers(data);
-  //     console.log(paymentsData);
-  //   };
-
-  //   fetchCustomers();
-  // }, []);
-
-  const [payments, setPayments] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { state } = useLocation();
+
+  const users = state?.users;
+
   useEffect(() => {
-  
-
-    async function fetchPayments() {
-      const customerId = "TrCn6sX8erNmc0HQ8sWuwF1mOfP2"
-      try {
-        setLoading(true);
-        const paymentsRef = collection(db, "customers", customerId, "payments");
-        const snapshot = await getDocs(paymentsRef);
-
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        setPayments(data);
-        console.log(data);
-      } catch (err) {
-        console.error("Error fetching payments:", err);
-        setError(err);
-      } finally {
-        setLoading(false);
-       
-      }
+    if (!users) {
+      setLoading(false);
+      return;
     }
 
-    fetchPayments();
-  }, []);
+    const fetchCustomers = async () => {
+      try {
+        const snapshot = await db.collection('customers').get();
+        const userMap = new Map(users.map(u => [u.id, u]));
+        const matched = snapshot.docs.reduce((acc, doc) => {
+          const user = userMap.get(doc.id);
+          if (user) {
+            acc.push({ id: doc.id, ...doc.data(), name: user.name, address: user.shippingAddress });
+          }
+          return acc;
+        }, []);
+        setCustomers(matched);
+      } catch (err) {
+        setError('Failed to load customers.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCustomers();
+  }, [users]);
 
   return (
     <div className='flex justify-center mt-10'>
       <div className='p-4 w-full max-w-lg bg-white rounded-md'>
         <h1 className='border-b-2 mt-4 text-4xl text-center'>Customers</h1>
 
-        {/* {customers.map(customer => {
-          const mail = 'mailto:' + customer.email;
-          return (
+        {loading ? (
+          <p className='text-center mt-4'>Loading...</p>
+        ) : error ? (
+          <p className='text-center mt-4 text-red-500'>{error}</p>
+        ) : !users ? (
+          <p className='text-center mt-4'>No user data available.</p>
+        ) : customers.length === 0 ? (
+          <p className='text-center mt-4'>No customers found.</p>
+        ) : (
+          customers.map(customer => (
             <React.Fragment key={customer.id}>
               <div>Name: {customer.name}</div>
-              <div>Email: <a href={mail} className='text-blue-500 font-bold'>{customer.email}</a></div>
-              <div className='border-b-4'>ID: {customer.id}</div>
+              <div>Email: <a href={`mailto:${customer.email}`} className='text-blue-500 font-bold'>{customer.email}</a></div>
+              <div>Address: {customer.address.street}</div>
+              <div>City: {customer.address.city}</div>
+              <div>State: {customer.address.state}</div>
+              <div>Zip: {customer.address.zip}</div> 
+              <div className='border-b-2 mb-4'>
+                <a href={customer.stripeLink} rel='noopener noreferrer' target='_blank'>Link to Payment</a>
+              </div>
             </React.Fragment>
-          );
-        })} */}
+          ))
+        )}
       </div>
     </div>
-  )
+  );
 }

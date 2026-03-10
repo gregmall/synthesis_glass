@@ -1,8 +1,22 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { db } from '../../config/Config';
 
 
 function AdminPage() {
+
+  const [users, setUsers] = useState([]);
+  
+useEffect(() => {
+  const fetchUsers = async () => {
+    const snapshot = await db.collection('users').get();
+    const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    setUsers(data);
+  };
+
+  fetchUsers();
+}, []);
+
 
   
 
@@ -13,7 +27,7 @@ function AdminPage() {
         <div className=' mt-4'>
           <Link to="/addproduct" className='text-2xl text-purple-700 hover:text-lime-500 mx-2'>Add item</Link>
           <Link to="/formsubmissions" className='text-2xl text-purple-700 hover:text-lime-500 mx-2'>Form Submissions</Link>
-          <Link to="/customers" className='text-2xl text-purple-700 hover:text-lime-500 mx-2'>Orders</Link>
+          <Link to="/customers" state={{users}} className='text-2xl text-purple-700 hover:text-lime-500 mx-2'>Orders</Link>
         </div>
        </div>
     </div>
