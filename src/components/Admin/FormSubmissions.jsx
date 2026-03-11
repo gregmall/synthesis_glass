@@ -18,6 +18,7 @@ export default function FormSubmissions() {
       const data = snap.data();
       data.ID = snap.id;
       array.push({ ...data });
+      array.sort((a, b) => b.date - a.date); // Sort by date in descending order
     }
 
     // Update state after the loop completes

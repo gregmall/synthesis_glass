@@ -7,9 +7,8 @@ export default function Customers() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { state } = useLocation();
-
+console.log(customers)
   const users = state?.users;
-
   useEffect(() => {
     if (!users) {
       setLoading(false);
@@ -23,7 +22,7 @@ export default function Customers() {
         const matched = snapshot.docs.reduce((acc, doc) => {
           const user = userMap.get(doc.id);
           if (user) {
-            acc.push({ id: doc.id, ...doc.data(), name: user.name, address: user.shippingAddress });
+            acc.push({ id: doc.id, ...doc.data(), name: user.name, address: user.shippingAddress, history: user.history?.at(-1) ?? null });
           }
           return acc;
         }, []);
@@ -56,11 +55,19 @@ export default function Customers() {
             <React.Fragment key={customer.id}>
               <div>Name: {customer.name}</div>
               <div>Email: <a href={`mailto:${customer.email}`} className='text-blue-500 font-bold'>{customer.email}</a></div>
-              <div>Address: {customer.address.street}</div>
+              <div className='border-b-8'>Last Order: {customer.history ? new Date(customer.history.timestamp).toLocaleDateString() : 'No orders yet'}</div>
+              {customer.history.items.map((item, idx) => (
+                <div key={idx} className='flex flex-col my-3'>
+                  <div className='w-1/2'>{item.name}</div>
+                  <div className='w-1/4'><img src={item.image[0]} alt={item.name} className='w-16 h-16 object-cover'/></div>
+                </div>
+              ))} 
+              <div>Total: ${customer.history ? customer.history.total : '0'}</div>
+              <div className='border-t-8'>Address: {customer.address.street}</div>
               <div>City: {customer.address.city}</div>
               <div>State: {customer.address.state}</div>
               <div>Zip: {customer.address.zip}</div> 
-              <div className='border-b-2 mb-4'>
+              <div className='border-b-2 mb-4 text-teal-500'>
                 <a href={customer.stripeLink} rel='noopener noreferrer' target='_blank'>Link to Payment</a>
               </div>
             </React.Fragment>
