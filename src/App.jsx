@@ -12,13 +12,17 @@ import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import FourOFour from "./components/FourOFour";
 import ProtectedRoute from "./ProtectedRoute";
-import ShoppingCart from "./components/ShoppingCart";
+import ShoppingCart from "./components/Checkout/ShoppingCart";
 import AdminPage from "./components/Admin/AdminPage";
 import UserContextProvider from "./context/UserContextProvider"
 import Account from "./components/Account";
-import Checkout from "./components/Checkout/Checkout";
+import FormSubmissions from "./components/Admin/FormSubmissions";
+import Customers from "./components/Admin/Customers";
+
+
 import GlassDetail from "./components/Products/GlassDetail";
 import QuestionForm from "./components/QuestionForm";
+import Complete from "./components/Checkout/Complete";
 
 
 
@@ -43,13 +47,15 @@ export default function App() {
             <Route path='/item/:id' element={<GlassDetail />} />
             <Route path='/addproduct' element={<ProtectedRoute><AddProduct/></ProtectedRoute>}/>
             <Route path='/admin' element={<ProtectedRoute><AdminPage /></ProtectedRoute>}/>
+            <Route path='/formsubmissions' element={<ProtectedRoute><FormSubmissions /></ProtectedRoute>}/>
+            <Route path='/customers' element={<ProtectedRoute><Customers /></ProtectedRoute>}/>
             <Route path='/account/:id' element={<Account />}/>
             <Route path='/signup' element={<SignUp />} />
             <Route path='/signin' element={<SignIn />} />
             <Route path='/404' element={<FourOFour />} />
             <Route path='/cart' element={<ShoppingCart />} />
-            <Route path='/checkout' element={<Checkout />} />
             <Route path='/question-form' element={<QuestionForm />}/>
+            <Route path='/complete' element={<Complete />}/>
           </Routes>
         </Router>
       </UserContextProvider>
