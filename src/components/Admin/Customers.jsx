@@ -7,7 +7,7 @@ export default function Customers() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { state } = useLocation();
-console.log(customers)
+
   const users = state?.users;
   useEffect(() => {
     if (!users) {

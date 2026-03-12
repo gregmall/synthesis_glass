@@ -31,7 +31,7 @@ const ShoppingCart = () => {
   const [showCheckout, setShowCheckout] = useState(false);
  
     const calculateTotal = () => {
-      console.log(cartItems)
+      
     return cartItems.reduce((sum, item) => sum + (item.price), 0);
   };
 useEffect(() => {
@@ -94,7 +94,7 @@ useEffect(() => {
         arr.forEach((element, index) => {
           if (element.id === item.id) arr.splice(index, 1);
         });
-        console.log(arr);
+       
 
         await db.collection('users').doc(user.uid).update({ cart: arr })
           .then(() => navigate('/cart'));

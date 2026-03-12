@@ -20,7 +20,7 @@ const SignIn = () => {
     const handleLogin=(e)=>{
         setLoading(true);
         e.preventDefault();
-        // console.log(email, password);
+      
         auth.signInWithEmailAndPassword(email,password).then(()=>{
             
         
