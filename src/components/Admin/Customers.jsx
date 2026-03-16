@@ -26,6 +26,11 @@ export default function Customers() {
           }
           return acc;
         }, []);
+        matched.sort((a, b) => {
+          const dateA = a.history ? new Date(a.history.timestamp) : new Date(0);
+          const dateB = b.history ? new Date(b.history.timestamp) : new Date(0);
+          return dateB - dateA;
+        });
         setCustomers(matched);
       } catch (err) {
         setError('Failed to load customers.');
