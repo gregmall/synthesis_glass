@@ -10,6 +10,7 @@ const FILTER_OPTIONS = [
   { value: '', label: 'ALL' },
   { value: 'chillum', label: 'CHILLUMS' },
   { value: 'pipe', label: 'PIPES' },
+  { value: 'bowl', label: 'BOWLS' },
 ];
 
 const VORTEX_COLORS = ['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'white'];

@@ -105,6 +105,7 @@ const AddProduct = () => {
                     <select onChange={(e) => setType(e.target.value)}>
                         <option value="pipe">pipe</option>
                         <option value="chillum">chillum</option>
+                        <option value="bowl">bowl</option>  
                     </select>
                     <br />
                     {loading ? (
