@@ -79,6 +79,10 @@ const Glass = () => {
 
   return (
     <>
+      <div className='flex-col justify-center mt-10'>
+        <h1 className='text-3xl text-center text-white'>All items are made to order</h1>
+        <h2 className='text-xl text-center text-white'>Inquire about customization of any piece</h2>
+      </div>
       <div className='w-72 flex-col items-center justify-center mx-auto mt-10 mb-10 text-color-black bg-white rounded-lg p-1'>
         <Input label="Search items..." value={searchTerm} placeholder="Search by type, color, theme, etc..."onChange={onSearchChange} />
       </div>
