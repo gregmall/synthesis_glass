@@ -7,7 +7,7 @@ export default function Customers() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { state } = useLocation();
-
+console.log(customers);
   const users = state?.users;
   useEffect(() => {
     if (!users) {
@@ -41,11 +41,16 @@ export default function Customers() {
 
     fetchCustomers();
   }, [users]);
+  const handleClick = async (order)=>{
+    console.log(order);
+  } 
 
   return (
     <div className='flex justify-center mt-10'>
       <div className='p-4 w-full max-w-lg bg-white rounded-md'>
-        <h1 className='border-b-2 mt-4 text-4xl text-center'>Customers</h1>
+        <h1 className='mt-4 text-4xl text-center'>Customers</h1>
+        <h3 className='text-center text-gray-500 mb-6 border-b-2'>Open Orders</h3>  
+       
 
         {loading ? (
           <p className='text-center mt-4'>Loading...</p>
@@ -74,6 +79,16 @@ export default function Customers() {
               <div>Zip: {customer.address.zip}</div> 
               <div className='border-b-2 mb-4 text-teal-500'>
                 <a href={customer.stripeLink} rel='noopener noreferrer' target='_blank'>Link to Payment</a>
+                <button className='ml-4 px-2 py-1 bg-green-500 text-white rounded' onClick={() => handleClick(
+                  {order:{name: customer.name,
+                    date: customer.history ? new Date(customer.history.timestamp).toLocaleDateString() : 'No orders yet', 
+                  email: customer.email,
+                  items: customer.history.items,
+                  total: customer.history.total,
+                  address: customer.address,
+                  stripeLink: customer.stripeLink
+                  }}
+                )}>Complete Order</button>  
               </div>
             </React.Fragment>
           ))
