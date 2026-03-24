@@ -22,8 +22,8 @@ export default function Customers() {
         const userMap = new Map(users.map(u => [u.id, u]));
         const matched = filtered.reduce((acc, doc) => {
           const user = userMap.get(doc.id);
-          if (user) {
-            acc.push({ id: doc.id, ...doc.data(), name: user.name, address: user.shippingAddress, history: user.history?.at(-1) ?? null });
+          if (user && user.history?.[0]?.completed !== true) {
+            acc.push({ id: doc.id, ...doc.data(), name: user.name, address: user.shippingAddress, history: user.history?.[0] ?? null });
           }
           return acc;
         }, []);
@@ -34,6 +34,7 @@ export default function Customers() {
         });
         setCustomers(matched);
       } catch (err) {
+        console.error(err);
         setError('Failed to load customers.');
       } finally {
         setLoading(false);
@@ -64,7 +65,13 @@ export default function Customers() {
         setLoading(true);
         try {
           await db.collection('completedOrders').add(order);
-          await db.collection('customers').doc(order.id).update({ completed: true });
+          const userRef = db.collection('users').doc(order.id);
+          const userSnap = await userRef.get();
+          const history = userSnap.data()?.history ?? [];
+          if (history.length > 0) {
+            history[0] = { ...history[0], completed: true };
+            await userRef.update({ history });
+          }
           setCustomers(prev => prev.filter(c => c.id !== order.id));
         } catch (err) {
           console.error(err);
