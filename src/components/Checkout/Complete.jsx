@@ -17,6 +17,7 @@ export default function Complete() {
       timestamp: new Date().toLocaleDateString(),
       items: user.cart,
       total,
+      completed: false
     };
 
     const updatedHistory = Array.isArray(user.history)
