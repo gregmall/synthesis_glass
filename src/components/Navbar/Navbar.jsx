@@ -26,6 +26,7 @@ const NavLink = ({ to, label, external, className, toggleMobile }) => (
 
 const Navbar = () => {
   const { user } = useContext(UserContext)
+  console.log(user)
   const [mobileOpen, setMobileOpen] = useState(false)
   const navigate = useNavigate()
   let isAdmin = false
