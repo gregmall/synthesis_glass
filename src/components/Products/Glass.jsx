@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback, memo } from 'react'
 import { Button, Input } from "@material-tailwind/react"
 import { db } from '../../config/Config';
 import { Link } from 'react-router-dom';
-import { Vortex } from 'react-loader-spinner';
+import { ThreeDots, TailSpin, Audio, Oval, RotatingTriangles } from 'react-loader-spinner';
 
 const PAGE_SIZE = 20;
 
@@ -114,15 +114,16 @@ const Glass = () => {
           overflowX: 'auto',
         }}
       >
-        {loading ? (
-          <Vortex
-            visible={true}
-            height="80"
-            width="80"
-            ariaLabel="vortex-loading"
-            wrapperClass="vortex-wrapper"
-            colors={VORTEX_COLORS}
-          />
+        {!loading ? (
+       <RotatingTriangles
+visible={true}
+height="80"
+width="80"
+color="red"
+ariaLabel="rotating-triangles-loading"
+wrapperStyle={{}}
+wrapperClass=""
+/>
         ) : error ? (
           <p style={{ color: 'red' }}>{error}</p>
         ) : (
